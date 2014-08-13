@@ -7,6 +7,7 @@ from ansible.callbacks import PlaybookRunnerCallbacks, PlaybookCallbacks, Aggreg
 from ansible.playbook import PlayBook
 from ansible.color import ANSIBLE_COLOR, stringc
 
+from jetee.runtime.app import dispatcher
 
 class PlaybookRunner(object):
     @staticmethod
@@ -40,8 +41,8 @@ class PlaybookRunner(object):
         # let inventory know which playbooks are using so it can know the basedirs
         inventory.set_playbook_basedir(os.path.dirname(playbook_config.filename))
         stats = AggregateStats()
-        playbook_cb = PlaybookCallbacks()
-        runner_cb = PlaybookRunnerCallbacks(stats)
+        playbook_cb = PlaybookCallbacks(verbose=dispatcher.args.verbosity)
+        runner_cb = PlaybookRunnerCallbacks(stats, verbose=dispatcher.args.verbosity)
 
         pb = PlayBook(
             playbook=playbook_config.filename,

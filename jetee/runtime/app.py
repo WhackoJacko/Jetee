@@ -1,8 +1,23 @@
 #coding=utf8
+from __future__ import absolute_import
 import sys
 import argparse
 
-# from rebranch_deployment.docker.runtime import ServiceManager
+from ansible import utils
+
+__all__ = [u'AppDispatcher']
+
+
+class VAction(argparse.Action):
+    def __call__(self, parser, args, values, option_string=None):
+        # print 'values: {v!r}'.format(v=values)
+        if values == None:
+            values = '1'
+        try:
+            values = int(values)
+        except ValueError:
+            values = values.count('v') + 1
+        setattr(args, self.dest, values)
 
 
 class AppDispatcher(object):
@@ -20,6 +35,7 @@ class AppDispatcher(object):
             default=self.ACTION_CREATE,
             choices=[self.ACTION_CREATE, self.ACTION_UPDATE]
         )
+        parser.add_argument('-v', nargs='?', action=VAction, dest='verbosity', help=u'Verbosity level')
         parser.add_argument(
             u'-n',
             u'--configuration_name',
@@ -35,13 +51,17 @@ class AppDispatcher(object):
         return parser
 
     def _set_args(self):
+        args = sys.argv[1:]
         parser = self._get_parser()
-        self.args = parser.parse_args(sys.argv)
+        self.args = parser.parse_args(args)
+        utils.VERBOSITY = self.args.verbosity
 
     def _create(self):
         from jetee.runtime.configuration import project_configuration
 
-        service = project_configuration.main_service
+        project_configuration.get_deployer().deploy(
+            project_configuration.get_service()
+        )
 
     def __init__(self):
         self._set_args()

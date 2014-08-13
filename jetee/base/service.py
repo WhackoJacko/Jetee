@@ -1,4 +1,4 @@
-from jetee.base.config_factory import AnsibleDockerContainerConfigFactory
+from jetee.config_factories.docker import AnsibleDockerContainerConfigFactory
 from jetee.config_factories.etcd_register import AnsibleETCDRegisterContainerConfigFactory
 from jetee.runtime.configuration import project_configuration
 
@@ -53,17 +53,8 @@ class DockerServiceAbstract(LinkableMixin):
         if self._container_name:
             return self._container_name
         else:
-            container_name = u'.'.join([project_configuration.get_project_name(), self.image_name.replace(u'/', u'_')])
+            container_name = u'.'.join([project_configuration.get_project_name(), self.image_name.split(u'/').pop()])
             return container_name
 
     def factory_config(self):
         return [config_factory().factory(service=self) for config_factory in self._config_factories]
-
-
-class ProjectDockerService(DockerServiceAbstract):
-    image_name = u'whackojacko/blank'
-    cmd = u'supervisord --nodaemon'
-    ports_mappings = [
-        PortsMapping(internal_port=22, host_ip=u'0.0.0.0'),  #for sshd
-        PortsMapping(internal_port=9000, host_ip=u'172.17.42.1')  #for project itself
-    ]

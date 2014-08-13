@@ -1,3 +1,6 @@
+import sys
+import os
+
 __all__ = [u'project_configuration']
 
 
@@ -8,6 +11,7 @@ class LazyConfiguration(object):
     def _get_confuguration_class(self):
         from jetee.runtime.app import dispatcher
 
+        sys.path.insert(0, os.getcwd())
         configuration_module = __import__(dispatcher.args.configuration_module)
         project_configuration_class = getattr(configuration_module, dispatcher.args.configuration_name)
         return project_configuration_class

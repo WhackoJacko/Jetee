@@ -1,12 +1,13 @@
-from jetee.runtime.configuration import project_configuration
-from jetee.config_factories.docker import DockerPackageAnsibleConfigFactory
-from jetee.config_factories.nginx import NginxPackageAnsibleConfigFactory
-from jetee.config_factories.etcd import ETCDPackageAnsibleConfigFactory, ETCDCtlPackageAnsibleConfigFactory
 from jetee.base.config_factory import AnsibleConfigFactory
+from jetee.base.deployer import DeployerAbstract
+from jetee.config_factories.docker import DockerPackageAnsibleConfigFactory
+from jetee.config_factories.etcd import ETCDPackageAnsibleConfigFactory, ETCDCtlPackageAnsibleConfigFactory
+from jetee.config_factories.nginx import NginxPackageAnsibleConfigFactory
 from jetee.runtime.ansible import PlaybookRunner
+from jetee.runtime.configuration import project_configuration
 
 
-class DockerServiceDeployer(object):
+class DockerServiceDeployer(DeployerAbstract):
     default_config_factories = [
         DockerPackageAnsibleConfigFactory,
         NginxPackageAnsibleConfigFactory,
@@ -18,7 +19,7 @@ class DockerServiceDeployer(object):
         default_configs = self._factory_default_configs()
         services_configs = self._factory_services_configs(service)
         configs = default_configs + services_configs
-        playbook_config = self.factory_playbook_config(configs=configs)
+        playbook_config = self._factory_playbook_config(configs=configs)
         res = PlaybookRunner.run(
             playbook_config=playbook_config,
             project_configuration=project_configuration
@@ -30,9 +31,9 @@ class DockerServiceDeployer(object):
             task.update(config.variables)
         return task
 
-    def factory_playbook_config(self, configs):
+    def _factory_playbook_config(self, configs):
         template = {
-            u'hosts': u'webservers',
+            u'hosts': u'*',
             u'remote_user': project_configuration.USERNAME,
             u'tasks': [self._factory_task(config) for config in configs]
         }

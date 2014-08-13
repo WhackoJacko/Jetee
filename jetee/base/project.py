@@ -1,0 +1,2 @@
+class ProjectAbstract(object):
+    pass

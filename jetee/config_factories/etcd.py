@@ -13,8 +13,17 @@ class ETCDPackageAnsibleConfigFactory(AnsibleTemplatedConfigFactory):
             "git": "repo=https://github.com/coreos/etcd dest={{etcd_repo_location}}"
         },
         {
-            "name": "ensure nginx is running",
-            "service": "name=nginx state=started"
+            "name": "Build etcd",
+            "command": "chdir=/usr/local/go/ {{etcd_repo_location}}/build",
+            "environment": {
+                u'PATH': u'/sbin:/usr/sbin:/bin:/usr/bin:/usr/local/bin:/usr/local/go/bin'
+            }
+        },
+        {
+            "name": "Start etcd",
+            "command": "/usr/local/go/bin/etcd",
+            "async": "3153600000",
+            "poll": "0"
         }
     ]
 

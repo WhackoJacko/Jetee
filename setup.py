@@ -14,5 +14,5 @@ setup(
         ]
     },
     install_requires=[u'ansible', u'pyyaml'],
-    url='https://WhackoJacko@bitbucket.org/WhackoJacko/jetee.git'
+    # url='https://WhackoJacko@bitbucket.org/WhackoJacko/jetee.git'
 )

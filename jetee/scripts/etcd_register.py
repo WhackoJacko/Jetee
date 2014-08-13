@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import subprocess
 import os
+import sys
 from optparse import OptionParser, Option
 from copy import copy
 
@@ -15,6 +16,7 @@ def ports_bindings_parser(option, opt, value):
     for port_binding_raw in value.split(','):
         port_binding_raw = port_binding_raw.strip()
         port_binding = PortsBinding()
+        print port_binding_raw
         port_binding.host_ip, port_binding.external_port, port_binding.internal_port = port_binding_raw.split(':')
         port_bindings.append(port_binding)
     return port_bindings
@@ -31,21 +33,26 @@ class PortsBindingsOption(Option):
 
 class ETCDRegistrator(object):
     options = None
-    etcdctl_executable = "etcdctl"
+    etcdctl_executable = "/usr/local/go/bin/etcdctl"
 
     def __init__(self):
         options, _ = parser.parse_args()
         self.options = options
 
     def _call(self, *args):
-        print args
-        subprocess.call(args)
+        try:
+            subprocess.call(args)
+        except subprocess.CalledProcessError, e:
+            print(e.output)
+            print(e.message)
+            print(e.returncode)
 
     def _set_dir(self, dir_name):
+        self._rm_dir(dir_name)
         self._call(*[self.etcdctl_executable, "setdir", dir_name])
 
     def _rm_dir(self, dir_name):
-        self._call(*[self.etcdctl_executable, "rmdir", dir_name])
+        self._call(*[self.etcdctl_executable, "rm", dir_name, "--recursive"])
 
     def _mk_value(self, key, value):
         self._call(*[self.etcdctl_executable, "mk", key, value])
