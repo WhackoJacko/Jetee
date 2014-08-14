@@ -69,5 +69,4 @@ class AnsibleDockerContainerConfigFactory(AnsibleConfigFactory):
         ]
         container_template[u'docker'][u'expose'] = [u'{}/tcp'.format(ports_binding.internal_port) for ports_binding in
                                                     service.ports_mappings]
-        import pdb;pdb.set_trace()
         return [container_template]

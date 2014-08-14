@@ -8,14 +8,14 @@ class GoPackageAnsibleConfigFactory(AnsibleTemplatedConfigFactory):
 
     template = [
         {
-            "name": "Download Go locally",
+            "name": "Download Go archive locally",
             "get_url": {
                 u'url': u'https://storage.googleapis.com/golang/go1.3.1.linux-amd64.tar.gz',
                 u'dest': u'/tmp/go.tgz'
             }
         },
         {
-            "name": "Extract Go archive on remote",
+            "name": "Extract Go archive to remote server",
             "unarchive": {
                 u'copy': u'no',
                 u'src': u'/tmp/go.tgz',

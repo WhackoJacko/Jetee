@@ -8,7 +8,7 @@ from copy import copy
 
 def ports_bindings_parser(option, opt, value):
     class PortsBinding(object):
-        host_ip = None
+        interface = None
         external_port = None
         internal_port = None
 
@@ -16,8 +16,7 @@ def ports_bindings_parser(option, opt, value):
     for port_binding_raw in value.split(','):
         port_binding_raw = port_binding_raw.strip()
         port_binding = PortsBinding()
-        print port_binding_raw
-        port_binding.host_ip, port_binding.external_port, port_binding.internal_port = port_binding_raw.split(':')
+        port_binding.interface, port_binding.external_port, port_binding.internal_port = port_binding_raw.split(':')
         port_bindings.append(port_binding)
     return port_bindings
 
@@ -74,8 +73,9 @@ class ETCDRegistrator(object):
     def set_container_ports_bindings(self, container_name, ports_bindings):
         for ports_binding in ports_bindings:
             key = os.path.join(container_name, u'ports', ports_binding.internal_port)
-            value = u'{}:{}'.format(ports_binding.host_ip, ports_binding.external_port)
-            self._mk_value(key=key, value=value)
+            self._set_dir(key)
+            self._mk_value(key=os.path.join(key, u'interface'), value=ports_binding.interface)
+            self._mk_value(key=os.path.join(key, u'external_port'), value=ports_binding.external_port)
 
     def register(self):
         container_name = self._normalize_container_name(self.options.container_name)

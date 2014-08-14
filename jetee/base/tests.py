@@ -28,7 +28,7 @@ class DockerDeployerTestCase(TestCase):
         command = u'redis-server'
         ports_mappings = [
             PortsMapping(
-                host_ip=u'172.17.42.1',
+                interface=u'172.17.42.1',
                 internal_port=6379
             )
         ]
@@ -38,7 +38,7 @@ class DockerDeployerTestCase(TestCase):
         command = u'postgres -D'
         ports_mappings = [
             PortsMapping(
-                host_ip=u'172.17.42.1',
+                interface=u'172.17.42.1',
                 internal_port=5432
             )
         ]
@@ -65,7 +65,7 @@ class ConfigFactoryTestCase(TestCase):
             command = u'bash'
             container_name = u'test-container'
             ports_mappings = [
-                PortsMapping(internal_port=22, external_port=49155, host_ip=u'0.0.0.0')
+                PortsMapping(internal_port=22, external_port=49155, interface=u'0.0.0.0')
             ]
 
         service = TestDockerService(

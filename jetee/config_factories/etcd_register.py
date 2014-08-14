@@ -3,7 +3,7 @@ import os
 from jetee.utils import remove_special_characters
 from jetee.base.config_factory import AnsibleConfigFactory
 
-etcd_register_script = os.path.abspath(os.path.join(os.path.dirname(__file__), u'..', u'scripts/etcd_register.py'))
+etcd_register_script = os.path.abspath(os.path.join(os.path.dirname(__file__), u'..', u'scripts/etcd/clerk.py'))
 
 
 class AnsibleETCDRegisterContainerConfigFactory(AnsibleConfigFactory):

@@ -4,17 +4,17 @@ from jetee.runtime.configuration import project_configuration
 
 
 class PortsMapping(object):
-    host_ip = u''
+    interface = u''
     external_port = u''
     internal_port = u''
 
-    def __init__(self, internal_port, host_ip=u'', external_port=u''):
-        self.host_ip = host_ip
+    def __init__(self, internal_port, interface=u'', external_port=u''):
+        self.interface = interface
         self.external_port = external_port
         self.internal_port = internal_port
 
     def get_representation(self):
-        return u'{}:{}:{}'.format(self.host_ip, self.external_port, self.internal_port)
+        return u'{}:{}:{}'.format(self.interface, self.external_port, self.internal_port)
 
 
 class LinkableMixin(object):

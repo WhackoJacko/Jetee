@@ -9,8 +9,8 @@ class AppService(DockerServiceAbstract):
     command = u'supervisord --nodaemon'
     volumes = [u'/root/.ssh/:/root/.ssh']
     ports_mappings = [
-        PortsMapping(internal_port=22, host_ip=u'0.0.0.0'),  #for sshd
-        PortsMapping(internal_port=9000, host_ip=u'172.17.42.1')  #for project itself
+        PortsMapping(internal_port=22, interface=u'0.0.0.0'),  #for sshd
+        PortsMapping(internal_port=9000, interface=u'172.17.42.1')  #for project itself
     ]
 
     @property
@@ -27,7 +27,7 @@ class PostgreSQLService(DockerServiceAbstract):
     command = u'/usr/bin/supervisord'
     ports_mappings = [
         PortsMapping(
-            host_ip=u'172.17.42.1',
+            interface=u'172.17.42.1',
             internal_port=5432
         )
     ]
@@ -38,7 +38,7 @@ class RedisService(DockerServiceAbstract):
     command = u'redis-server'
     ports_mappings = [
         PortsMapping(
-            host_ip=u'172.17.42.1',
+            interface=u'172.17.42.1',
             internal_port=6379
         )
     ]
