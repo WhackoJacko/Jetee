@@ -1,6 +1,6 @@
-from jetee.utils import remove_special_characters
+from jetee.common.utils import remove_special_characters
 
-from jetee.base.config_factory import AnsibleTemplatedConfigFactory, AnsibleConfigFactory
+from jetee.base.common.config_factory import AnsibleTemplatedConfigFactory, AnsibleConfigFactory
 
 
 class DockerPyPackageAnsibleConfigFactory(AnsibleTemplatedConfigFactory):

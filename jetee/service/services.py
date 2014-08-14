@@ -1,5 +1,8 @@
-from jetee.base.service import DockerServiceAbstract, PortsMapping
+import os
+
+from jetee.base.service.service import DockerServiceAbstract, PortsMapping
 from jetee.runtime.configuration import project_configuration
+from jetee.common.discoverer import Discoverer
 
 __all__ = [u'AppService', u'PostgreSQLService', u'RedisService']
 
@@ -20,6 +23,10 @@ class AppService(DockerServiceAbstract):
     @property
     def container_full_name(self):
         return u'.'.join([project_configuration.project_name, u'project'])
+
+    def get_container_port(self):
+        key = os.path.join(project_configuration.project_name, self.container_name, u'ports/22/external_port')
+        return Discoverer().discover(key)
 
 
 class PostgreSQLService(DockerServiceAbstract):

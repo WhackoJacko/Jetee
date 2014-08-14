@@ -5,6 +5,8 @@ import argparse
 
 from ansible import utils
 
+from jetee.common.shell import InteractiveShell
+
 __all__ = [u'AppDispatcher']
 
 
@@ -23,6 +25,7 @@ class VAction(argparse.Action):
 class AppDispatcher(object):
     ACTION_CREATE = u'create'
     ACTION_UPDATE = u'update'
+    ACTION_SHELL = u'shell'
 
     args = None
     parser = None
@@ -33,7 +36,7 @@ class AppDispatcher(object):
             u'command',
             action=u'store',
             default=self.ACTION_CREATE,
-            choices=[self.ACTION_CREATE, self.ACTION_UPDATE]
+            choices=[self.ACTION_CREATE, self.ACTION_UPDATE, self.ACTION_SHELL]
         )
         parser.add_argument('-v', nargs='?', action=VAction, dest='verbosity', help=u'Verbosity level')
         parser.add_argument(
@@ -63,12 +66,22 @@ class AppDispatcher(object):
             project_configuration.get_service()
         )
 
+    def _shell(self):
+        from jetee.runtime.configuration import project_configuration
+
+        service = project_configuration.get_service()
+        port = service.get_container_port()
+        InteractiveShell(project_configuration.HOSTNAME, port, project_configuration.USERNAME).run_shell()
+
+
     def __init__(self):
         self._set_args()
 
     def run(self):
         if self.args.command == self.ACTION_CREATE:
             self._create()
+        elif self.args.command == self.ACTION_SHELL:
+            self._shell()
 
 
 dispatcher = AppDispatcher()

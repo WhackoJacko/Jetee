@@ -1,4 +1,4 @@
-from jetee.base.config_factory import AnsibleTemplatedConfigFactory
+from jetee.base.common.config_factory import AnsibleTemplatedConfigFactory
 
 
 class NginxPackageAnsibleConfigFactory(AnsibleTemplatedConfigFactory):

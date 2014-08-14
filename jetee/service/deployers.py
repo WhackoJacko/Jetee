@@ -1,10 +1,10 @@
-from jetee.base.config_factory import AnsibleConfigFactory
-from jetee.base.deployer import DeployerAbstract
-from jetee.config_factories.docker import DockerPackageAnsibleConfigFactory, DockerPyPackageAnsibleConfigFactory
-from jetee.config_factories.etcd import ETCDPackageAnsibleConfigFactory, ETCDCtlPackageAnsibleConfigFactory
-from jetee.config_factories.nginx import NginxPackageAnsibleConfigFactory
-from jetee.config_factories.python import PythonDependenciesAnsibleConfigFactory
-from jetee.config_factories.go import GoPackageAnsibleConfigFactory
+from jetee.base.common.config_factory import AnsibleConfigFactory
+from jetee.base.service.deployer import DeployerAbstract
+from jetee.service.config_factories.docker import DockerPackageAnsibleConfigFactory, DockerPyPackageAnsibleConfigFactory
+from jetee.service.config_factories.etcd import ETCDPackageAnsibleConfigFactory, ETCDCtlPackageAnsibleConfigFactory
+from jetee.service.config_factories.nginx import NginxPackageAnsibleConfigFactory
+from jetee.service.config_factories.python import PythonDependenciesAnsibleConfigFactory
+from jetee.service.config_factories.go import GoPackageAnsibleConfigFactory
 from jetee.runtime.ansible import PlaybookRunner
 from jetee.runtime.configuration import project_configuration
 

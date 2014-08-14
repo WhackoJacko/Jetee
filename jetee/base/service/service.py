@@ -1,5 +1,5 @@
-from jetee.config_factories.docker import AnsibleDockerContainerConfigFactory
-from jetee.config_factories.etcd_register import AnsibleETCDRegisterContainerConfigFactory
+from jetee.service.config_factories.docker import AnsibleDockerContainerConfigFactory
+from jetee.service.config_factories.etcd_register import AnsibleETCDRegisterContainerConfigFactory
 from jetee.runtime.configuration import project_configuration
 
 

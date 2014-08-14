@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 import subprocess
 import os
-import sys
 from optparse import OptionParser, Option
 from copy import copy
 
@@ -30,7 +29,7 @@ class PortsBindingsOption(Option):
     TYPE_CHECKER["ports_bindings"] = ports_bindings_parser
 
 
-class ETCDRegistrator(object):
+class ETCDClerk(object):
     options = None
     etcdctl_executable = "/usr/local/go/bin/etcdctl"
 
@@ -90,4 +89,4 @@ parser.add_option("--container_name", help="Docker container name", dest="contai
 parser.add_option("--ports", help="Docker container external ports", type="ports_bindings", dest="ports_bindings")
 
 if __name__ == u'__main__':
-    ETCDRegistrator().register()
+    ETCDClerk().register()

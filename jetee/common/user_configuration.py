@@ -1,4 +1,4 @@
-from jetee.deployers import DockerServiceDeployer
+from jetee.service.deployers import DockerServiceDeployer
 
 
 class AppConfiguration(object):

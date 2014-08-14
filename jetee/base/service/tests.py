@@ -1,12 +1,12 @@
 import sys
 import os
 from unittest.case import TestCase
-from deployers import DockerServiceDeployer
 
+from deployers import DockerServiceDeployer
 from jetee.runtime.configuration import project_configuration
-from jetee.user_configuration import AppConfiguration
+from jetee.common.user_configuration import AppConfiguration
 from jetee.base.service import DockerServiceAbstract, PortsMapping
-from jetee.services import AppService
+from jetee.service.services import AppService
 
 
 class DockerDeployerTestCase(TestCase):

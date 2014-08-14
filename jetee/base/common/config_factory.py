@@ -4,7 +4,7 @@ import uuid
 
 import yaml
 
-from jetee.base.config import AnsibleConfig
+from jetee.base.common.config import AnsibleConfig
 
 
 class AnsibleConfigFactory(object):
