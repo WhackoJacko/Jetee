@@ -37,7 +37,7 @@ class AppConfiguration(object):
             self._main_service = self.get_service()
         return self._main_service
 
-    @staticmethod
+    @property
     def project_name(self):
         if self.PROJECT_NAME:
             return self.PROJECT_NAME

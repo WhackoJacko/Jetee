@@ -38,6 +38,7 @@ class DockerServiceAbstract(LinkableMixin):
     image = None
     command = None
     ports_mappings = None
+    volumes = None
 
     def __init__(self, container_name=None):
         if container_name:
@@ -47,16 +48,24 @@ class DockerServiceAbstract(LinkableMixin):
     def container_name(self):
         """
 
-        Returns container name, if self._container_name is not defined container name would be '{project_name.image}'
+        Returns container name, if self._container_name is not defined container name would be last part of image name
 
         :return:
         """
-        # TODO: split container_name and container_full_name logic
         if self._container_name:
             return self._container_name
         else:
-            container_name = u'.'.join([project_configuration.project_name, self.image.split(u'/').pop()])
-            return container_name
+            return self.image.split(u'/').pop()
+
+    @property
+    def container_full_name(self):
+        """
+
+        Returns container full name of the form {project_name.container_name}
+
+        :return:
+        """
+        return u'.'.join([project_configuration.project_name, self.container_name])
 
     def factory_config(self):
         return [config_factory().factory(service=self) for config_factory in self._config_factories]

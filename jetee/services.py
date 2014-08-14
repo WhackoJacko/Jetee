@@ -7,6 +7,7 @@ __all__ = [u'AppService', u'PostgreSQLService', u'RedisService']
 class AppService(DockerServiceAbstract):
     image = u'whackojacko/blank'
     command = u'supervisord --nodaemon'
+    volumes = [u'/root/.ssh/:/root/.ssh']
     ports_mappings = [
         PortsMapping(internal_port=22, host_ip=u'0.0.0.0'),  #for sshd
         PortsMapping(internal_port=9000, host_ip=u'172.17.42.1')  #for project itself
@@ -14,16 +15,16 @@ class AppService(DockerServiceAbstract):
 
     @property
     def container_name(self):
-        if self._container_name:
-            return self._container_name
-        else:
-            container_name = u'.'.join([project_configuration.project_name, u'project'])
-            return container_name
+        return u'project'
+
+    @property
+    def container_full_name(self):
+        return u'.'.join([project_configuration.project_name, u'project'])
 
 
 class PostgreSQLService(DockerServiceAbstract):
     image = u'zumbrunnen/postgresql'
-    command = u'postgres -D'
+    command = u'/usr/bin/supervisord'
     ports_mappings = [
         PortsMapping(
             host_ip=u'172.17.42.1',
