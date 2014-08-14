@@ -3,6 +3,17 @@ from jetee.utils import remove_special_characters
 from jetee.base.config_factory import AnsibleTemplatedConfigFactory, AnsibleConfigFactory
 
 
+class DockerPyPackageAnsibleConfigFactory(AnsibleTemplatedConfigFactory):
+    template = [
+        {
+            u'pip':
+                {
+                    u'name': u'docker-py'
+                }
+        }
+    ]
+
+
 class DockerPackageAnsibleConfigFactory(AnsibleTemplatedConfigFactory):
     template = [
         {
@@ -30,6 +41,7 @@ class AnsibleDockerContainerConfigFactory(AnsibleConfigFactory):
         u'name': u'Run {name} container',
         u'register': u'{name}_result',
         u'docker': {
+            u'command': None,
             u'image': None,
             u'name': None,
             u'ports': None,
@@ -44,7 +56,8 @@ class AnsibleDockerContainerConfigFactory(AnsibleConfigFactory):
         container_template[u'register'] = container_template[u'register'].format(
             name=remove_special_characters(service.container_name)
         )
-        container_template[u'docker'][u'image'] = service.image_name
+        container_template[u'docker'][u'image'] = service.image
+        container_template[u'docker'][u'command'] = service.command
         container_template[u'docker'][u'name'] = service.container_name
         container_template[u'docker'][u'ports'] = []
         for ports_binding in service.ports_mappings:

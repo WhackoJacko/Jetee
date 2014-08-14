@@ -35,8 +35,8 @@ class DockerServiceAbstract(LinkableMixin):
     _config_factories = [AnsibleDockerContainerConfigFactory, AnsibleETCDRegisterContainerConfigFactory]
     _container_name = None
 
-    image_name = None
-    cmd = None
+    image = None
+    command = None
     ports_mappings = None
 
     def __init__(self, container_name=None):
@@ -46,14 +46,16 @@ class DockerServiceAbstract(LinkableMixin):
     @property
     def container_name(self):
         """
-        Returns container name, if self._container_name is not defined container name would be '{project_name.image_name}'
+
+        Returns container name, if self._container_name is not defined container name would be '{project_name.image}'
 
         :return:
         """
+        # TODO: split container_name and container_full_name logic
         if self._container_name:
             return self._container_name
         else:
-            container_name = u'.'.join([project_configuration.get_project_name(), self.image_name.split(u'/').pop()])
+            container_name = u'.'.join([project_configuration.project_name, self.image.split(u'/').pop()])
             return container_name
 
     def factory_config(self):

@@ -24,8 +24,8 @@ class DockerDeployerTestCase(TestCase):
         project_configuration.set_configuration(TestAppConfiguration)
 
     class TestRedisDockerService(DockerServiceAbstract):
-        image_name = u'redis'
-        cmd = u'redis-server'
+        image = u'redis'
+        command = u'redis-server'
         ports_mappings = [
             PortsMapping(
                 host_ip=u'172.17.42.1',
@@ -34,8 +34,8 @@ class DockerDeployerTestCase(TestCase):
         ]
 
     class TestPostgresqlDockerService(DockerServiceAbstract):
-        image_name = u'zumbrunnen/postgresql'
-        cmd = u'postgres -D'
+        image = u'zumbrunnen/postgresql'
+        command = u'postgres -D'
         ports_mappings = [
             PortsMapping(
                 host_ip=u'172.17.42.1',
@@ -61,8 +61,8 @@ class ConfigFactoryTestCase(TestCase):
 
     def test_config_factory(self):
         class TestDockerService(DockerServiceAbstract):
-            image_name = u'test-image'
-            cmd = u'bash'
+            image = u'test-image'
+            command = u'bash'
             container_name = u'test-container'
             ports_mappings = [
                 PortsMapping(internal_port=22, external_port=49155, host_ip=u'0.0.0.0')
