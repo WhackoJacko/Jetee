@@ -38,19 +38,17 @@ class ETCDClerk(object):
         self.options = options
 
     def _call(self, *args):
-        try:
-            subprocess.call(args)
-        except subprocess.CalledProcessError, e:
-            print(e.output)
-            print(e.message)
-            print(e.returncode)
+        subprocess.call(args)
 
     def _set_dir(self, dir_name):
         self._rm_dir(dir_name)
         self._call(*[self.etcdctl_executable, "setdir", dir_name])
 
     def _rm_dir(self, dir_name):
-        self._call(*[self.etcdctl_executable, "rm", dir_name, "--recursive"])
+        try:
+            self._call(*[self.etcdctl_executable, "rm", dir_name, "--recursive"])
+        except subprocess.CalledProcessError:
+            pass
 
     def _mk_value(self, key, value):
         self._call(*[self.etcdctl_executable, "mk", key, value])
@@ -63,6 +61,7 @@ class ETCDClerk(object):
         return container_name
 
     def create_container_dir(self, container_name):
+        container_name = os.path.join(container_name, u'ports')
         self._set_dir(container_name)
 
     def set_container_id(self, container_name, container_id):

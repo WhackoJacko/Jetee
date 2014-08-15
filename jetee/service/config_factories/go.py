@@ -12,7 +12,16 @@ class GoPackageAnsibleConfigFactory(AnsibleTemplatedConfigFactory):
             "get_url": {
                 u'url': u'https://storage.googleapis.com/golang/go1.3.1.linux-amd64.tar.gz',
                 u'dest': u'/tmp/go.tgz'
-            }
+            },
+            u'when': u'ansible_userspace_bits == "64"'
+        },
+        {
+            "name": "Download Go archive locally",
+            "get_url": {
+                u'url': u'https://storage.googleapis.com/golang/go1.3.1.linux-386.tar.gz',
+                u'dest': u'/tmp/go.tgz'
+            },
+            u'when': u'ansible_userspace_bits == "32"'
         },
         {
             "name": "Extract Go archive to remote server",
