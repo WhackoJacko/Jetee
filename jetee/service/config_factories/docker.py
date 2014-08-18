@@ -1,9 +1,9 @@
 from jetee.common.utils import remove_special_characters
 
-from jetee.base.common.config_factory import AnsibleTemplatedConfigFactory, AnsibleConfigFactory
+from jetee.base.common.config_factory import AnsibleTemplatedTaskConfigFactory, AnsibleTaskConfigFactory
 
 
-class DockerPyPackageAnsibleConfigFactory(AnsibleTemplatedConfigFactory):
+class DockerPyPackageAnsibleConfigFactory(AnsibleTemplatedTaskConfigFactory):
     template = [
         {
             u'pip':
@@ -14,7 +14,7 @@ class DockerPyPackageAnsibleConfigFactory(AnsibleTemplatedConfigFactory):
     ]
 
 
-class DockerPackageAnsibleConfigFactory(AnsibleTemplatedConfigFactory):
+class DockerPackageAnsibleConfigFactory(AnsibleTemplatedTaskConfigFactory):
     template = [
         {
             "apt_key": "url=\"https://get.docker.io/gpg\"",
@@ -36,7 +36,7 @@ class DockerPackageAnsibleConfigFactory(AnsibleTemplatedConfigFactory):
     ]
 
 
-class AnsibleDockerContainerConfigFactory(AnsibleConfigFactory):
+class AnsibleDockerContainerTaskConfigFactory(AnsibleTaskConfigFactory):
     _template = {
         u'name': u'Run {name} container',
         u'register': u'{name}_result',

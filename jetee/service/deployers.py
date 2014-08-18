@@ -1,8 +1,9 @@
-from jetee.base.common.config_factory import AnsibleConfigFactory
+from jetee.base.common.config_factory import AnsibleTaskConfigFactory
+from jetee.base.common.config import AnsibleRoleConfig, AnsibleTaskConfig
 from jetee.base.service.deployer import DeployerAbstract
 from jetee.service.config_factories.docker import DockerPackageAnsibleConfigFactory, DockerPyPackageAnsibleConfigFactory
 from jetee.service.config_factories.etcd import ETCDPackageAnsibleConfigFactory, ETCDCtlPackageAnsibleConfigFactory
-from jetee.service.config_factories.nginx import NginxPackageAnsibleConfigFactory
+from jetee.service.config_factories.nginx import NginxPackageAnsibleRoleConfigFactory
 from jetee.service.config_factories.python import PythonDependenciesAnsibleConfigFactory
 from jetee.service.config_factories.go import GoPackageAnsibleConfigFactory
 from jetee.runtime.ansible import PlaybookRunner
@@ -12,7 +13,6 @@ from jetee.runtime.configuration import project_configuration
 class DockerServiceDeployer(DeployerAbstract):
     default_config_factories = [
         DockerPackageAnsibleConfigFactory,
-        NginxPackageAnsibleConfigFactory,
         GoPackageAnsibleConfigFactory,
         PythonDependenciesAnsibleConfigFactory,
         DockerPyPackageAnsibleConfigFactory,
@@ -40,9 +40,12 @@ class DockerServiceDeployer(DeployerAbstract):
         template = {
             u'hosts': u'*',
             u'remote_user': project_configuration.USERNAME,
-            u'tasks': [self._factory_task(config) for config in configs]
+            u'tasks': [self._factory_task(config) for config in
+                       filter(lambda x: isinstance(x, AnsibleTaskConfig), configs)],
+            u'roles': [config.config for config in
+                       filter(lambda x: isinstance(x, AnsibleRoleConfig), configs)],
         }
-        config = AnsibleConfigFactory().factory(**template)
+        config = AnsibleTaskConfigFactory().factory(**template)
         return config
 
     def _factory_default_configs(self):

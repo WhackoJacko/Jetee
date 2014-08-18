@@ -2,17 +2,16 @@ import sys
 import os
 from unittest.case import TestCase
 
-from deployers import DockerServiceDeployer
 from jetee.runtime.configuration import project_configuration
-from jetee.common.user_configuration import AppConfiguration
-from jetee.base.service import DockerServiceAbstract, PortsMapping
+from jetee.base.service.service import DockerServiceAbstract, PortsMapping
 from jetee.service.services import AppService
 
 
 class DockerDeployerTestCase(TestCase):
     @classmethod
     def setUpClass(cls):
-        sys.argv = [u'create', u'-vvvvv']
+        sys.argv = [u'ss' ,u'create', u'-vvvvv']
+        from jetee.common.user_configuration import AppConfiguration
 
         class TestAppConfiguration(AppConfiguration):
             HOSTNAME = os.getenv(u'JETEE_TEST_HOSTNAME')
@@ -51,6 +50,7 @@ class DockerDeployerTestCase(TestCase):
         postgresql_service.uses(redis_service)
         project_service.uses(postgresql_service)
 
+        from jetee.service.deployers import DockerServiceDeployer
         deployer = DockerServiceDeployer()
         result = deployer.deploy(project_service)
         pass

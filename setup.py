@@ -1,3 +1,5 @@
+import os
+import errno
 import subprocess
 
 from setuptools.command.install import install
@@ -10,7 +12,16 @@ def galaxy_packages_wrapper(cls):
         original_run(self)
         from jetee import base
 
-        subprocess.call([u'ansible-galaxy', 'install'] + list(base.REQUIRED_ANSIBLE_ROLES))
+        roles_dir = os.path.join(os.path.dirname(__file__), u'jetee/roles')
+        try:
+            os.makedirs(roles_dir)
+        except OSError as exc:
+            if exc.errno == errno.EEXIST and os.path.isdir(roles_dir):
+                pass
+            else:
+                raise
+        subprocess.call(
+            [u'ansible-galaxy', u'install', u'--force', u'-p', roles_dir] + list(base.REQUIRED_ANSIBLE_ROLES))
 
     original_run = cls.run
     cls.run = run
@@ -19,7 +30,7 @@ def galaxy_packages_wrapper(cls):
 
 setup(
     name='jetee',
-    version=0.3,
+    version=0.4,
     # long_description=open(join(dirname(__file__), 'README.md')).read(),
     author='WhackoJacko',
     cmdclass={
