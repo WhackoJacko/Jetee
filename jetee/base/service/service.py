@@ -1,6 +1,5 @@
 from jetee.service.config_factories.docker import AnsibleDockerContainerTaskConfigFactory
 from jetee.service.config_factories.etcd_register import AnsibleETCDRegisterContainerTaskConfigFactory
-from jetee.service.config_factories.nginx import NginxPackageAnsibleRoleConfigFactory
 from jetee.runtime.configuration import project_configuration
 
 
@@ -35,8 +34,7 @@ class DockerServiceAbstract(LinkableMixin):
     _deployer_class = None
     _config_factories = [
         AnsibleDockerContainerTaskConfigFactory,
-        AnsibleETCDRegisterContainerTaskConfigFactory,
-        NginxPackageAnsibleRoleConfigFactory
+        AnsibleETCDRegisterContainerTaskConfigFactory
     ]
     _container_name = None
 

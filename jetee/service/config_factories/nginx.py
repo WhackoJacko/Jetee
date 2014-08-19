@@ -12,15 +12,14 @@ class NginxPackageAnsibleRoleConfigFactory(AnsibleRoleConfigFactory):
                 {
                     project_configuration.project_name: [
                         u'listen 8080',
-                        # u'server_name': u'%s' % u' '.join(project_configuration.SERVER_NAMES),
-                        # u'proxy_connect_timeout': u'300s',
-                        # u'proxy_read_timeout': u'300s',
-                        # u'location1': {
-                        #     u'proxy_connect_timeout': u'300s',
-                        #     u'proxy_read_timeout': u'300s',
-                        #     u'proxy_pass': u'http://172.17.42.1:%s_result["ansible_facts"]["docker_containers"]'
-                        #                    u'[0]["NetworkSettings"]["Ports"]["9000/tcp"][0]["HostPort"]' % service.container_name
-                        # },
+                        u'server_name %s' % u' '.join(project_configuration.SERVER_NAMES),
+                        u'proxy_connect_timeout 300s',
+                        u'proxy_read_timeout 300s',
+                        u'location / { '
+                        u'proxy_connect_timeout 300s; '
+                        u'proxy_read_timeout 300s;'
+                        u'proxy_pass %s' % u'http://172.17.42.1:{{%s_result["ansible_facts"]["docker_containers"]'
+                                           u'[0]["NetworkSettings"]["Ports"]["9000/tcp"][0]["HostPort"]}}; }' % service.container_name
                     ]
                 }
             ,
@@ -31,7 +30,11 @@ class NginxPackageAnsibleRoleConfigFactory(AnsibleRoleConfigFactory):
                     u'proxy_set_header Host $http_host',
                     u'proxy_set_header X-NginX-Proxy true',
                 ]
-            }
+            },
+            u'nginx_http_params': [
+                u'types_hash_max_size 2048',
+                u'types_hash_bucket_size 32'
+            ]
         }
 
         return config

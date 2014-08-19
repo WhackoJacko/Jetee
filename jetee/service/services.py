@@ -1,6 +1,7 @@
 import os
 
 from jetee.base.service.service import DockerServiceAbstract, PortsMapping
+from jetee.service.config_factories.nginx import NginxPackageAnsibleRoleConfigFactory
 from jetee.runtime.configuration import project_configuration
 from jetee.common.discoverer import Discoverer
 
@@ -8,6 +9,7 @@ __all__ = [u'AppService', u'PostgreSQLService', u'RedisService']
 
 
 class AppService(DockerServiceAbstract):
+    _config_factories = DockerServiceAbstract._config_factories + [NginxPackageAnsibleRoleConfigFactory]
     image = u'whackojacko/blank'
     command = u'supervisord --nodaemon'
     volumes = [u'/root/.ssh/:/root/.ssh']
