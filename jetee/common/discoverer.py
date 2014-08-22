@@ -11,7 +11,7 @@ class Discoverer(object):
     def discover(self, key):
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        ssh.connect(project_configuration.HOSTNAME, username=project_configuration.USERNAME)
+        ssh.connect(project_configuration.hostname, username=project_configuration.username)
         stdin, stdout, stderr = ssh.exec_command(u'%s get %s' % (self.etcdctl_executable, key))
         port = stdout.readline().strip()
         ssh.close()

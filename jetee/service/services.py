@@ -24,10 +24,10 @@ class AppService(DockerServiceAbstract):
 
     @property
     def container_full_name(self):
-        return u'.'.join([project_configuration.project_name, u'project'])
+        return u'.'.join([project_configuration.get_project_name(), u'project'])
 
     def get_container_port(self):
-        key = os.path.join(project_configuration.project_name, self.container_name, u'ports/22/external_port')
+        key = os.path.join(project_configuration.get_project_name(), self.container_name, u'ports/22/external_port')
         return Discoverer().discover(key)
 
 

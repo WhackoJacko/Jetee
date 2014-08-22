@@ -25,9 +25,6 @@ class DockerServiceDeployer(DeployerAbstract):
         services_configs = self._factory_services_configs(service)
         configs = default_configs + services_configs
         playbook_config = self._factory_playbook_config(configs=configs)
-        import pdb;
-
-        pdb.set_trace()
         res = PlaybookRunner.run(
             playbook_config=playbook_config,
             project_configuration=project_configuration
@@ -42,7 +39,7 @@ class DockerServiceDeployer(DeployerAbstract):
     def _factory_playbook_config(self, configs):
         template = {
             u'hosts': u'*',
-            u'remote_user': project_configuration.USERNAME,
+            u'remote_user': project_configuration.username,
             u'pre_tasks': [self._factory_task(config) for config in
                            filter(lambda x: isinstance(x, AnsibleTaskConfig) and x.is_pre_task(), configs)],
             u'tasks': [self._factory_task(config) for config in

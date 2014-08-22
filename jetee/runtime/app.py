@@ -71,7 +71,7 @@ class AppDispatcher(object):
 
         service = project_configuration.get_service()
         port = service.get_container_port()
-        InteractiveShell(project_configuration.HOSTNAME, port, project_configuration.USERNAME).run_shell()
+        InteractiveShell(project_configuration.hostname, port, project_configuration.username).run_shell()
 
 
     def __init__(self):

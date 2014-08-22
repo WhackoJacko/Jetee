@@ -42,10 +42,12 @@ class DockerServiceAbstract(LinkableMixin):
     command = None
     ports_mappings = None
     volumes = None
+    env_variables = None
 
-    def __init__(self, container_name=None):
-        if container_name:
-            self._container_name = container_name
+    def __init__(self, container_name=None, volumes=None, env_variables=None):
+        self._container_name = container_name or self._container_name
+        self.volumes = volumes or self.volumes
+        self.env_variables = env_variables or self.env_variables
 
     @property
     def container_name(self):
@@ -68,7 +70,7 @@ class DockerServiceAbstract(LinkableMixin):
 
         :return:
         """
-        return u'.'.join([project_configuration.project_name, self.container_name])
+        return u'.'.join([project_configuration.get_project_name(), self.container_name])
 
     def factory_config(self):
         return [config_factory().factory(service=self) for config_factory in self._config_factories]

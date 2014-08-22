@@ -37,7 +37,7 @@ class PlaybookRunner(object):
         :param playbook_config:
         :return: :raise errors.AnsibleError:
         """
-        inventory = Inventory([project_configuration.HOSTNAME])
+        inventory = Inventory([project_configuration.hostname])
         # let inventory know which playbooks are using so it can know the basedirs
         inventory.set_playbook_basedir(os.path.dirname(playbook_config.filename))
         stats = AggregateStats()
@@ -49,7 +49,7 @@ class PlaybookRunner(object):
             module_path=None,
             inventory=inventory,
             forks=5,
-            remote_user=project_configuration.USERNAME,
+            remote_user=project_configuration.username,
             remote_pass=None,
             callbacks=playbook_cb,
             runner_callbacks=runner_cb,

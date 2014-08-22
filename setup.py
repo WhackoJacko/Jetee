@@ -34,7 +34,7 @@ setup(
     # long_description=open(join(dirname(__file__), 'README.md')).read(),
     author='WhackoJacko',
     cmdclass={
-        'install': galaxy_packages_wrapper(install),
+        u'install': galaxy_packages_wrapper(install),
         u'develop': galaxy_packages_wrapper(develop)
     },
 

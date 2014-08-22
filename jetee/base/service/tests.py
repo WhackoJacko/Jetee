@@ -14,11 +14,9 @@ class DockerDeployerTestCase(TestCase):
         from jetee.common.user_configuration import AppConfiguration
 
         class TestAppConfiguration(AppConfiguration):
-            HOSTNAME = os.getenv(u'JETEE_TEST_HOSTNAME')
-            USERNAME = u'root'
-            SERVER_NAMES = [u'example.ru']
-            CVS_BRANCH = u'master'
-            CVS_REPO_URL = 'https://bitbucket.org/owner/jetee.git'
+            hostname = os.getenv(u'JETEE_TEST_HOSTNAME')
+            username = u'root'
+            server_names = [u'example.ru']
 
         project_configuration.set_configuration(TestAppConfiguration)
 

@@ -2,16 +2,11 @@ from jetee.service.deployers import DockerServiceDeployer
 
 
 class AppConfiguration(object):
-    HOSTNAME = u''
-    USERNAME = u''
-    SERVER_NAMES = []
-    APT_PACKAGES = []
-    TIMEZONE = u''
+    hostname = u''
+    username = u''
+    server_names = []
     #
-    CVS_BRANCH = u''
-    CVS_REPO_URL = u''
-
-    PROJECT_NAME = None
+    project_name = None
 
     _main_service = None
 
@@ -31,15 +26,8 @@ class AppConfiguration(object):
 
         return DockerServiceDeployer()
 
-    @property
-    def main_service(self):
-        if not self._main_service:
-            self._main_service = self.get_service()
-        return self._main_service
-
-    @property
-    def project_name(self):
-        if self.PROJECT_NAME:
-            return self.PROJECT_NAME
+    def get_project_name(self):
+        if self.project_name:
+            return self.project_name
         else:
-            return u'.'.join(self.CVS_REPO_URL.split(u'/')[-1].split(u'.')[:-1])
+            return u'.'.join(self.get_project().cvs_repo_url.split(u'/')[-1].split(u'.')[:-1])

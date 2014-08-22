@@ -10,9 +10,9 @@ class NginxPackageAnsibleRoleConfigFactory(AnsibleRoleConfigFactory):
             u'role': os.path.join(self.roles_dir, u'jdauphant.nginx'),
             u'nginx_sites':
                 {
-                    project_configuration.project_name: [
+                    project_configuration.get_project_name(): [
                         u'listen 8080',
-                        u'server_name %s' % u' '.join(project_configuration.SERVER_NAMES),
+                        u'server_name %s' % u' '.join(project_configuration.server_names),
                         u'proxy_connect_timeout 300s',
                         u'proxy_read_timeout 300s',
                         u'location / { '
