@@ -1,7 +1,7 @@
-from jetee.base.common.config_factory import AnsibleTemplatedTaskConfigFactory
+from jetee.base.common.config_factory import AnsibleTemplateMixin, AnsiblePreTaskConfigFactory
 
 
-class ETCDPackageAnsibleConfigFactory(AnsibleTemplatedTaskConfigFactory):
+class ETCDPackageAnsibleConfigFactory(AnsibleTemplateMixin, AnsiblePreTaskConfigFactory):
     repo_location = u'/usr/local/go/src/pkg/github.com/coreos/etcd'
     variables = {
         u'etcd_repo_location': u'/usr/local/go/src/pkg/github.com/coreos/etcd'
@@ -28,7 +28,7 @@ class ETCDPackageAnsibleConfigFactory(AnsibleTemplatedTaskConfigFactory):
     ]
 
 
-class ETCDCtlPackageAnsibleConfigFactory(AnsibleTemplatedTaskConfigFactory):
+class ETCDCtlPackageAnsibleConfigFactory(AnsibleTemplateMixin, AnsiblePreTaskConfigFactory):
     variables = {
         u'etcdctl_repo_location': u'/usr/local/go/src/pkg/github.com/coreos/etcdctl'
     }

@@ -17,9 +17,10 @@ class AnsibleRoleConfigFactory(object):
         return AnsibleRoleConfig(config=self.get_config(**kwargs))
 
 
-class AnsibleTaskConfigFactory(object):
+class AnsibleTaskConfigFactoryAbstract(object):
     variables = None
     _config_dir = u'/tmp/'
+    task_type = None
 
     def get_config(self, **kwargs):
         return [kwargs]
@@ -36,11 +37,24 @@ class AnsibleTaskConfigFactory(object):
         config_file_stream.close()
         return AnsibleTaskConfig(
             filename=config_filename,
-            variables=self.variables
+            variables=self.variables,
+            type=self.task_type
         )
 
 
-class AnsibleTemplatedTaskConfigFactory(AnsibleTaskConfigFactory):
+class AnsibleTaskConfigFactory(AnsibleTaskConfigFactoryAbstract):
+    task_type = AnsibleTaskConfig.TYPE_TASK
+
+
+class AnsiblePreTaskConfigFactory(AnsibleTaskConfigFactory):
+    task_type = AnsibleTaskConfig.TYPE_PRE_TASK
+
+
+class AnsiblePostTaskConfigFactory(AnsibleTaskConfigFactory):
+    task_type = AnsibleTaskConfig.TYPE_POST_TASK
+
+
+class AnsibleTemplateMixin(object):
     template = {}
 
     def get_config(self):

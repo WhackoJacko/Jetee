@@ -1,12 +1,12 @@
 import os
 
 from jetee.common.utils import remove_special_characters
-from jetee.base.common.config_factory import AnsibleTaskConfigFactory
+from jetee.base.common.config_factory import AnsiblePreTaskConfigFactory
 
 etcd_register_script = os.path.abspath(os.path.join(os.path.dirname(__file__), u'../', u'scripts/etcd/clerk.py'))
 
 
-class AnsibleETCDRegisterContainerTaskConfigFactory(AnsibleTaskConfigFactory):
+class AnsibleETCDRegisterContainerTaskConfigFactory(AnsiblePreTaskConfigFactory):
     _template = {
         u'name': u'Register {name} container in etcd',
         u'script': etcd_register_script + u' --ports="{ports_mappings}" --container_id={container_id} --container_name={container_name}'

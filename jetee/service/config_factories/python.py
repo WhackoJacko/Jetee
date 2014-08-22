@@ -1,7 +1,7 @@
-from jetee.base.common.config_factory import AnsibleTemplatedTaskConfigFactory
+from jetee.base.common.config_factory import AnsibleTemplateMixin, AnsiblePreTaskConfigFactory
 
 
-class PythonDependenciesAnsibleConfigFactory(AnsibleTemplatedTaskConfigFactory):
+class PythonDependenciesAnsibleConfigFactory(AnsibleTemplateMixin, AnsiblePreTaskConfigFactory):
     template = [
         {
             u'name': u'Install python dependencies',
