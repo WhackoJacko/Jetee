@@ -1,6 +1,3 @@
-from jetee.service.deployers import DockerServiceDeployer
-
-
 class AppConfiguration(object):
     hostname = u''
     username = u''
@@ -21,10 +18,6 @@ class AppConfiguration(object):
         Template method to get app's project, must return Project instance
         """
         raise NotImplementedError
-
-    def get_deployer(self):
-
-        return DockerServiceDeployer()
 
     def get_project_name(self):
         if self.project_name:

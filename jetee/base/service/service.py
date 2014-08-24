@@ -1,6 +1,6 @@
-from jetee.service.config_factories.docker import AnsibleDockerContainerTaskConfigFactory
-from jetee.service.config_factories.etcd_register import AnsibleETCDRegisterContainerTaskConfigFactory
 from jetee.runtime.configuration import project_configuration
+from jetee.base.common.config_factories_manager import ConfigFactoriesManager
+from  jetee.service.deployment_managers import DockerServiceDeploymentManager
 
 
 class PortsMapping(object):
@@ -31,11 +31,9 @@ class LinkableMixin(object):
 
 
 class DockerServiceAbstract(LinkableMixin):
-    _deployer_class = None
-    _config_factories = [
-        AnsibleDockerContainerTaskConfigFactory,
-        AnsibleETCDRegisterContainerTaskConfigFactory
-    ]
+    deployment_manager_class = DockerServiceDeploymentManager
+    deployment_config_manager_class = ConfigFactoriesManager
+    _deployment_config_manager = None
     _container_name = None
 
     image = None
@@ -48,6 +46,7 @@ class DockerServiceAbstract(LinkableMixin):
         self._container_name = container_name or self._container_name
         self.volumes = volumes or self.volumes
         self.env_variables = env_variables or self.env_variables
+        self._deployment_config_manager = self.deployment_config_manager_class(self)
 
     @property
     def container_name(self):
@@ -72,5 +71,9 @@ class DockerServiceAbstract(LinkableMixin):
         """
         return u'.'.join([project_configuration.get_project_name(), self.container_name])
 
-    def factory_config(self):
-        return [config_factory().factory(service=self) for config_factory in self._config_factories]
+    def factory_deployment_config(self):
+        return self._deployment_config_manager.factory()
+
+    def deploy(self):
+        deployment_manager = self.deployment_manager_class()
+        return deployment_manager.deploy(self)

@@ -2,7 +2,7 @@
 import paramiko
 
 from jetee.runtime.configuration import project_configuration
-from jetee.service.scripts.etcd.clerk import ETCDClerk
+from jetee.common.config_factories.scripts.etcd.clerk import ETCDClerk
 
 
 class Discoverer(object):

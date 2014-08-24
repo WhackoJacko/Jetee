@@ -1,0 +1,34 @@
+from jetee.base.common.config_factory import AnsibleTemplateMixin, AnsiblePreTaskConfigFactory
+
+
+class DockerPackageAnsibleConfigFactory(AnsibleTemplateMixin, AnsiblePreTaskConfigFactory):
+    template = [
+        {
+            "apt_key": "url=\"https://get.docker.io/gpg\"",
+            "name": "add docker repo key"
+        },
+        {
+            "apt_repository": {
+                "repo": "deb http://get.docker.io/ubuntu docker main",
+                "update_cache": True
+            },
+            "name": "add docker repo server"
+        },
+        {
+            "apt": {
+                "name": "lxc-docker"
+            },
+            "name": "install docker"
+        }
+    ]
+
+
+class DockerPyPackageAnsibleConfigFactory(AnsibleTemplateMixin, AnsiblePreTaskConfigFactory):
+    template = [
+        {
+            u'pip':
+                {
+                    u'name': u'docker-py'
+                }
+        }
+    ]

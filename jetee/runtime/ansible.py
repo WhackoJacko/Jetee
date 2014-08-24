@@ -9,6 +9,7 @@ from ansible.color import ANSIBLE_COLOR, stringc
 
 from jetee.runtime.app import dispatcher
 
+
 class PlaybookRunner(object):
     @staticmethod
     def colorize(lead, num, color):
@@ -30,14 +31,14 @@ class PlaybookRunner(object):
         return "%-26s" % host
 
     @classmethod
-    def run(cls, playbook_config, project_configuration):
+    def run(cls, playbook_config, username, password, hostname, port):
         """
 
         :param list host_list:
         :param playbook_config:
         :return: :raise errors.AnsibleError:
         """
-        inventory = Inventory([project_configuration.hostname])
+        inventory = Inventory([u'%s:%s' % (hostname, port)])
         # let inventory know which playbooks are using so it can know the basedirs
         inventory.set_playbook_basedir(os.path.dirname(playbook_config.filename))
         stats = AggregateStats()
@@ -49,8 +50,8 @@ class PlaybookRunner(object):
             module_path=None,
             inventory=inventory,
             forks=5,
-            remote_user=project_configuration.username,
-            remote_pass=None,
+            remote_user=username,
+            remote_pass=password,
             callbacks=playbook_cb,
             runner_callbacks=runner_cb,
             stats=stats,

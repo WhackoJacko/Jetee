@@ -1,4 +1,15 @@
+from jetee.base.common.config_factories_manager import ConfigFactoriesManager
+from jetee.project.deployment_managers import ProjectDeploymentManager
+
+
 class ProjectAbstract(object):
+    deployment_manager_class = ProjectDeploymentManager
+    update_config_factories_manager_class = ConfigFactoriesManager
+    _update_config_factories_manager = None
+
+    deployment_config_factories_manager_class = ConfigFactoriesManager
+    _deployment_config_factories_manager = None
+
     cvs_repo_url = None
     cvs_repo_branch = None
     location = None
@@ -11,3 +22,12 @@ class ProjectAbstract(object):
         self.location = location
         self.media_location = media_location
         self.static_location = static_location
+        self._deployment_config_factories_manager = self.deployment_config_factories_manager_class(self)
+        self._update_config_factories_manager = self.update_config_factories_manager_class(self)
+
+    def factory_deployment_config(self):
+        return self._deployment_config_factories_manager.factory()
+
+    def deploy(self):
+        deployment_manager = self.deployment_manager_class()
+        return deployment_manager.deploy(self)

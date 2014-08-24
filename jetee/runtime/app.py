@@ -62,9 +62,8 @@ class AppDispatcher(object):
     def _create(self):
         from jetee.runtime.configuration import project_configuration
 
-        project_configuration.get_deployer().deploy(
-            project_configuration.get_service()
-        )
+        project_configuration.get_service().deploy()
+        project_configuration.get_project().deploy()
 
     def _shell(self):
         from jetee.runtime.configuration import project_configuration

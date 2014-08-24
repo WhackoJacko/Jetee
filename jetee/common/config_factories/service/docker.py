@@ -1,39 +1,6 @@
 from jetee.common.utils import remove_special_characters
 
-from jetee.base.common.config_factory import AnsibleTemplateMixin, AnsiblePreTaskConfigFactory
-
-
-class DockerPyPackageAnsibleConfigFactory(AnsibleTemplateMixin, AnsiblePreTaskConfigFactory):
-    template = [
-        {
-            u'pip':
-                {
-                    u'name': u'docker-py'
-                }
-        }
-    ]
-
-
-class DockerPackageAnsibleConfigFactory(AnsibleTemplateMixin, AnsiblePreTaskConfigFactory):
-    template = [
-        {
-            "apt_key": "url=\"https://get.docker.io/gpg\"",
-            "name": "add docker repo key"
-        },
-        {
-            "apt_repository": {
-                "repo": "deb http://get.docker.io/ubuntu docker main",
-                "update_cache": True
-            },
-            "name": "add docker repo server"
-        },
-        {
-            "apt": {
-                "name": "lxc-docker"
-            },
-            "name": "install docker"
-        }
-    ]
+from jetee.base.common.config_factory import AnsiblePreTaskConfigFactory
 
 
 class AnsibleDockerContainerTaskConfigFactory(AnsiblePreTaskConfigFactory):
@@ -65,7 +32,8 @@ class AnsibleDockerContainerTaskConfigFactory(AnsiblePreTaskConfigFactory):
         rendered_env_variables = u','.join([u'{}={}'.format(key,value) for key,value in env_variables.items()])
         return rendered_env_variables
 
-    def get_config(self, service):
+    def get_config(self, parent):
+        service = parent
         container_template = self._template.copy()
         container_template[u'name'] = container_template[u'name'].format(name=service.container_name)
         container_template[u'register'] = container_template[u'register'].format(

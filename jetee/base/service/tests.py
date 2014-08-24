@@ -5,6 +5,7 @@ from unittest.case import TestCase
 from jetee.runtime.configuration import project_configuration
 from jetee.base.service.service import DockerServiceAbstract, PortsMapping
 from jetee.service.services import AppService
+from jetee.project.projects import DjangoProject
 
 
 class DockerDeployerTestCase(TestCase):
@@ -17,6 +18,9 @@ class DockerDeployerTestCase(TestCase):
             hostname = os.getenv(u'JETEE_TEST_HOSTNAME')
             username = u'root'
             server_names = [u'example.ru']
+
+            def get_project(self):
+                return  DjangoProject(cvs_repo_url=u'https://bitbucket.org/team/repo.git')
 
         project_configuration.set_configuration(TestAppConfiguration)
 
@@ -48,8 +52,8 @@ class DockerDeployerTestCase(TestCase):
         postgresql_service.uses(redis_service)
         project_service.uses(postgresql_service)
 
-        from jetee.service.deployers import DockerServiceDeployer
-        deployer = DockerServiceDeployer()
+        from jetee.service.deployment_managers import DockerServiceDeploymentManager
+        deployer = DockerServiceDeploymentManager()
         result = deployer.deploy(project_service)
         pass
 
@@ -69,7 +73,7 @@ class ConfigFactoryTestCase(TestCase):
         service = TestDockerService(
             container_name=u'test'
         )
-        res = service.factory_config()
+        res = service.factory_deployment_config()
         import pdb;
 
         pdb.set_trace()

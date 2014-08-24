@@ -40,7 +40,8 @@ class AnsibleETCDRegisterContainerTaskConfigFactory(AnsiblePreTaskConfigFactory)
         container_name = remove_special_characters(service.container_name)
         return self._container_name.format(name=container_name)
 
-    def get_config(self, service):
+    def get_config(self, parent):
+        service = parent
         etcd_template = self._template.copy()
         etcd_template[u'name'] = etcd_template[u'name'].format(name=service.container_name)
         ports_mappings = self._render_ports_mappings(service)

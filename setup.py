@@ -30,7 +30,7 @@ def galaxy_packages_wrapper(cls):
 
 setup(
     name='jetee',
-    version=0.4,
+    version=0.5,
     # long_description=open(join(dirname(__file__), 'README.md')).read(),
     author='WhackoJacko',
     cmdclass={

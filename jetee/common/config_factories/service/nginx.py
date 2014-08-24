@@ -3,7 +3,8 @@ from jetee.base.common.config_factory import AnsibleRoleConfigFactory
 
 
 class NginxPackageAnsibleRoleConfigFactory(AnsibleRoleConfigFactory):
-    def get_config(self, service):
+    def get_config(self, parent):
+        service = parent
         from jetee.runtime.configuration import project_configuration
         # TODO: represent options as list of strings
         config = {
