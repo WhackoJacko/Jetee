@@ -1,4 +1,4 @@
-from jetee.base.common.config_factory import AnsibleTemplateMixin, AnsiblePreTaskConfigFactory
+from jetee.base.config_factory import AnsibleTemplateMixin, AnsiblePreTaskConfigFactory
 
 
 class PythonDependenciesAnsibleConfigFactory(AnsibleTemplateMixin, AnsiblePreTaskConfigFactory):

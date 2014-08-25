@@ -1,6 +1,6 @@
 import os
 
-from jetee.base.service.service import DockerServiceAbstract, PortsMapping
+from jetee.base.service import DockerServiceAbstract, PortsMapping
 from jetee.runtime.configuration import project_configuration
 from jetee.common.discoverer import Discoverer
 from jetee.service.config_factories_managers import AppDockerServiceConfigManager

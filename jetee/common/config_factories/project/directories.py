@@ -1,4 +1,4 @@
-from jetee.base.common.config_factory import AnsibleTaskConfigFactory
+from jetee.base.config_factory import AnsibleTaskConfigFactory
 
 
 class ProjectDirectoriesAnsibleTaskConfigFactory(AnsibleTaskConfigFactory):

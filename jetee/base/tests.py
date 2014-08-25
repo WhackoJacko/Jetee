@@ -3,7 +3,7 @@ import os
 from unittest.case import TestCase
 
 from jetee.runtime.configuration import project_configuration
-from jetee.base.service.service import DockerServiceAbstract, PortsMapping
+from jetee.base.service import DockerServiceAbstract, PortsMapping
 from jetee.service.services import AppService
 from jetee.project.projects import DjangoProject
 

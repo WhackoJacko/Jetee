@@ -1,5 +1,6 @@
 import os
-from jetee.base.common.config_factory import AnsibleRoleConfigFactory
+
+from jetee.base.config_factory import AnsibleRoleConfigFactory
 
 
 class NginxPackageAnsibleRoleConfigFactory(AnsibleRoleConfigFactory):
@@ -8,7 +9,7 @@ class NginxPackageAnsibleRoleConfigFactory(AnsibleRoleConfigFactory):
         from jetee.runtime.configuration import project_configuration
         # TODO: represent options as list of strings
         config = {
-            u'role': os.path.join(self.roles_dir, u'jdauphant.nginx'),
+            u'role': u'jdauphant.nginx',
             u'nginx_sites':
                 {
                     project_configuration.get_project_name(): [

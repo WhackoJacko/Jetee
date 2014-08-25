@@ -4,12 +4,10 @@ import uuid
 
 import yaml
 
-from jetee.base.common.config import AnsibleTaskConfig, AnsibleRoleConfig
+from jetee.base.config import AnsibleTaskConfig, AnsibleRoleConfig
 
 
 class AnsibleRoleConfigFactory(object):
-    roles_dir = os.path.realpath(os.path.join(os.path.dirname(__file__), u'../../roles'))
-
     def get_config(self, **kwargs):
         return [kwargs]
 

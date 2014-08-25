@@ -1,6 +1,6 @@
 import os
 
-from jetee.base.common.config_factory import AnsibleTaskConfigFactory
+from jetee.base.config_factory import AnsibleTaskConfigFactory
 from jetee.runtime.configuration import project_configuration
 
 

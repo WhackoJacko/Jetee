@@ -59,10 +59,11 @@ class AppDispatcher(object):
         self.args = parser.parse_args(args)
         utils.VERBOSITY = self.args.verbosity
 
+
     def _create(self):
         from jetee.runtime.configuration import project_configuration
 
-        project_configuration.get_service().deploy()
+        # project_configuration.get_service().deploy()
         project_configuration.get_project().deploy()
 
     def _shell(self):

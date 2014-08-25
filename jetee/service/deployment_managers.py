@@ -1,4 +1,4 @@
-from jetee.base.common.deployment_manager import DeploymentManagerAbstract
+from jetee.base.deployment_manager import DeploymentManagerAbstract
 from jetee.common.config_factories.package.etcd import ETCDPackageAnsibleConfigFactory, ETCDCtlPackageAnsibleConfigFactory
 from jetee.common.config_factories.package.docker import DockerPackageAnsibleConfigFactory, \
     DockerPyPackageAnsibleConfigFactory

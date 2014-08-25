@@ -1,6 +1,7 @@
 from __future__ import absolute_import
 import os
 
+import ansible.constants as C
 from ansible.errors import AnsibleError
 from ansible.inventory import Inventory
 from ansible.callbacks import PlaybookRunnerCallbacks, PlaybookCallbacks, AggregateStats, display
@@ -30,6 +31,11 @@ class PlaybookRunner(object):
                 return "%-37s" % stringc(host, 'green')
         return "%-26s" % host
 
+    @staticmethod
+    def set_defaults():
+        C.DEFAULT_ROLES_PATH = os.path.realpath(os.path.join(os.path.dirname(__file__), u'../roles'))
+        C.HOST_KEY_CHECKING = False
+
     @classmethod
     def run(cls, playbook_config, username, password, hostname, port):
         """
@@ -38,6 +44,8 @@ class PlaybookRunner(object):
         :param playbook_config:
         :return: :raise errors.AnsibleError:
         """
+        cls.set_defaults()
+        print(playbook_config)
         inventory = Inventory([u'%s:%s' % (hostname, port)])
         # let inventory know which playbooks are using so it can know the basedirs
         inventory.set_playbook_basedir(os.path.dirname(playbook_config.filename))

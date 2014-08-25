@@ -1,5 +1,5 @@
 from jetee.runtime.configuration import project_configuration
-from jetee.base.common.config_factories_manager import ConfigFactoriesManager
+from jetee.base.config_factories_manager import ConfigFactoriesManager
 from  jetee.service.deployment_managers import DockerServiceDeploymentManager
 
 

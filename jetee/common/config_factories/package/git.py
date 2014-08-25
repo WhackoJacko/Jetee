@@ -1,4 +1,4 @@
-from jetee.base.common.config_factory import AnsibleTemplateMixin, AnsibleTaskConfigFactory
+from jetee.base.config_factory import AnsibleTemplateMixin, AnsibleTaskConfigFactory
 
 
 class GITPackageAnsibleConfigFactory(AnsibleTemplateMixin, AnsibleTaskConfigFactory):

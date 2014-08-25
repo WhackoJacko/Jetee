@@ -1,4 +1,4 @@
-from jetee.base.project.project import ProjectAbstract
+from jetee.base.project import ProjectAbstract
 from jetee.project.config_factories_managers import ProjectConfigFactoriesManager
 
 

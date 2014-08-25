@@ -1,6 +1,6 @@
 from jetee.common.utils import remove_special_characters
 
-from jetee.base.common.config_factory import AnsiblePreTaskConfigFactory
+from jetee.base.config_factory import AnsiblePreTaskConfigFactory
 
 
 class AnsibleDockerContainerTaskConfigFactory(AnsiblePreTaskConfigFactory):
