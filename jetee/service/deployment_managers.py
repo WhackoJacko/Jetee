@@ -1,5 +1,6 @@
 from jetee.base.deployment_manager import DeploymentManagerAbstract
-from jetee.common.config_factories.package.etcd import ETCDPackageAnsibleConfigFactory, ETCDCtlPackageAnsibleConfigFactory
+from jetee.common.config_factories.package.etcd import ETCDPackageAnsibleConfigFactory, \
+    ETCDCtlPackageAnsibleConfigFactory
 from jetee.common.config_factories.package.docker import DockerPackageAnsibleConfigFactory, \
     DockerPyPackageAnsibleConfigFactory
 from jetee.common.config_factories.package.python import PythonDependenciesAnsibleConfigFactory
@@ -32,7 +33,7 @@ class DockerServiceDeploymentManager(DeploymentManagerAbstract):
     def deploy(self, configurable):
         from jetee.runtime.configuration import project_configuration
 
-        configs = self._factory_deployment_configs(configurable) + self._factory_default_configs()
+        configs = self._factory_default_configs() + self._factory_deployment_configs(configurable)
         return self._run_playbook(
             configs,
             hostname=project_configuration.hostname,

@@ -3,7 +3,7 @@ import os
 from jetee.base.service import DockerServiceAbstract, PortsMapping
 from jetee.runtime.configuration import project_configuration
 from jetee.common.discoverer import Discoverer
-from jetee.service.config_factories_managers import AppDockerServiceConfigManager
+from jetee.service.config_factories_managers import AppDockerServiceConfigManager, DockerServiceConfigManager
 
 __all__ = [u'AppService', u'PostgreSQLService', u'RedisService']
 
@@ -33,6 +33,8 @@ class AppService(DockerServiceAbstract):
 
 
 class PostgreSQLService(DockerServiceAbstract):
+    deployment_config_manager_class = DockerServiceConfigManager
+
     image = u'zumbrunnen/postgresql'
     command = u'/usr/bin/supervisord'
     ports_mappings = [
@@ -44,6 +46,8 @@ class PostgreSQLService(DockerServiceAbstract):
 
 
 class RedisService(DockerServiceAbstract):
+    deployment_config_manager_class = DockerServiceConfigManager
+
     image = u'redis'
     command = u'redis-server'
     ports_mappings = [

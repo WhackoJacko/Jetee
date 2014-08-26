@@ -43,6 +43,11 @@ setup(
             'jetee = jetee.runtime.app:dispatcher.run',
         ]
     },
-    install_requires=[u'ansible', u'pyyaml', u'fabric'],
+    install_requires=[
+        u'ansible',
+        u'pyyaml',
+        u'fabric',
+        u'ecdsa'
+    ],
     # url='https://WhackoJacko@bitbucket.org/WhackoJacko/jetee.git'
 )
