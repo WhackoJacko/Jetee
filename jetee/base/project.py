@@ -26,7 +26,8 @@ class ProjectAbstract(object):
         self.static_location = static_location
         self._deployment_config_factories_manager = self.deployment_config_factories_manager_class(self)
         self._update_config_factories_manager = self.update_config_factories_manager_class(self)
-        self.processes = processes or []
+        self.processes = processes
+        assert self.processes, u'At least one process must be specified for project'
 
     def factory_deployment_config(self):
         return self._deployment_config_factories_manager.factory()

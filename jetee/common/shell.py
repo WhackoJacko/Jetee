@@ -1,15 +1,11 @@
+import subprocess
+
+
 class InteractiveShell(object):
-    def __init__(self, hostname, port, username, password=None):
+    def __init__(self, hostname, port, username):
         self.hostname = hostname
         self.port = port
         self.username = username
-        self.password = password
 
     def run_shell(self):
-        from fabric.api import env
-        from fabric.operations import open_shell
-
-        env.host_string = self.hostname
-        env.port = self.port
-        env.user = self.username
-        open_shell()
+        subprocess.call([u'ssh', u'%s@%s' % (self.username, self.hostname), u'-p', unicode(self.port)])

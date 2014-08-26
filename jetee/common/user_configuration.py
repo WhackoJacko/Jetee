@@ -7,6 +7,11 @@ class AppConfiguration(object):
 
     _main_service = None
 
+    def __init__(self):
+        assert self.hostname, u'Hostname required'
+        assert self.server_names, u'At least one server name required'
+        assert self.username, u'Username required'
+
     def get_service(self):
         """
         Template method to get main service, must return Service instance
