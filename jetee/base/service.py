@@ -1,6 +1,6 @@
 from jetee.runtime.configuration import project_configuration
 from jetee.base.config_factories_manager import ConfigFactoriesManager
-from  jetee.service.deployment_managers import DockerServiceDeploymentManager
+from jetee.service.deployment_managers import DockerServiceDeploymentManager
 
 
 class PortsMapping(object):

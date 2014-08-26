@@ -26,7 +26,7 @@ class ProjectAbstract(object):
         self.static_location = static_location
         self._deployment_config_factories_manager = self.deployment_config_factories_manager_class(self)
         self._update_config_factories_manager = self.update_config_factories_manager_class(self)
-        self.processes = [] or processes
+        self.processes = processes or []
 
     def factory_deployment_config(self):
         return self._deployment_config_factories_manager.factory()
