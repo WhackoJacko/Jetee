@@ -17,21 +17,6 @@ class AnsibleDockerContainerTaskConfigFactory(AnsiblePreTaskConfigFactory):
         }
     }
 
-    def _get_env_variables(self, service):
-        from jetee.runtime.app import dispatcher
-
-        env_variables = {
-            u'PROJECT_CONFIGURATION': dispatcher.args.configuration_name
-        }
-        if service.env_variables:
-            env_variables.update(service.env_variables)
-        return env_variables
-
-    def render_env_variables(self, service):
-        env_variables = self._get_env_variables(service)
-        rendered_env_variables = u','.join([u'{}={}'.format(key,value) for key,value in env_variables.items()])
-        return rendered_env_variables
-
     def get_config(self, parent):
         service = parent
         container_template = self._template.copy()
@@ -43,7 +28,6 @@ class AnsibleDockerContainerTaskConfigFactory(AnsiblePreTaskConfigFactory):
         container_template[u'docker'][u'command'] = service.command
         container_template[u'docker'][u'name'] = service.container_full_name
         container_template[u'docker'][u'volumes'] = service.volumes or []
-        container_template[u'docker'][u'env'] = self.render_env_variables(service)
         container_template[u'docker'][u'ports'] = []
         for ports_binding in service.ports_mappings:
             container_template[u'docker'][u'ports'].append(ports_binding.get_representation())

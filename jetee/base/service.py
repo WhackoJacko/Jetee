@@ -40,12 +40,10 @@ class DockerServiceAbstract(LinkableMixin):
     command = None
     ports_mappings = None
     volumes = None
-    env_variables = None
 
-    def __init__(self, container_name=None, volumes=None, env_variables=None):
+    def __init__(self, container_name=None, volumes=None):
         self._container_name = container_name or self._container_name
         self.volumes = volumes or self.volumes
-        self.env_variables = env_variables or self.env_variables
         self._deployment_config_manager = self.deployment_config_manager_class(self)
 
     @property
