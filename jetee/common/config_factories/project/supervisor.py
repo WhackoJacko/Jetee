@@ -8,10 +8,11 @@ class SupervisorAnsibleRoleConfigFactory(AnsibleRoleConfigFactory):
         service = parent
         config = []
         config_template = {
-            u'role': u'eggsby.supervise',
+            u'role': u'nicholsn.supervisor',
             u'name': u'',
             u'command': u'',
-            u'directory': u''
+            u'directory': u'',
+            u'user': u'root'
         }
         for process in service.processes:
             tmp_config_template = config_template.copy()

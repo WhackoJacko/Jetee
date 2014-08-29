@@ -7,7 +7,7 @@ class UWSGIProcess(ProcessAbstract):
         self.port = port
 
     def get_name(self):
-        return u'web-server'
+        return u'web_server'
 
     def get_command(self):
         return u'uwsgi --http :%i --wsgi-file %s' % (self.port, self.wsgi_file)

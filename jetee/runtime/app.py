@@ -63,7 +63,7 @@ class AppDispatcher(object):
         from jetee.runtime.configuration import project_configuration
 
         project_configuration.get_service().deploy()
-        project_configuration.get_project().deploy()
+        project_configuration.get_service().project.deploy()
 
     def _shell(self):
         from jetee.runtime.configuration import project_configuration
@@ -74,7 +74,7 @@ class AppDispatcher(object):
             project_configuration.hostname,
             port,
             project_configuration.username,
-            project_configuration.get_project().get_env_variables()
+            project_configuration.get_service().project.get_env_variables()
         ).run_shell()
 
 

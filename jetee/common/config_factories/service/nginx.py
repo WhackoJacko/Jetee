@@ -4,16 +4,30 @@ from jetee.base.config_factory import AnsibleRoleConfigFactory
 
 
 class NginxPackageAnsibleRoleConfigFactory(AnsibleRoleConfigFactory):
+    def get_static_config(self, service):
+        from jetee.runtime.configuration import project_configuration
+
+        if service.project:
+            return u'location /static/ {alias  /var/jetee/%s/static/;}' % project_configuration.get_project_name()
+        return u''
+
+    def get_media_config(self, service):
+        from jetee.runtime.configuration import project_configuration
+
+        if service.project:
+            return u'location /media/ {alias  /var/jetee/%s/media/;}' % project_configuration.get_project_name()
+        return u''
+
     def get_config(self, parent):
         service = parent
         from jetee.runtime.configuration import project_configuration
-        # TODO: represent options as list of strings
+
         config = {
             u'role': u'jdauphant.nginx',
             u'nginx_sites':
                 {
                     project_configuration.get_project_name(): [
-                        u'listen 8080',
+                        u'listen 80',
                         u'server_name %s' % u' '.join(project_configuration.server_names),
                         u'proxy_connect_timeout 300s',
                         u'proxy_read_timeout 300s',
@@ -21,7 +35,9 @@ class NginxPackageAnsibleRoleConfigFactory(AnsibleRoleConfigFactory):
                         u'proxy_connect_timeout 300s; '
                         u'proxy_read_timeout 300s;'
                         u'proxy_pass %s' % u'http://172.17.42.1:{{%s_result["ansible_facts"]["docker_containers"]'
-                                           u'[0]["NetworkSettings"]["Ports"]["9000/tcp"][0]["HostPort"]}}; }' % service.container_name
+                                           u'[0]["NetworkSettings"]["Ports"]["9000/tcp"][0]["HostPort"]}}; }' % service.container_name,
+                        self.get_media_config(service),
+                        self.get_static_config(service)
                     ]
                 }
             ,

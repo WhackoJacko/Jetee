@@ -41,10 +41,13 @@ class DockerServiceAbstract(LinkableMixin):
     ports_mappings = None
     volumes = None
 
-    def __init__(self, container_name=None, volumes=None):
+    project = None
+
+    def __init__(self, container_name=None, volumes=None, project=None):
         self._container_name = container_name or self._container_name
         self.volumes = volumes or self.volumes
         self._deployment_config_manager = self.deployment_config_manager_class(self)
+        self.project = project
 
     @property
     def container_name(self):
@@ -75,3 +78,6 @@ class DockerServiceAbstract(LinkableMixin):
     def deploy(self):
         deployment_manager = self.deployment_manager_class()
         return deployment_manager.deploy(self)
+
+    def set_project(self, project):
+        self.project = project

@@ -1,11 +1,9 @@
 from jetee.base.deployment_manager import DeploymentManagerAbstract
-from jetee.common.config_factories.package.git import GITPackageAnsibleConfigFactory
 from jetee.common.config_factories.package.python import PythonDependenciesAnsibleConfigFactory
 
 class ProjectDeploymentManager(DeploymentManagerAbstract):
     default_config_factories = (
-        GITPackageAnsibleConfigFactory,
-        PythonDependenciesAnsibleConfigFactory
+        PythonDependenciesAnsibleConfigFactory,
     )
 
     def deploy(self, configurable):

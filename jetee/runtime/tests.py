@@ -50,10 +50,5 @@ class ProjectDeployerTestCase(TestCase):
                 project_service.uses(postgresql_service)
                 return project_service
 
-            def get_project(self):
-                return DjangoProject(cvs_repo_url=u'https://bitbucket.org/team/repo.git')
-
         project_configuration.set_configuration(TestAppConfiguration)
 
-
-    def test_deployer_collects_config(self):

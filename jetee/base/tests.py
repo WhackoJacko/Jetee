@@ -11,7 +11,7 @@ from jetee.project.projects import DjangoProject
 class DockerDeployerTestCase(TestCase):
     @classmethod
     def setUpClass(cls):
-        sys.argv = [u'ss' ,u'create', u'-vvvvv']
+        sys.argv = [u'ss', u'create', u'-vvvvv']
         from jetee.common.user_configuration import AppConfiguration
 
         class TestAppConfiguration(AppConfiguration):
@@ -19,8 +19,6 @@ class DockerDeployerTestCase(TestCase):
             username = u'root'
             server_names = [u'example.ru']
 
-            def get_project(self):
-                return  DjangoProject(cvs_repo_url=u'https://bitbucket.org/team/repo.git')
 
         project_configuration.set_configuration(TestAppConfiguration)
 
@@ -45,7 +43,7 @@ class DockerDeployerTestCase(TestCase):
         ]
 
     def test_deployer_collects_config(self):
-        project_service = AppService()
+        project_service = AppService(project=DjangoProject(cvs_repo_url=u'https://bitbucket.org/team/repo.git'))
         redis_service = self.TestRedisDockerService()
         postgresql_service = self.TestPostgresqlDockerService()
 
@@ -53,6 +51,7 @@ class DockerDeployerTestCase(TestCase):
         project_service.uses(postgresql_service)
 
         from jetee.service.deployment_managers import DockerServiceDeploymentManager
+
         deployer = DockerServiceDeploymentManager()
         result = deployer.deploy(project_service)
         pass
