@@ -17,7 +17,7 @@ class ProjectAbstract(object):
     location = None
     static_location = None
 
-    def __init__(self, cvs_repo_url, cvs_repo_branch=u'master', location=u'/app/', media_location=u'/app/media/',
+    def __init__(self, cvs_repo_url, cvs_repo_branch=u'master', location=u'/app/', media_location=u'/app/media',
                  static_location=u'/app/static', processes=None, env_variables=None):
         self.cvs_repo_url = cvs_repo_url
         self.cvs_repo_branch = cvs_repo_branch

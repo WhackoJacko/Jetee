@@ -24,11 +24,11 @@ class AnsibleDockerContainerTaskConfigFactory(AnsiblePreTaskConfigFactory):
         if service.project:
             if service.project.media_location:
                 media_directory = u'/var/jetee/%s/media/:%s' % (
-                    project_configuration.get_project_name(), service.project.media_location)
+                    project_configuration.get_project_name(), service.project.media_location.rstrip(u'/'))
                 volumes.append(media_directory)
             if service.project.static_location:
                 static_directory = u'/var/jetee/%s/static/:%s' % (
-                    project_configuration.get_project_name(), service.project.static_location)
+                    project_configuration.get_project_name(), service.project.static_location.rstrip(u'/'))
                 volumes.append(static_directory)
         return volumes
 
