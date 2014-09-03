@@ -1,9 +1,15 @@
 from jetee.base.project import ProjectAbstract
-from jetee.project.config_factories_managers import ProjectConfigFactoriesManager
+from jetee.common.config_factories.project.directories import ProjectDirectoriesAnsibleTaskConfigFactory
+from jetee.common.config_factories.project.git import GITCloneAnsibleTaskConfigFactory
+from jetee.common.config_factories.project.supervisor import SupervisorAnsibleRoleConfigFactory
 
 
 class DjangoProject(ProjectAbstract):
-    deployment_config_factories_manager_class = ProjectConfigFactoriesManager
+    deployment_config_factories_list = (
+        ProjectDirectoriesAnsibleTaskConfigFactory,
+        GITCloneAnsibleTaskConfigFactory,
+        SupervisorAnsibleRoleConfigFactory
+    )
 
     def get_env_variables(self):
         from jetee.runtime.app import dispatcher

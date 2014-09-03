@@ -1,5 +1,5 @@
 from jetee.runtime.configuration import project_configuration
-from jetee.base.config_factories_manager import ConfigFactoriesManager
+from jetee.base.config_factories_manager import ConfigManager
 from jetee.service.deployment_managers import DockerServiceDeploymentManager
 
 
@@ -32,8 +32,8 @@ class LinkableMixin(object):
 
 class DockerServiceAbstract(LinkableMixin):
     deployment_manager_class = DockerServiceDeploymentManager
-    deployment_config_manager_class = ConfigFactoriesManager
-    _deployment_config_manager = None
+    config_factories_list = []
+    config_manager_class = ConfigManager
     _container_name = None
 
     image = None
@@ -46,7 +46,6 @@ class DockerServiceAbstract(LinkableMixin):
     def __init__(self, container_name=None, volumes=None, project=None):
         self._container_name = container_name or self._container_name
         self.volumes = volumes or self.volumes
-        self._deployment_config_manager = self.deployment_config_manager_class(self)
         self.project = project
 
     @property
@@ -73,7 +72,7 @@ class DockerServiceAbstract(LinkableMixin):
         return u'.'.join([project_configuration.get_project_name(), self.container_name])
 
     def factory_deployment_config(self):
-        return self._deployment_config_manager.factory()
+        return self.config_manager_class(self, self.config_factories_list).factory()
 
     def deploy(self):
         deployment_manager = self.deployment_manager_class()

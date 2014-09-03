@@ -1,14 +1,13 @@
-from jetee.base.config_factories_manager import ConfigFactoriesManager
+from jetee.base.config_factories_manager import ConfigManager
 from jetee.project.deployment_managers import ProjectDeploymentManager
 
 
 class ProjectAbstract(object):
     deployment_manager_class = ProjectDeploymentManager
-    update_config_factories_manager_class = ConfigFactoriesManager
-    _update_config_factories_manager = None
+    config_manager_class = ConfigManager
 
-    deployment_config_factories_manager_class = ConfigFactoriesManager
-    _deployment_config_factories_manager = None
+    deployment_config_factories_list = []
+    update_config_factories_list = []
 
     processes = None
 
@@ -24,8 +23,6 @@ class ProjectAbstract(object):
         self.location = location
         self.media_location = media_location
         self.static_location = static_location
-        self._deployment_config_factories_manager = self.deployment_config_factories_manager_class(self)
-        self._update_config_factories_manager = self.update_config_factories_manager_class(self)
         self.processes = processes
         self.env_variables = env_variables or {}
         assert self.processes, u'At least one process must be specified for project'
@@ -38,7 +35,7 @@ class ProjectAbstract(object):
         return env_variables
 
     def factory_deployment_config(self):
-        return self._deployment_config_factories_manager.factory()
+        return self.config_manager_class(self, self.deployment_config_factories_list).factory()
 
     def deploy(self):
         deployment_manager = self.deployment_manager_class()

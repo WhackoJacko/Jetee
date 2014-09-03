@@ -3,13 +3,20 @@ import os
 from jetee.base.service import DockerServiceAbstract, PortsMapping
 from jetee.runtime.configuration import project_configuration
 from jetee.common.discoverer import Discoverer
-from jetee.service.config_factories_managers import AppDockerServiceConfigManager, DockerServiceConfigManager
+from jetee.common.config_factories.service.docker import AnsibleDockerContainerTaskConfigFactory
+from jetee.common.config_factories.service.etcd_register import AnsibleETCDRegisterContainerTaskConfigFactory
+from jetee.common.config_factories.service.nginx import NginxPackageAnsibleRoleConfigFactory
+
 
 __all__ = [u'AppService', u'PostgreSQLService', u'RedisService']
 
 
 class AppService(DockerServiceAbstract):
-    deployment_config_manager_class = AppDockerServiceConfigManager
+    config_factories_list = (
+        AnsibleDockerContainerTaskConfigFactory,
+        AnsibleETCDRegisterContainerTaskConfigFactory,
+        NginxPackageAnsibleRoleConfigFactory,
+    )
 
     image = u'whackojacko/blank'
     command = u'supervisord --nodaemon'
@@ -33,7 +40,10 @@ class AppService(DockerServiceAbstract):
 
 
 class PostgreSQLService(DockerServiceAbstract):
-    deployment_config_manager_class = DockerServiceConfigManager
+    config_factories_list = (
+        AnsibleDockerContainerTaskConfigFactory,
+        AnsibleETCDRegisterContainerTaskConfigFactory
+    )
 
     image = u'zumbrunnen/postgresql'
     command = u'/usr/bin/supervisord'
@@ -46,7 +56,10 @@ class PostgreSQLService(DockerServiceAbstract):
 
 
 class RedisService(DockerServiceAbstract):
-    deployment_config_manager_class = DockerServiceConfigManager
+    config_factories_list = (
+        AnsibleDockerContainerTaskConfigFactory,
+        AnsibleETCDRegisterContainerTaskConfigFactory
+    )
 
     image = u'redis'
     command = u'redis-server'
@@ -59,7 +72,10 @@ class RedisService(DockerServiceAbstract):
 
 
 class ElasticSearchService(DockerServiceAbstract):
-    deployment_config_manager_class = DockerServiceConfigManager
+    config_factories_list = (
+        AnsibleDockerContainerTaskConfigFactory,
+        AnsibleETCDRegisterContainerTaskConfigFactory
+    )
 
     image = u'dockerfile/elasticsearch'
     ports_mappings = [

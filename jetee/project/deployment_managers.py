@@ -1,6 +1,7 @@
 from jetee.base.deployment_manager import DeploymentManagerAbstract
 from jetee.common.config_factories.package.python import PythonDependenciesAnsibleConfigFactory
 
+
 class ProjectDeploymentManager(DeploymentManagerAbstract):
     default_config_factories = (
         PythonDependenciesAnsibleConfigFactory,
