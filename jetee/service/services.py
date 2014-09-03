@@ -56,3 +56,15 @@ class RedisService(DockerServiceAbstract):
             internal_port=6379
         )
     ]
+
+
+class ElasticSearchService(DockerServiceAbstract):
+    deployment_config_manager_class = DockerServiceConfigManager
+
+    image = u'dockerfile/elasticsearch'
+    ports_mappings = [
+        PortsMapping(
+            interface=u'172.17.42.1',
+            internal_port=9200
+        )
+    ]
