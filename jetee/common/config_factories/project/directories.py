@@ -2,7 +2,7 @@ from jetee.base.config_factory import AnsibleTaskConfigFactory
 
 
 class ProjectDirectoriesAnsibleTaskConfigFactory(AnsibleTaskConfigFactory):
-    _project_dir_template = {
+    template = {
         u'name': u'Ensure project directories exist',
         u'file': {
             u'path': u'',
@@ -13,7 +13,7 @@ class ProjectDirectoriesAnsibleTaskConfigFactory(AnsibleTaskConfigFactory):
     def get_config(self, parent):
         project = parent
 
-        project_dir_template = self._project_dir_template.copy()
-        project_dir_template[u'file'][u'path'] = project.location
+        template = self.template.copy()
+        template[u'file'][u'path'] = project.location
 
-        return [project_dir_template, ]
+        return [template]

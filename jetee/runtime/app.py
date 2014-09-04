@@ -65,6 +65,11 @@ class AppDispatcher(object):
         project_configuration.get_service().deploy()
         project_configuration.get_service().project.deploy()
 
+    def _update(self):
+        from jetee.runtime.configuration import project_configuration
+
+        project_configuration.get_service().project.update()
+
     def _shell(self):
         from jetee.runtime.configuration import project_configuration
 
@@ -84,6 +89,8 @@ class AppDispatcher(object):
     def run(self):
         if self.args.command == self.ACTION_CREATE:
             self._create()
+        if self.args.command == self.ACTION_UPDATE:
+            self._update()
         elif self.args.command == self.ACTION_SHELL:
             self._shell()
 

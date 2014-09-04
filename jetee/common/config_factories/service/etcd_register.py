@@ -7,7 +7,7 @@ etcd_register_script = os.path.abspath(os.path.join(os.path.dirname(__file__), u
 
 
 class AnsibleETCDRegisterContainerTaskConfigFactory(AnsiblePreTaskConfigFactory):
-    _template = {
+    template = {
         u'name': u'Register {name} container in etcd',
         u'script': etcd_register_script + u' --ports="{ports_mappings}" --container_id={container_id} --container_name={container_name}'
     }
@@ -42,14 +42,14 @@ class AnsibleETCDRegisterContainerTaskConfigFactory(AnsiblePreTaskConfigFactory)
 
     def get_config(self, parent):
         service = parent
-        etcd_template = self._template.copy()
-        etcd_template[u'name'] = etcd_template[u'name'].format(name=service.container_name)
+        template = self.template.copy()
+        template[u'name'] = template[u'name'].format(name=service.container_name)
         ports_mappings = self._render_ports_mappings(service)
         container_id = self._render_container_id(service)
         container_name = self._render_container_name(service)
-        etcd_template[u'script'] = etcd_template[u'script'].format(
+        template[u'script'] = template[u'script'].format(
             ports_mappings=ports_mappings,
             container_id=container_id,
             container_name=container_name
         )
-        return [etcd_template]
+        return [template]

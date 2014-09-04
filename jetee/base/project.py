@@ -38,6 +38,13 @@ class ProjectAbstract(object):
     def factory_deployment_config(self):
         return self.config_manager_class(self, self.deployment_config_factories_list).factory()
 
+    def factory_update_config(self):
+        return self.config_manager_class(self, self.update_config_factories_list).factory()
+
     def deploy(self):
         deployment_manager = self.deployment_manager_class()
         return deployment_manager.deploy(self)
+
+    def update(self):
+        deployment_manager = self.deployment_manager_class()
+        return deployment_manager.update(self)
