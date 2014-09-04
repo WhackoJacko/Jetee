@@ -9,23 +9,15 @@ class ETCDPackageAnsibleConfigFactory(AnsibleTemplateMixin, AnsiblePreTaskConfig
 
     template = [
         {
-            "name": "Clone etcd",
-            "git": {
-                u'repo': u'https://github.com/coreos/etcd',
-                u'version': u'576e26ea39eae68c912b6d2c64c819fe2414b741',
-                u'dest': u'{{etcd_repo_location}}'
-            }
-        },
-        {
-            "name": "Get etcd source",
-            "command": "chdir=/usr/local/go/ {{etcd_repo_location}}/build",
+            "name": "Get etcd",
+            "command": "/usr/local/go/bin/go get github.com/coreos/etcd",
             "environment": {
                 u'PATH': u'/sbin:/usr/sbin:/bin:/usr/bin:/usr/local/bin:/usr/local/go/bin'
             }
         },
         {
             "name": "Build etcd",
-            "command": "chdir=/usr/local/go/ {{etcd_repo_location}}/build",
+            "command": "/usr/local/go/bin/go build github.com/coreos/etcd",
             "environment": {
                 u'PATH': u'/sbin:/usr/sbin:/bin:/usr/bin:/usr/local/bin:/usr/local/go/bin'
             }

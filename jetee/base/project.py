@@ -17,7 +17,7 @@ class ProjectAbstract(object):
     static_location = None
 
     def __init__(self, cvs_repo_url, cvs_repo_branch=u'master', location=u'/app/', media_location=u'/app/media',
-                 static_location=u'/app/static', processes=None, env_variables=None):
+                 static_location=u'/app/static', processes=None, env_variables=None, apt_packages=None):
         self.cvs_repo_url = cvs_repo_url
         self.cvs_repo_branch = cvs_repo_branch
         self.location = location
@@ -25,6 +25,7 @@ class ProjectAbstract(object):
         self.static_location = static_location
         self.processes = processes
         self.env_variables = env_variables or {}
+        self.apt_packages = apt_packages or []
         assert self.processes, u'At least one process must be specified for project'
 
     def get_env_variables(self):
