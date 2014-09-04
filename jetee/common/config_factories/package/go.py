@@ -2,10 +2,6 @@ from jetee.base.config_factory import AnsibleTemplateMixin, AnsiblePreTaskConfig
 
 
 class GoPackageAnsibleConfigFactory(AnsibleTemplateMixin, AnsiblePreTaskConfigFactory):
-    variables = {
-        u'etcd_repo_location': u'/usr/local/go/src/pkg/github.com/coreos/etcd'
-    }
-
     template = [
         {
             "name": "Download Go archive locally",
