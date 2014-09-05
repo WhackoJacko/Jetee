@@ -1,5 +1,3 @@
-import os
-
 from jetee.base.config_factory import AnsibleRoleConfigFactory, AnsibleTaskConfigFactory
 
 
@@ -8,7 +6,7 @@ class SupervisorAnsibleRoleConfigFactory(AnsibleRoleConfigFactory):
         project = parent
         config = []
         template = {
-            u'role': u'nicholsn.supervisor',
+            u'role': u'EDITD.supervisor_task',
             u'name': u'',
             u'command': u'',
             u'directory': u'',
