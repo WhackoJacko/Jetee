@@ -4,7 +4,7 @@ from jetee.base.config_factory import AnsibleTaskConfigFactory
 from jetee.runtime.configuration import project_configuration
 
 
-class GITRepoAnsibleTaskConfigFactory(AnsibleTaskConfigFactory):
+class CloneGITRepoAnsibleTaskConfigFactory(AnsibleTaskConfigFactory):
     template = {
         u'name': u'Checkout project repo',
         u'git': {
@@ -21,4 +21,21 @@ class GITRepoAnsibleTaskConfigFactory(AnsibleTaskConfigFactory):
         template[u'git'][u'dest'] = os.path.join(project.location, project_configuration.get_project_name())
         template[u'git'][u'repo'] = project.cvs_repo_url
         template[u'git'][u'version'] = project.cvs_repo_branch
+        return [template]
+
+
+class UpdateGITRepoAnsibleTaskConfigFactory(AnsibleTaskConfigFactory):
+    template = {
+        u'name': u'Update project repo',
+        u'command': u'git pull origin %s',
+        u'args': {
+            u'chdir': u''
+        }
+    }
+
+    def get_config(self, parent):
+        project = parent
+        template = self.template.copy()
+        template[u'command'] = template[u'command'] % project.cvs_repo_branch
+        template[u'args'][u'chdir'] = os.path.join(project.location, project_configuration.get_project_name())
         return [template]

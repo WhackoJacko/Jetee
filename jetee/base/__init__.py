@@ -1,4 +1,4 @@
 REQUIRED_ANSIBLE_ROLES = (
     u'jdauphant.nginx',
-    u'nicholsn.supervisor'
+    u'EDITD.supervisor_task,v0.6'
 )

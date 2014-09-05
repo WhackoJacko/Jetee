@@ -89,7 +89,7 @@ class AppDispatcher(object):
     def run(self):
         if self.args.command == self.ACTION_CREATE:
             self._create()
-        if self.args.command == self.ACTION_UPDATE:
+        elif self.args.command == self.ACTION_UPDATE:
             self._update()
         elif self.args.command == self.ACTION_SHELL:
             self._shell()

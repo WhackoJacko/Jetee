@@ -1,6 +1,7 @@
 from jetee.base.project import ProjectAbstract
 from jetee.common.config_factories.project.directories import ProjectDirectoriesAnsibleTaskConfigFactory
-from jetee.common.config_factories.project.git import GITRepoAnsibleTaskConfigFactory
+from jetee.common.config_factories.project.git import CloneGITRepoAnsibleTaskConfigFactory, \
+    UpdateGITRepoAnsibleTaskConfigFactory
 from jetee.common.config_factories.project.supervisor import SupervisorAnsibleRoleConfigFactory
 from jetee.common.config_factories.project.supervisor import RestartSupervisorctlAnsibleRoleConfigFactory
 from jetee.common.config_factories.project.pip import PIPRequirementsAnsibleTaskConfigFactory
@@ -13,7 +14,7 @@ from jetee.common.config_factories.project.django import DjangoCollectstaticAnsi
 class DjangoProject(ProjectAbstract):
     deployment_config_factories_list = (
         ProjectDirectoriesAnsibleTaskConfigFactory,
-        GITRepoAnsibleTaskConfigFactory,
+        CloneGITRepoAnsibleTaskConfigFactory,
         APTPackagesAnsibleTaskConfigFactory,
         PIPRequirementsAnsibleTaskConfigFactory,
         DjangoSyncdbAnsibleTaskConfigFactory,
@@ -23,7 +24,7 @@ class DjangoProject(ProjectAbstract):
     )
 
     update_config_factories_list = (
-        GITRepoAnsibleTaskConfigFactory,
+        UpdateGITRepoAnsibleTaskConfigFactory,
         PIPRequirementsAnsibleTaskConfigFactory,
         DjangoSyncdbAnsibleTaskConfigFactory,
         DjangoMigrateAnsibleTaskConfigFactory,
