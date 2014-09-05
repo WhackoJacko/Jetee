@@ -30,6 +30,7 @@ class RestartSupervisorctlAnsibleRoleConfigFactory(AnsibleTaskConfigFactory):
         project = parent
         config = []
         template = {
+            u'name': u'Supervisor restart',
             u'supervisorctl': {
                 u'name': u'',
                 u'state': u'restarted'
@@ -37,6 +38,6 @@ class RestartSupervisorctlAnsibleRoleConfigFactory(AnsibleTaskConfigFactory):
         }
         for process in project.processes:
             tmp_template = template.copy()
-            tmp_template[u'name'] = process.get_name()
+            tmp_template[u'supervisorctl'][u'name'] = process.get_name()
             config.append(tmp_template)
         return config
