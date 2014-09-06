@@ -12,14 +12,16 @@ class ETCDPackageAnsibleConfigFactory(AnsibleTemplateMixin, AnsiblePreTaskConfig
             "name": "Get etcd",
             "command": "/usr/local/go/bin/go get github.com/coreos/etcd",
             "environment": {
-                u'PATH': u'/sbin:/usr/sbin:/bin:/usr/bin:/usr/local/bin:/usr/local/go/bin'
+                u'PATH': u'/sbin:/usr/sbin:/bin:/usr/bin:/usr/local/bin:/usr/local/go/bin',
+                u'GOPATH': u'/usr/local/go/'
             }
         },
         {
             "name": "Build etcd",
             "command": "/usr/local/go/bin/go build github.com/coreos/etcd",
             "environment": {
-                u'PATH': u'/sbin:/usr/sbin:/bin:/usr/bin:/usr/local/bin:/usr/local/go/bin'
+                u'PATH': u'/sbin:/usr/sbin:/bin:/usr/bin:/usr/local/bin:/usr/local/go/bin',
+                u'GOPATH': u'/usr/local/go/'
             }
         },
         {

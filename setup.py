@@ -49,5 +49,5 @@ setup(
         u'fabric',
         u'ecdsa'
     ],
-    # url='https://WhackoJacko@bitbucket.org/WhackoJacko/jetee.git'
+    url='https://github.com/WhackoJacko/Jetee.git'
 )
