@@ -1,20 +1,21 @@
 from jetee.base.deployment_manager import DeploymentManagerAbstract
-from jetee.common.config_factories.package.etcd import ETCDPackageAnsibleConfigFactory, \
-    ETCDCtlPackageAnsibleConfigFactory
+from jetee.common.config_factories.package.redis import RedisPackageAnsibleConfigFactory, \
+    RedisPyPackageAnsibleConfigFactory
 from jetee.common.config_factories.package.docker import DockerPackageAnsibleConfigFactory, \
     DockerPyPackageAnsibleConfigFactory
 from jetee.common.config_factories.package.python import PythonDependenciesAnsibleConfigFactory
-from jetee.common.config_factories.package.go import GoPackageAnsibleConfigFactory
 
 
 class DockerServiceDeploymentManager(DeploymentManagerAbstract):
     default_config_factories = (
         DockerPackageAnsibleConfigFactory,
-        GoPackageAnsibleConfigFactory,
+        # GoPackageAnsibleConfigFactory,
         PythonDependenciesAnsibleConfigFactory,
         DockerPyPackageAnsibleConfigFactory,
-        ETCDPackageAnsibleConfigFactory,
-        ETCDCtlPackageAnsibleConfigFactory
+        RedisPackageAnsibleConfigFactory,
+        RedisPyPackageAnsibleConfigFactory
+        # ETCDPackageAnsibleConfigFactory,
+        # ETCDCtlPackageAnsibleConfigFactory
     )
 
     def _factory_deployment_configs(self, configurable):

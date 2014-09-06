@@ -2,9 +2,9 @@ import os
 
 from jetee.base.service import DockerServiceAbstract, PortsMapping
 from jetee.runtime.configuration import project_configuration
-from jetee.common.discoverer import Discoverer
+from jetee.common.discoverer import RedisDiscoverer
 from jetee.common.config_factories.service.docker import AnsibleDockerContainerTaskConfigFactory
-from jetee.common.config_factories.service.etcd_register import AnsibleETCDRegisterContainerTaskConfigFactory
+from jetee.common.config_factories.service.redis_register import RedisRegisterContainerAnsiblePostTaskConfigFactory
 from jetee.common.config_factories.service.nginx import NginxPackageAnsibleRoleConfigFactory
 
 
@@ -14,7 +14,7 @@ __all__ = [u'AppService', u'PostgreSQLService', u'RedisService']
 class AppService(DockerServiceAbstract):
     config_factories_list = (
         AnsibleDockerContainerTaskConfigFactory,
-        AnsibleETCDRegisterContainerTaskConfigFactory,
+        RedisRegisterContainerAnsiblePostTaskConfigFactory,
         NginxPackageAnsibleRoleConfigFactory,
     )
 
@@ -35,14 +35,15 @@ class AppService(DockerServiceAbstract):
         return u'.'.join([project_configuration.get_project_name(), u'project'])
 
     def get_container_port(self):
-        key = os.path.join(project_configuration.get_project_name(), self.container_name, u'ports/22/external_port')
-        return Discoverer().discover(key)
+        key = os.path.join(u'/', project_configuration.get_project_name(), self.container_name,
+                           u'ports/22/external_port')
+        return RedisDiscoverer().discover(key)
 
 
 class PostgreSQLService(DockerServiceAbstract):
     config_factories_list = (
         AnsibleDockerContainerTaskConfigFactory,
-        AnsibleETCDRegisterContainerTaskConfigFactory
+        RedisRegisterContainerAnsiblePostTaskConfigFactory
     )
 
     image = u'zumbrunnen/postgresql'
@@ -58,7 +59,7 @@ class PostgreSQLService(DockerServiceAbstract):
 class RedisService(DockerServiceAbstract):
     config_factories_list = (
         AnsibleDockerContainerTaskConfigFactory,
-        AnsibleETCDRegisterContainerTaskConfigFactory
+        RedisRegisterContainerAnsiblePostTaskConfigFactory
     )
 
     image = u'redis'
@@ -74,7 +75,7 @@ class RedisService(DockerServiceAbstract):
 class ElasticSearchService(DockerServiceAbstract):
     config_factories_list = (
         AnsibleDockerContainerTaskConfigFactory,
-        AnsibleETCDRegisterContainerTaskConfigFactory
+        RedisRegisterContainerAnsiblePostTaskConfigFactory
     )
 
     image = u'dockerfile/elasticsearch'

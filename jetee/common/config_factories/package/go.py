@@ -1,7 +1,7 @@
-from jetee.base.config_factory import AnsibleTemplateMixin, AnsiblePreTaskConfigFactory
+from jetee.base.config_factory import AnsibleTemplateMixin, AnsibleTaskConfigFactory
 
 
-class GoPackageAnsibleConfigFactory(AnsibleTemplateMixin, AnsiblePreTaskConfigFactory):
+class GoPackageAnsibleConfigFactory(AnsibleTemplateMixin, AnsibleTaskConfigFactory):
     template = [
         {
             "name": "Download Go archive locally",

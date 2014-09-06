@@ -47,7 +47,10 @@ class DeploymentManagerAbstract(object):
     def _factory_default_configs(self):
         factored_configs = []
         for config_factory in self.default_config_factories:
-            factored_config = config_factory().factory()
+            try:
+                factored_config = config_factory().factory()
+            except :
+                import pdb;pdb.set_trace()
             factored_configs.append(factored_config)
         return factored_configs
 
