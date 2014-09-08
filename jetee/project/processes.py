@@ -7,6 +7,9 @@ class CustomProcess(ProcessAbstract):
     def get_command(self):
         return self.command
 
+    def get_name(self):
+        return u'web_server'
+
 
 class PythonProcess(ProcessAbstract):
     def __init__(self, executable):
@@ -14,6 +17,9 @@ class PythonProcess(ProcessAbstract):
 
     def get_command(self):
         return u'python %s' % self.executable
+
+    def get_name(self):
+        return u'web_server'
 
 
 class UWSGIProcess(ProcessAbstract):
@@ -46,6 +52,9 @@ class DjangoGunicornProcess(ProcessAbstract):
 
     def get_command(self):
         return u'./manage.py run_gunicorn --bind 127.0.0.1:%i' % self.port
+
+    def get_name(self):
+        return u'web_server'
 
 
 class CeleryWorkerProcess(ProcessAbstract):

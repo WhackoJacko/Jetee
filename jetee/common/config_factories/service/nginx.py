@@ -22,11 +22,12 @@ class NginxPackageAnsibleRoleConfigFactory(AnsibleRoleConfigFactory):
         service = parent
         from jetee.runtime.configuration import project_configuration
 
+        config_name = u'%s-%s' % (project_configuration.get_project_name(), service.container_name)
         config = {
             u'role': u'jdauphant.nginx',
             u'nginx_sites':
                 {
-                    project_configuration.get_project_name(): [
+                    config_name: [
                         u'listen 80',
                         u'server_name %s' % u' '.join(project_configuration.server_names),
                         u'proxy_connect_timeout 300s',

@@ -12,6 +12,7 @@ __all__ = [u'AppService', u'PostgreSQLService', u'RedisService']
 
 
 class AppService(DockerServiceAbstract):
+    _container_name = u'project'
     config_factories_list = (
         AnsibleDockerContainerTaskConfigFactory,
         RedisRegisterContainerAnsiblePostTaskConfigFactory,
@@ -27,12 +28,8 @@ class AppService(DockerServiceAbstract):
     ]
 
     @property
-    def container_name(self):
-        return u'project'
-
-    @property
     def container_full_name(self):
-        return u'.'.join([project_configuration.get_project_name(), u'project'])
+        return u'.'.join([project_configuration.get_project_name(), self.container_name])
 
     def get_container_port(self):
         key = os.path.join(u'/', project_configuration.get_project_name(), self.container_name,

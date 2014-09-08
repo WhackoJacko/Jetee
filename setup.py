@@ -43,6 +43,9 @@ setup(
             'jetee = jetee.runtime.app:dispatcher.run',
         ]
     },
+    # setup_requires=[
+    #     u'ansible'
+    # ],
     install_requires=[
         u'ansible',
         u'pyyaml',

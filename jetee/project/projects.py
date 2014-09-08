@@ -38,3 +38,26 @@ class DjangoProject(ProjectAbstract):
         env_variables = self.env_variables.copy()
         env_variables.update(DJANGO_CONFIGURATION=dispatcher.args.configuration_name)
         return env_variables
+
+
+class PythonProject(ProjectAbstract):
+    deployment_config_factories_list = (
+        ProjectDirectoriesAnsibleTaskConfigFactory,
+        CloneGITRepoAnsibleTaskConfigFactory,
+        APTPackagesAnsibleTaskConfigFactory,
+        PIPRequirementsAnsibleTaskConfigFactory,
+        SupervisorAnsibleRoleConfigFactory,
+    )
+
+    update_config_factories_list = (
+        UpdateGITRepoAnsibleTaskConfigFactory,
+        PIPRequirementsAnsibleTaskConfigFactory,
+        RestartSupervisorctlAnsibleRoleConfigFactory,
+    )
+
+    def get_env_variables(self):
+        from jetee.runtime.app import dispatcher
+
+        env_variables = self.env_variables.copy()
+        env_variables.update(CONFIGURATION=dispatcher.args.configuration_name)
+        return env_variables
