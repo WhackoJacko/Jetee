@@ -52,7 +52,8 @@ class NginxPackageAnsibleRoleConfigFactory(AnsibleRoleConfigFactory):
             },
             u'nginx_http_params': [
                 u'types_hash_max_size 2048',
-                u'types_hash_bucket_size 32'
+                u'types_hash_bucket_size 64',
+                u'server_names_hash_bucket_size 64'
             ]
         }
 
