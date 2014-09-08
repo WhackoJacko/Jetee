@@ -1,10 +1,10 @@
 import os
 
-from jetee.base.config_factory import AnsibleTaskConfigFactory
+from jetee.base.config_factory import AnsiblePreTaskConfigFactory
 from jetee.runtime.configuration import project_configuration
 
 
-class APTPackagesAnsibleTaskConfigFactory(AnsibleTaskConfigFactory):
+class APTPackagesAnsibleTaskConfigFactory(AnsiblePreTaskConfigFactory):
     template = {
         u'name': u'Install APT packages',
         u'action': u'apt pkg={{item}} state=installed',

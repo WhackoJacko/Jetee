@@ -1,10 +1,10 @@
 import os
 
-from jetee.base.config_factory import AnsibleTaskConfigFactory
+from jetee.base.config_factory import AnsiblePreTaskConfigFactory
 from jetee.runtime.configuration import project_configuration
 
 
-class CloneGITRepoAnsibleTaskConfigFactory(AnsibleTaskConfigFactory):
+class CloneGITRepoAnsibleTaskConfigFactory(AnsiblePreTaskConfigFactory):
     template = {
         u'name': u'Checkout project repo',
         u'git': {
@@ -24,7 +24,7 @@ class CloneGITRepoAnsibleTaskConfigFactory(AnsibleTaskConfigFactory):
         return [template]
 
 
-class UpdateGITRepoAnsibleTaskConfigFactory(AnsibleTaskConfigFactory):
+class UpdateGITRepoAnsibleTaskConfigFactory(AnsiblePreTaskConfigFactory):
     template = {
         u'name': u'Update project repo',
         u'command': u'git pull origin %s',

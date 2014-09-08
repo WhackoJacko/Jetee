@@ -1,7 +1,7 @@
-from jetee.base.config_factory import AnsibleTaskConfigFactory
+from jetee.base.config_factory import AnsiblePreTaskConfigFactory
 
 
-class ProjectDirectoriesAnsibleTaskConfigFactory(AnsibleTaskConfigFactory):
+class ProjectDirectoriesAnsibleTaskConfigFactory(AnsiblePreTaskConfigFactory):
     template = {
         u'name': u'Ensure project directories exist',
         u'file': {
