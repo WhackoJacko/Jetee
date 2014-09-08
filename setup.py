@@ -9,6 +9,9 @@ from setuptools import setup
 
 def galaxy_packages_wrapper(cls):
     def run(self):
+        # because ansible is not installable with easy_install,
+        # so it cannot be installed with the help of "setup_requires" section
+        subprocess.call([u'pip', u'install', u'ansible'])
         original_run(self)
         from jetee import base
 
@@ -43,13 +46,8 @@ setup(
             'jetee = jetee.runtime.app:dispatcher.run',
         ]
     },
-    # setup_requires=[
-    #     u'ansible'
-    # ],
     install_requires=[
         u'ansible',
-        u'pyyaml',
-        u'fabric',
         u'ecdsa'
     ],
     url='https://github.com/WhackoJacko/Jetee.git'
