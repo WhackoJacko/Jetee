@@ -39,6 +39,10 @@ class NginxPackageAnsibleRoleConfigFactory(AnsibleRoleConfigFactory):
                                            u'[0]["NetworkSettings"]["Ports"]["9000/tcp"][0]["HostPort"]}}; }' % service.container_name,
                         self.get_media_config(service),
                         self.get_static_config(service)
+                    ],
+                    u'redirect_www': [
+                        u'server_name "~^www\.(.*)$"',
+                        u'return 301 $scheme://$1$request_uri'
                     ]
                 }
             ,

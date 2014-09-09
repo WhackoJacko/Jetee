@@ -16,9 +16,12 @@ class SupervisorAnsibleRoleConfigFactory(AnsibleRoleConfigFactory):
         for process in project.processes:
             tmp_template = template.copy()
             tmp_template[u'name'] = process.get_name()
+            tmp_template[u'process_name'] = process.get_name()
             tmp_template[u'command'] = process.get_command()
             tmp_template[u'directory'] = process.get_working_directory()
-            tmp_template[u'env_vars'] = project.get_env_variables()
+            env_variables = project.get_env_variables()
+            env_variables.update(process.get_env_variables())
+            tmp_template[u'env_vars'] = env_variables
             config.append(tmp_template)
         return config
 

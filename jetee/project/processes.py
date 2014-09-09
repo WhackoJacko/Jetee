@@ -51,7 +51,7 @@ class DjangoGunicornProcess(ProcessAbstract):
     port = 9000
 
     def get_command(self):
-        return u'./manage.py run_gunicorn --bind 127.0.0.1:%i' % self.port
+        return u'python manage.py run_gunicorn --bind 127.0.0.1:%i' % self.port
 
     def get_name(self):
         return u'web_server'
@@ -59,6 +59,7 @@ class DjangoGunicornProcess(ProcessAbstract):
 
 class CeleryWorkerProcess(ProcessAbstract):
     initial_command = u'celery worker'
+    env_variables = {u'C_FORCE_ROOT': u'True'}
 
     def __init__(self, app=None, queues=None, broker=None, concurrency=4, beat=False):
         self.app = app
@@ -86,4 +87,4 @@ class CeleryWorkerProcess(ProcessAbstract):
 
 
 class DjangoCeleryWorkerProcess(CeleryWorkerProcess):
-    initial_command = u'./manage.py celery worker'
+    initial_command = u'python manage.py celery worker'

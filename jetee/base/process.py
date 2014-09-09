@@ -2,6 +2,8 @@ import os
 
 
 class ProcessAbstract(object):
+    env_variables = {}
+
     def get_name(self):
         raise NotImplementedError
 
@@ -15,3 +17,6 @@ class ProcessAbstract(object):
             project_configuration.get_service().project.location,
             project_configuration.get_project_name()
         )
+
+    def get_env_variables(self):
+        return self.env_variables.copy()
