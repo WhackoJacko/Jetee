@@ -11,6 +11,14 @@ class CustomProcess(ProcessAbstract):
         return u'web_server'
 
 
+class CronProcess(ProcessAbstract):
+    def get_command(self):
+        return u'/usr/sbin/cron -f'
+
+    def get_name(self):
+        return u'cron'
+
+
 class PythonProcess(ProcessAbstract):
     def __init__(self, executable):
         self.executable = executable
