@@ -1,4 +1,5 @@
 from jetee.base.config_factory import AnsibleRoleConfigFactory, AnsibleTaskConfigFactory
+import copy
 
 
 class SupervisorAnsibleRoleConfigFactory(AnsibleRoleConfigFactory):
@@ -38,7 +39,7 @@ class RestartSupervisorctlAnsibleRoleConfigFactory(AnsibleTaskConfigFactory):
             }
         }
         for process in project.processes:
-            tmp_template = template.copy()
+            tmp_template = copy.deepcopy(template)
             tmp_template[u'supervisorctl'][u'name'] = process.get_name()
             config.append(tmp_template)
         return config
