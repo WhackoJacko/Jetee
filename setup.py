@@ -1,5 +1,6 @@
 import os
 import errno
+import os
 import subprocess
 
 from setuptools.command.install import install
@@ -9,9 +10,10 @@ from setuptools import setup
 
 def galaxy_packages_wrapper(cls):
     def run(self):
-        # because ansible is not installable with easy_install,
-        # so it cannot be installed with the help of "setup_requires" section
-        subprocess.call([u'pip', u'install', u'ansible'])
+        try:
+            import ansible
+        except ImportError:
+            raise Exception(u'You must install ansible via pip before you launch jetee installation!')
         original_run(self)
         from jetee import base
 
@@ -24,7 +26,8 @@ def galaxy_packages_wrapper(cls):
             else:
                 raise
         subprocess.call(
-            [u'ansible-galaxy', u'install', u'--force', u'-p', roles_dir] + list(base.REQUIRED_ANSIBLE_ROLES))
+            [u'ansible-galaxy', u'install', u'--force', u'-p', roles_dir] + list(
+                base.REQUIRED_ANSIBLE_ROLES))
 
     original_run = cls.run
     cls.run = run
@@ -40,14 +43,12 @@ setup(
         u'install': galaxy_packages_wrapper(install),
         u'develop': galaxy_packages_wrapper(develop)
     },
-
     entry_points={
         'console_scripts': [
             'jetee = jetee.runtime.app:dispatcher.run',
         ]
     },
     install_requires=[
-        u'ansible',
         u'ecdsa'
     ],
     url='https://github.com/WhackoJacko/Jetee.git'
