@@ -4,7 +4,7 @@ from jetee.base.config_factory import AnsiblePreTaskConfigFactory
 from jetee.runtime.configuration import project_configuration
 
 
-class CloneGITRepoAnsibleTaskConfigFactory(AnsiblePreTaskConfigFactory):
+class CloneGITRepoAnsiblePreTaskConfigFactory(AnsiblePreTaskConfigFactory):
     template = {
         u'name': u'Checkout project repo',
         u'git': {

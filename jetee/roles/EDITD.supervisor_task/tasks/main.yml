@@ -1,0 +1,21 @@
+- name: install supervisor
+  apt: pkg=supervisor state=present update_cache=true
+  sudo: yes
+
+- name: installing task {{ name }}
+  template: src=task.conf.j2 dest={{ supervisor_config_dir }}/{{ name }}.conf
+  register: supervisor_task_conf
+  sudo: yes
+
+- name: updating conf for {{ name }}
+  when: supervisor_task_conf|changed
+  shell: >
+    {{ supervisorctl_command }} stop {{ name }}
+    {{ supervisorctl_command }} update
+  sudo: yes
+
+- name: updating all confs
+  when: supervisor_task_conf|success
+  shell: >
+    {{ supervisorctl_command }} update
+  sudo: yes

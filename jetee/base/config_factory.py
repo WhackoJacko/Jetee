@@ -55,5 +55,5 @@ class AnsiblePostTaskConfigFactory(AnsibleTaskConfigFactory):
 class AnsibleTemplateMixin(object):
     template = {}
 
-    def get_config(self):
+    def get_config(self, **kwargs):
         return self.template
