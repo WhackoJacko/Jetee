@@ -48,6 +48,7 @@ class PythonProject(ProjectAbstract):
         APTPackagesAnsiblePreTaskConfigFactory,
         PIPRequirementsAnsiblePreTaskConfigFactory,
         SupervisorAnsibleRoleConfigFactory,
+        RestartSupervisorctlAnsiblePostTaskConfigFactory,
     )
 
     update_config_factories_list = (
