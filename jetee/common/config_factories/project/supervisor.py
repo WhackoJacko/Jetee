@@ -1,4 +1,4 @@
-from jetee.base.config_factory import AnsibleRoleConfigFactory, AnsibleTaskConfigFactory
+from jetee.base.config_factory import AnsibleRoleConfigFactory, AnsiblePostTaskConfigFactory
 import copy
 
 
@@ -27,7 +27,7 @@ class SupervisorAnsibleRoleConfigFactory(AnsibleRoleConfigFactory):
         return config
 
 
-class RestartSupervisorctlAnsibleRoleConfigFactory(AnsibleTaskConfigFactory):
+class RestartSupervisorctlAnsiblePostTaskConfigFactory(AnsiblePostTaskConfigFactory):
     def get_config(self, parent):
         project = parent
         config = []

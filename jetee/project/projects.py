@@ -3,7 +3,7 @@ from jetee.common.config_factories.project.directories import ProjectDirectories
 from jetee.common.config_factories.project.git import CloneGITRepoAnsiblePreTaskConfigFactory, \
     UpdateGITRepoAnsibleTaskConfigFactory
 from jetee.common.config_factories.project.supervisor import SupervisorAnsibleRoleConfigFactory
-from jetee.common.config_factories.project.supervisor import RestartSupervisorctlAnsibleRoleConfigFactory
+from jetee.common.config_factories.project.supervisor import RestartSupervisorctlAnsiblePostTaskConfigFactory
 from jetee.common.config_factories.project.pip import PIPRequirementsAnsiblePreTaskConfigFactory
 from jetee.common.config_factories.project.apt import APTPackagesAnsiblePreTaskConfigFactory
 from jetee.common.config_factories.project.django import DjangoSyncdbAnsiblePostTaskConfigFactory
@@ -21,6 +21,7 @@ class DjangoProject(ProjectAbstract):
         DjangoMigrateAnsiblePostTaskConfigFactory,
         DjangoCollectstaticAnsiblePostTaskConfigFactory,
         SupervisorAnsibleRoleConfigFactory,
+        RestartSupervisorctlAnsiblePostTaskConfigFactory,
     )
 
     update_config_factories_list = (
@@ -29,7 +30,7 @@ class DjangoProject(ProjectAbstract):
         DjangoSyncdbAnsiblePostTaskConfigFactory,
         DjangoMigrateAnsiblePostTaskConfigFactory,
         DjangoCollectstaticAnsiblePostTaskConfigFactory,
-        RestartSupervisorctlAnsibleRoleConfigFactory,
+        RestartSupervisorctlAnsiblePostTaskConfigFactory,
     )
 
     def get_env_variables(self):
@@ -52,7 +53,7 @@ class PythonProject(ProjectAbstract):
     update_config_factories_list = (
         UpdateGITRepoAnsibleTaskConfigFactory,
         PIPRequirementsAnsiblePreTaskConfigFactory,
-        RestartSupervisorctlAnsibleRoleConfigFactory,
+        RestartSupervisorctlAnsiblePostTaskConfigFactory,
     )
 
     def get_env_variables(self):
