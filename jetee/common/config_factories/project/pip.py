@@ -4,7 +4,7 @@ from jetee.base.config_factory import AnsiblePreTaskConfigFactory
 from jetee.runtime.configuration import project_configuration
 
 
-class PIPRequirementsAnsibleTaskConfigFactory(AnsiblePreTaskConfigFactory):
+class PIPRequirementsAnsiblePreTaskConfigFactory(AnsiblePreTaskConfigFactory):
     template = {
         u'name': u'Install PIP requirements',
         u'pip': {

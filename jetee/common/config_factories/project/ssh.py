@@ -5,14 +5,21 @@ class GenerateSSHKeyAndPromptUserAnsibleTaskConfigFactory(AnsibleTemplateMixin, 
     template = [
 
         {
+            u'stat': {
+                u'path': u'/root/.ssh/id_rsa.pub',
+
+            },
+            u'register': u'ssh_key_stat',
+        },
+        {
             u'name': u'Generate SSH key',
             u'user': {
                 u'name': u'root',
                 u'generate_ssh_key': u'yes',
                 u'ssh_key_bits': u'2048',
-            }
+            },
+            u'when': u'not ssh_key_stat.stat.exists'
         },
-
         {
             u'name': u'Show SSH public key',
             u'command': u'/bin/cat /root/.ssh/id_rsa.pub',

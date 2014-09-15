@@ -1,13 +1,13 @@
 import os
 
-from jetee.base.config_factory import AnsibleTaskConfigFactory
+from jetee.base.config_factory import AnsiblePostTaskConfigFactory
 from jetee.runtime.configuration import project_configuration
 
-__all__ = [u'DjangoSyncdbAnsibleTaskConfigFactory', u'DjangoCollectstaticAnsibleTaskConfigFactory',
-           u'DjangoMigrateAnsibleTaskConfigFactory']
+__all__ = [u'DjangoSyncdbAnsiblePostTaskConfigFactory', u'DjangoCollectstaticAnsiblePostTaskConfigFactory',
+           u'DjangoMigrateAnsiblePostTaskConfigFactory']
 
 
-class DjangoManagementAnsibleTaskConfigFactory(AnsibleTaskConfigFactory):
+class DjangoManagementAnsiblePostTaskConfigFactory(AnsiblePostTaskConfigFactory):
     template = {
     }
 
@@ -21,7 +21,7 @@ class DjangoManagementAnsibleTaskConfigFactory(AnsibleTaskConfigFactory):
         return [template]
 
 
-class DjangoSyncdbAnsibleTaskConfigFactory(DjangoManagementAnsibleTaskConfigFactory):
+class DjangoSyncdbAnsiblePostTaskConfigFactory(DjangoManagementAnsiblePostTaskConfigFactory):
     template = {
         u'name': u'Syncdb',
         u'django_manage': {
@@ -31,7 +31,7 @@ class DjangoSyncdbAnsibleTaskConfigFactory(DjangoManagementAnsibleTaskConfigFact
     }
 
 
-class DjangoMigrateAnsibleTaskConfigFactory(DjangoManagementAnsibleTaskConfigFactory):
+class DjangoMigrateAnsiblePostTaskConfigFactory(DjangoManagementAnsiblePostTaskConfigFactory):
     template = {
         u'name': u'Migrate',
         u'django_manage': {
@@ -41,7 +41,7 @@ class DjangoMigrateAnsibleTaskConfigFactory(DjangoManagementAnsibleTaskConfigFac
     }
 
 
-class DjangoCollectstaticAnsibleTaskConfigFactory(DjangoManagementAnsibleTaskConfigFactory):
+class DjangoCollectstaticAnsiblePostTaskConfigFactory(DjangoManagementAnsiblePostTaskConfigFactory):
     template = {
         u'name': u'Collectstatic',
         u'django_manage': {

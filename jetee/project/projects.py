@@ -4,31 +4,31 @@ from jetee.common.config_factories.project.git import CloneGITRepoAnsiblePreTask
     UpdateGITRepoAnsibleTaskConfigFactory
 from jetee.common.config_factories.project.supervisor import SupervisorAnsibleRoleConfigFactory
 from jetee.common.config_factories.project.supervisor import RestartSupervisorctlAnsibleRoleConfigFactory
-from jetee.common.config_factories.project.pip import PIPRequirementsAnsibleTaskConfigFactory
-from jetee.common.config_factories.project.apt import APTPackagesAnsibleTaskConfigFactory
-from jetee.common.config_factories.project.django import DjangoSyncdbAnsibleTaskConfigFactory
-from jetee.common.config_factories.project.django import DjangoMigrateAnsibleTaskConfigFactory
-from jetee.common.config_factories.project.django import DjangoCollectstaticAnsibleTaskConfigFactory
+from jetee.common.config_factories.project.pip import PIPRequirementsAnsiblePreTaskConfigFactory
+from jetee.common.config_factories.project.apt import APTPackagesAnsiblePreTaskConfigFactory
+from jetee.common.config_factories.project.django import DjangoSyncdbAnsiblePostTaskConfigFactory
+from jetee.common.config_factories.project.django import DjangoMigrateAnsiblePostTaskConfigFactory
+from jetee.common.config_factories.project.django import DjangoCollectstaticAnsiblePostTaskConfigFactory
 
 
 class DjangoProject(ProjectAbstract):
     deployment_config_factories_list = (
         ProjectDirectoriesAnsiblePreTaskConfigFactory,
         CloneGITRepoAnsiblePreTaskConfigFactory,
-        APTPackagesAnsibleTaskConfigFactory,
-        PIPRequirementsAnsibleTaskConfigFactory,
-        DjangoSyncdbAnsibleTaskConfigFactory,
-        DjangoMigrateAnsibleTaskConfigFactory,
-        DjangoCollectstaticAnsibleTaskConfigFactory,
+        APTPackagesAnsiblePreTaskConfigFactory,
+        PIPRequirementsAnsiblePreTaskConfigFactory,
+        DjangoSyncdbAnsiblePostTaskConfigFactory,
+        DjangoMigrateAnsiblePostTaskConfigFactory,
+        DjangoCollectstaticAnsiblePostTaskConfigFactory,
         SupervisorAnsibleRoleConfigFactory,
     )
 
     update_config_factories_list = (
         UpdateGITRepoAnsibleTaskConfigFactory,
-        PIPRequirementsAnsibleTaskConfigFactory,
-        DjangoSyncdbAnsibleTaskConfigFactory,
-        DjangoMigrateAnsibleTaskConfigFactory,
-        DjangoCollectstaticAnsibleTaskConfigFactory,
+        PIPRequirementsAnsiblePreTaskConfigFactory,
+        DjangoSyncdbAnsiblePostTaskConfigFactory,
+        DjangoMigrateAnsiblePostTaskConfigFactory,
+        DjangoCollectstaticAnsiblePostTaskConfigFactory,
         RestartSupervisorctlAnsibleRoleConfigFactory,
     )
 
@@ -44,14 +44,14 @@ class PythonProject(ProjectAbstract):
     deployment_config_factories_list = (
         ProjectDirectoriesAnsiblePreTaskConfigFactory,
         CloneGITRepoAnsiblePreTaskConfigFactory,
-        APTPackagesAnsibleTaskConfigFactory,
-        PIPRequirementsAnsibleTaskConfigFactory,
+        APTPackagesAnsiblePreTaskConfigFactory,
+        PIPRequirementsAnsiblePreTaskConfigFactory,
         SupervisorAnsibleRoleConfigFactory,
     )
 
     update_config_factories_list = (
         UpdateGITRepoAnsibleTaskConfigFactory,
-        PIPRequirementsAnsibleTaskConfigFactory,
+        PIPRequirementsAnsiblePreTaskConfigFactory,
         RestartSupervisorctlAnsibleRoleConfigFactory,
     )
 
