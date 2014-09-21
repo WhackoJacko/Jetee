@@ -6,6 +6,8 @@ import argparse
 from ansible import utils
 
 from jetee.common.shell import InteractiveShell
+from jetee.service.deployment_managers import DockerServiceDeploymentManager
+from jetee.project.deployment_managers import ProjectDeploymentManager
 
 __all__ = [u'AppDispatcher']
 
@@ -26,6 +28,9 @@ class AppDispatcher(object):
     ACTION_CREATE = u'create'
     ACTION_UPDATE = u'update'
     ACTION_SHELL = u'shell'
+
+    service_deployment_manager = DockerServiceDeploymentManager
+    project_deployment_manager = ProjectDeploymentManager
 
     args = None
     parser = None
@@ -62,24 +67,24 @@ class AppDispatcher(object):
     def _create(self):
         from jetee.runtime.configuration import project_configuration
 
-        project_configuration.get_service().deploy()
-        project_configuration.get_service().project.deploy()
+        # self.service_deployment_manager().deploy(project_configuration)
+        self.project_deployment_manager().deploy(project_configuration)
 
     def _update(self):
         from jetee.runtime.configuration import project_configuration
 
-        project_configuration.get_service().project.update()
+        self.project_deployment_manager().update(project_configuration)
 
     def _shell(self):
         from jetee.runtime.configuration import project_configuration
 
-        service = project_configuration.get_service()
+        service = project_configuration.get_primary_service()
         port = service.get_container_port()
         InteractiveShell(
             project_configuration.hostname,
             port,
             project_configuration.username,
-            project_configuration.get_service().project.get_env_variables()
+            service.project.get_env_variables()
         ).run_shell()
 
 

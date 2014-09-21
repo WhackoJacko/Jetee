@@ -1,9 +1,16 @@
-import os
-
 from jetee.base.config_factory import AnsibleRoleConfigFactory
 
 
-class NginxPackageAnsibleRoleConfigFactory(AnsibleRoleConfigFactory):
+class NginxAnsibleRoleConfigFactory(AnsibleRoleConfigFactory):
+    service_upstream = u'/var/jetee/%s/sockets/%s.socket'
+    config_needs_merge = True
+
+    @classmethod
+    def get_proxy_pass_for_service(cls, service):
+        from jetee.runtime.configuration import project_configuration
+
+        return cls.service_upstream % (project_configuration.get_project_name(), service.container_name)
+
     def get_static_config(self, service):
         from jetee.runtime.configuration import project_configuration
 
@@ -35,8 +42,7 @@ class NginxPackageAnsibleRoleConfigFactory(AnsibleRoleConfigFactory):
                         u'location / { '
                         u'proxy_connect_timeout 300s; '
                         u'proxy_read_timeout 300s;'
-                        u'proxy_pass %s' % u'http://172.17.42.1:{{%s_result["ansible_facts"]["docker_containers"]'
-                                           u'[0]["NetworkSettings"]["Ports"]["9000/tcp"][0]["HostPort"]}}; }' % service.container_name,
+                        u'proxy_pass http://unix:%s;}' % self.get_proxy_pass_for_service(service),
                         self.get_media_config(service),
                         self.get_static_config(service)
                     ],
@@ -53,12 +59,7 @@ class NginxPackageAnsibleRoleConfigFactory(AnsibleRoleConfigFactory):
                     u'proxy_set_header Host $http_host',
                     u'proxy_set_header X-NginX-Proxy true',
                 ]
-            },
-            u'nginx_http_params': [
-                u'types_hash_max_size 2048',
-                u'types_hash_bucket_size 64',
-                u'server_names_hash_bucket_size 64'
-            ]
+            }
         }
 
         return config

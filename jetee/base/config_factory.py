@@ -8,11 +8,19 @@ from jetee.base.config import AnsibleTaskConfig, AnsibleRoleConfig
 
 
 class AnsibleRoleConfigFactory(object):
+    config_needs_merge = False
+
     def get_config(self, **kwargs):
         return [kwargs]
 
     def factory(self, **kwargs):
-        return AnsibleRoleConfig(config=self.get_config(**kwargs))
+        configs = self.get_config(**kwargs)
+        if isinstance(configs, (list, tuple)):
+            return [
+                AnsibleRoleConfig(config=config, needs_merge=self.config_needs_merge) for config in configs
+            ]
+        else:
+            return AnsibleRoleConfig(config=self.get_config(**kwargs), needs_merge=self.config_needs_merge)
 
 
 class AnsibleTaskConfigFactoryAbstract(object):

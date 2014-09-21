@@ -27,9 +27,11 @@ class AnsibleTaskConfig(object):
 
 class AnsibleRoleConfig(object):
     config = None
+    needs_merge = False
 
-    def __init__(self, config):
+    def __init__(self, config, needs_merge):
         self.config = config
+        self.needs_merge = needs_merge
 
     def __repr__(self):
-        return 'AnsibleRoleConfig object <{}>'.format(self.config[0][u'role'])
+        return 'AnsibleRoleConfig object <{}>'.format(self.config[u'role'])

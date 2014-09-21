@@ -1,40 +1,41 @@
 from jetee.base.deployment_manager import DeploymentManagerAbstract
-from jetee.common.config_factories.package.redis import RedisPackageAnsibleConfigFactory, \
-    RedisPyPackageAnsibleConfigFactory
-from jetee.common.config_factories.package.docker import DockerPackageAnsibleConfigFactory, \
+from jetee.common.config_factories.os.docker import DockerPackageAnsibleConfigFactory, \
     DockerPyPackageAnsibleConfigFactory
-from jetee.common.config_factories.package.python import PythonDependenciesAnsibleConfigFactory
+from jetee.common.config_factories.os.apt import UpdateAptCachePackageAnsibleConfigFactory
+from jetee.common.config_factories.os.dns import DNSUtilsPackageAnsibleConfigFactory
+from jetee.common.config_factories.os.python import PythonDependenciesAnsibleConfigFactory
+from jetee.service.services.registrator import RegistratorService
+from jetee.service.services.consul import ConsulService
+from jetee.common.config_factories.os.nginx import NginxPackageBootstrapAnsibleRoleConfigFactory
 
 
 class DockerServiceDeploymentManager(DeploymentManagerAbstract):
     default_config_factories = (
+        UpdateAptCachePackageAnsibleConfigFactory,
+        DNSUtilsPackageAnsibleConfigFactory,
         DockerPackageAnsibleConfigFactory,
-        # GoPackageAnsibleConfigFactory,
         PythonDependenciesAnsibleConfigFactory,
         DockerPyPackageAnsibleConfigFactory,
-        RedisPackageAnsibleConfigFactory,
-        RedisPyPackageAnsibleConfigFactory
-        # ETCDPackageAnsibleConfigFactory,
-        # ETCDCtlPackageAnsibleConfigFactory
+        NginxPackageBootstrapAnsibleRoleConfigFactory
     )
 
-    def _factory_deployment_configs(self, configurable):
-        def factory(current_service, factored_configs, processed_services):
-            if not current_service.container_name in processed_services:
-                for linked_service in current_service.linked_services:
-                    factory(linked_service, factored_configs, processed_services)
-                config = current_service.factory_deployment_config()
-                factored_configs += config
-                processed_services.append(current_service.container_name)
-            return factored_configs
+    def get_required_services(self):
+        required_services = [RegistratorService(), ConsulService()]
+        return required_services
 
-        factored_configs = factory(configurable, [], [])
+    def get_services(self, project_configuration):
+        return self.get_required_services() + list(project_configuration.get_secondary_services()) + [
+            project_configuration.get_primary_service()]
+
+    def factory_deployment_configs(self, project_configuration):
+        services = self.get_services(project_configuration)
+        factored_configs = []
+        for service in services:
+            factored_configs += service.factory_deployment_config()
         return factored_configs
 
-    def deploy(self, configurable):
-        from jetee.runtime.configuration import project_configuration
-
-        configs = self._factory_default_configs() + self._factory_deployment_configs(configurable)
+    def deploy(self, project_configuration):
+        configs = self.factory_default_configs() + self.factory_deployment_configs(project_configuration)
         return self._run_playbook(
             configs,
             hostname=project_configuration.hostname,

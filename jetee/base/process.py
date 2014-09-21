@@ -14,7 +14,7 @@ class ProcessAbstract(object):
         from jetee.runtime.configuration import project_configuration
 
         return os.path.join(
-            project_configuration.get_service().project.location,
+            project_configuration.get_primary_service().project.location,
             project_configuration.get_project_name()
         )
 

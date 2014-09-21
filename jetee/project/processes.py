@@ -1,4 +1,5 @@
 from jetee.base.process import ProcessAbstract
+from jetee.base.project import ProjectAbstract
 
 
 class CustomProcess(ProcessAbstract):
@@ -31,8 +32,6 @@ class PythonProcess(ProcessAbstract):
 
 
 class UWSGIProcess(ProcessAbstract):
-    port = 9000
-
     def __init__(self, wsgi_file=None, wsgi_module=None, processes=None, threads=None):
         self.wsgi_file = wsgi_file
         self.processes = processes
@@ -43,7 +42,7 @@ class UWSGIProcess(ProcessAbstract):
         return u'web_server'
 
     def get_command(self):
-        command = u'uwsgi --http :%i' % self.port
+        command = u'uwsgi --http-socket %s' % ProjectAbstract.socket_filename
         if self.wsgi_module:
             command += u' --wsgi %s' % self.wsgi_module
         if self.wsgi_file:
@@ -52,14 +51,13 @@ class UWSGIProcess(ProcessAbstract):
             command += u' --processes %i' % self.processes
         if self.threads:
             command += u' --threads %i' % self.threads
+        command += u' --chmod-socket=666'
         return command
 
 
 class DjangoGunicornProcess(ProcessAbstract):
-    port = 9000
-
     def get_command(self):
-        return u'python manage.py run_gunicorn --bind 127.0.0.1:%i' % self.port
+        return u'python manage.py run_gunicorn --bind unix:%s' % ProjectAbstract.socket_filename
 
     def get_name(self):
         return u'web_server'

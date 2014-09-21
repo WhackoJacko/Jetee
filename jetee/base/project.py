@@ -3,6 +3,7 @@ from jetee.project.deployment_managers import ProjectDeploymentManager
 
 
 class ProjectAbstract(object):
+    socket_filename = u'/var/run/jetee/project.socket'
     deployment_manager_class = ProjectDeploymentManager
     config_manager_class = ConfigManager
 
