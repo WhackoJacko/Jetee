@@ -15,6 +15,16 @@ class DeploymentManagerAbstract(object):
             task.update(config.variables)
         return task
 
+    @classmethod
+    def merge_into_one_level_list(cls, items):
+        merged_items = []
+        for item in items:
+            if isinstance(item, (list, tuple)):
+                merged_items += cls.merge_into_one_level_list(item)
+            else:
+                merged_items += [item]
+        return merged_items
+
     def _normalize_role_configs(self, role_configs):
         """
         Normalizes roles configs so they wouldnt contain duplicated roles
@@ -22,41 +32,32 @@ class DeploymentManagerAbstract(object):
         :return:
         """
 
-        def merge_into_one_level_list(items):
-            merged_items = []
-            for item in items:
-                if isinstance(item.config, (list, tuple)):
-                    merged_items += merge_into_one_level_list(item)
-                else:
-                    merged_items += [item]
-            return merged_items
-
-        merged_role_configs = merge_into_one_level_list(role_configs)
         normalized_configs = {}
-        for role_config in merged_role_configs:
+        for role_config in role_configs:
             if not role_config.config[u'role'] in normalized_configs.keys():
                 if role_config.needs_merge:
                     configs_for_this_role = [
                         x.config for x in
-                        filter(lambda x: x.config[u'role'] == role_config.config[u'role'], merged_role_configs)
+                        filter(lambda x: x.config[u'role'] == role_config.config[u'role'], role_configs)
                     ]
                     normalized_config = reduce(deep_merge, configs_for_this_role)
                     normalized_configs[role_config.config[u'role']] = normalized_config
                 else:
-                    normalized_configs[uuid.uuid1().get_hex()] = role_config.config[u'role']
+                    normalized_configs[uuid.uuid1().get_hex()] = role_config.config
         return normalized_configs.values()
 
     def _factory_playbook_config(self, configs):
+        merged_configs = self.merge_into_one_level_list(configs)
         template = {
             u'hosts': u'*',
             u'remote_user': project_configuration.username,
             u'pre_tasks': [self._factory_task(config) for config in
-                           filter(lambda x: isinstance(x, AnsibleTaskConfig) and x.is_pre_task(), configs)],
+                           filter(lambda x: isinstance(x, AnsibleTaskConfig) and x.is_pre_task(), merged_configs)],
             u'tasks': [self._factory_task(config) for config in
-                       filter(lambda x: isinstance(x, AnsibleTaskConfig) and x.is_task(), configs)],
+                       filter(lambda x: isinstance(x, AnsibleTaskConfig) and x.is_task(), merged_configs)],
             u'post_tasks': [self._factory_task(config) for config in
-                            filter(lambda x: isinstance(x, AnsibleTaskConfig) and x.is_post_task(), configs)],
-            u'roles': self._normalize_role_configs(filter(lambda x: isinstance(x, AnsibleRoleConfig), configs)
+                            filter(lambda x: isinstance(x, AnsibleTaskConfig) and x.is_post_task(), merged_configs)],
+            u'roles': self._normalize_role_configs(filter(lambda x: isinstance(x, AnsibleRoleConfig), merged_configs)
             ),
         }
         config = AnsibleTaskConfigFactory().factory(**template)
