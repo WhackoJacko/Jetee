@@ -67,7 +67,7 @@ class AppDispatcher(object):
     def _create(self):
         from jetee.runtime.configuration import project_configuration
 
-        # self.service_deployment_manager().deploy(project_configuration)
+        self.service_deployment_manager().deploy(project_configuration)
         self.project_deployment_manager().deploy(project_configuration)
 
     def _update(self):

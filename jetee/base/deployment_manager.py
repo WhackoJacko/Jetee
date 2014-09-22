@@ -25,7 +25,7 @@ class DeploymentManagerAbstract(object):
         def merge_into_one_level_list(items):
             merged_items = []
             for item in items:
-                if isinstance(item.confi, (list, tuple)):
+                if isinstance(item.config, (list, tuple)):
                     merged_items += merge_into_one_level_list(item)
                 else:
                     merged_items += [item]
