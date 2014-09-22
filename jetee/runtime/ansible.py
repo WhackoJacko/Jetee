@@ -45,7 +45,6 @@ class PlaybookRunner(object):
         :return: :raise errors.AnsibleError:
         """
         cls.set_defaults()
-        print(playbook_config)
         inventory = Inventory([u'%s:%s' % (hostname, port)])
         # let inventory know which playbooks are using so it can know the basedirs
         inventory.set_playbook_basedir(os.path.dirname(playbook_config.filename))
@@ -112,7 +111,6 @@ class PlaybookRunner(object):
                         log_only=True
                 )
 
-            print ""
             if len(failed_hosts) > 0:
                 return 2
             if len(unreachable_hosts) > 0:
