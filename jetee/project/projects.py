@@ -26,6 +26,7 @@ class DjangoProject(ProjectAbstract):
 
     update_config_factories_list = (
         UpdateGITRepoAnsibleTaskConfigFactory,
+        APTPackagesAnsiblePreTaskConfigFactory,
         PIPRequirementsAnsiblePreTaskConfigFactory,
         DjangoSyncdbAnsiblePostTaskConfigFactory,
         DjangoMigrateAnsiblePostTaskConfigFactory,
@@ -53,6 +54,7 @@ class PythonProject(ProjectAbstract):
 
     update_config_factories_list = (
         UpdateGITRepoAnsibleTaskConfigFactory,
+        APTPackagesAnsiblePreTaskConfigFactory,
         PIPRequirementsAnsiblePreTaskConfigFactory,
         RestartSupervisorctlAnsiblePostTaskConfigFactory,
     )

@@ -4,12 +4,13 @@ from jetee.base.project import ProjectAbstract
 
 class CustomProcess(ProcessAbstract):
     command = None
+    process_name = None
 
     def get_command(self):
         return self.command
 
     def get_name(self):
-        return u'web_server'
+        return self.process_name
 
 
 class CronProcess(ProcessAbstract):
