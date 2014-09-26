@@ -4,7 +4,7 @@ from jetee.common.config_factories.service.docker import AnsibleDockerContainerT
 
 class ElasticSearchService(DockerServiceAbstract):
     config_factories_list = (
-        AnsibleDockerContainerTaskConfigFactory
+        AnsibleDockerContainerTaskConfigFactory,
     )
 
     image = u'dockerfile/elasticsearch'
