@@ -10,7 +10,7 @@ class InteractiveShell(object):
         self.username = username
         self.env_variables = env_variables or {}
 
-    def run_shell(self):
+    def run_ssh(self):
         env_variables = u'export %s; bash' % render_env_variables(self.env_variables)
         subprocess.call([
             u'ssh',

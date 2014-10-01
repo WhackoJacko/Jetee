@@ -2,6 +2,7 @@
 from __future__ import absolute_import
 import sys
 import argparse
+import warnings
 
 from ansible import utils
 
@@ -25,9 +26,12 @@ class VAction(argparse.Action):
 
 
 class AppDispatcher(object):
-    ACTION_CREATE = u'create'
+    ACTION_BUILD = u'build'
     ACTION_UPDATE = u'update'
-    ACTION_SHELL = u'shell'
+    ACTION_SSH = u'ssh'
+
+    TARGET_SERVICE = u'service'
+    TARGET_PROJECT = u'project'
 
     service_deployment_manager = DockerServiceDeploymentManager
     project_deployment_manager = ProjectDeploymentManager
@@ -38,10 +42,17 @@ class AppDispatcher(object):
     def _get_parser(self, ):
         parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
         parser.add_argument(
-            u'command',
+            u'action',
             action=u'store',
-            default=self.ACTION_CREATE,
-            choices=[self.ACTION_CREATE, self.ACTION_UPDATE, self.ACTION_SHELL]
+            default=self.ACTION_BUILD,
+            choices=[self.ACTION_BUILD, self.ACTION_UPDATE, self.ACTION_SSH]
+        )
+        parser.add_argument(
+            u'target',
+            nargs='?',
+            action=u'store',
+            default=self.TARGET_PROJECT,
+            choices=[self.TARGET_SERVICE, self.TARGET_PROJECT]
         )
         parser.add_argument('-v', nargs='?', action=VAction, dest='verbosity', help=u'Verbosity level')
         parser.add_argument(
@@ -64,18 +75,23 @@ class AppDispatcher(object):
         self.args = parser.parse_args(args)
         utils.VERBOSITY = self.args.verbosity
 
-    def _create(self):
+    def _build_service(self):
         from jetee.runtime.configuration import project_configuration
 
         self.service_deployment_manager().deploy(project_configuration)
         self.project_deployment_manager().deploy(project_configuration)
 
-    def _update(self):
+    def _build_project(self):
+        from jetee.runtime.configuration import project_configuration
+
+        self.project_deployment_manager().deploy(project_configuration)
+
+    def _update_project(self):
         from jetee.runtime.configuration import project_configuration
 
         self.project_deployment_manager().update(project_configuration)
 
-    def _shell(self):
+    def _ssh(self):
         from jetee.runtime.configuration import project_configuration
 
         service = project_configuration.get_primary_service()
@@ -85,19 +101,22 @@ class AppDispatcher(object):
             port,
             project_configuration.username,
             service.project.get_env_variables()
-        ).run_shell()
+        ).run_ssh()
 
 
     def __init__(self):
         self._set_args()
 
     def run(self):
-        if self.args.command == self.ACTION_CREATE:
-            self._create()
-        elif self.args.command == self.ACTION_UPDATE:
-            self._update()
-        elif self.args.command == self.ACTION_SHELL:
-            self._shell()
+        if self.args.action == self.ACTION_BUILD:
+            if self.args.target == self.TARGET_SERVICE:
+                self._build_service()
+            else:
+                self._build_project()
+        elif self.args.action == self.ACTION_UPDATE:
+            self._update_project()
+        elif self.args.action == self.ACTION_SSH:
+            self._ssh()
 
 
 dispatcher = AppDispatcher()

@@ -12,8 +12,17 @@ class LazyConfiguration(object):
         from jetee.runtime.app import dispatcher
 
         sys.path.insert(0, os.getcwd())
-        configuration_module = __import__(dispatcher.args.configuration_module)
-        project_configuration_class = getattr(configuration_module, dispatcher.args.configuration_name)
+        try:
+            configuration_module = __import__(dispatcher.args.configuration_module)
+        except ImportError:
+            print(u'Module "{}" not found, make sure it is in sys.path.'.format(dispatcher.args.configuration_module))
+            exit()
+        try:
+            project_configuration_class = getattr(configuration_module, dispatcher.args.configuration_name)
+        except AttributeError:
+            print(u'Cannot find configuration class "{}" in "{}" module.'.format(dispatcher.args.configuration_name,
+                                                                                 dispatcher.args.configuration_module))
+            exit()
         return project_configuration_class
 
     def set_configuration(self, configuration_class):
