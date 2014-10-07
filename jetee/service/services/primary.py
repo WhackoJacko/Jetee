@@ -14,7 +14,7 @@ class PrimaryService(DockerServiceAbstract):
         NginxAnsibleRoleConfigFactory,
     )
 
-    image = u'whackojacko/blank'
+    image = u'jetee/blank'
     command = u'supervisord --nodaemon'
     volumes = [
         u'/root/.ssh/:/root/.ssh',

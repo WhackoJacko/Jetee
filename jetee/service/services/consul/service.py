@@ -4,7 +4,7 @@ from .config_factories import ConsulNginxAnsibleRoleConfigFactory
 
 
 class ConsulService(DockerServiceAbstract):
-    image = u'progrium/consul'
+    image = u'jetee/consul'
     command = u'-server -bootstrap-expect 1'
     ports_mappings = [
         PortsMapping(internal_port=8500, external_port=8500),

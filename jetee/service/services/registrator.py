@@ -3,7 +3,7 @@ from jetee.common.config_factories.service.docker import AnsibleDockerContainerT
 
 
 class RegistratorService(DockerServiceAbstract):
-    image = u'progrium/registrator'
+    image = u'jetee/registrator'
     command = u'consul://172.17.42.1:8500'
     hostname = u'registrator'
     volumes = [u'/var/run/docker.sock:/tmp/docker.sock']
