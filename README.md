@@ -12,7 +12,13 @@ for now the only way to install Jetee is
 #Quick start:
 
 Using the following configuration file:
-
+	
+	from jetee.common.user_configuration import AppConfiguration
+	from jetee.service.services.primary import PrimaryService
+	from jetee.service.services.postgresql import PostgreSQLService
+	from jetee.service.services.redis import RedisService
+	from jetee.project.projects import DjangoProject
+	from jetee.project.processes import UWSGIProcess, CustomProcess
 
 	class Staging(AppConfiguration):
     	hostname = 'example.com'
