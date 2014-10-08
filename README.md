@@ -9,7 +9,7 @@ For now the only way to install Jetee is
 	
 	pip install -e git+https://github.com/WhackoJacko/Jetee.git#egg=jetee
 
-#Quick start
+#Quick overview
 
 Using the following configuration file:
 	
