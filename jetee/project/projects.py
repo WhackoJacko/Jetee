@@ -9,6 +9,7 @@ from jetee.common.config_factories.project.apt import APTPackagesAnsiblePreTaskC
 from jetee.common.config_factories.project.django import DjangoSyncdbAnsiblePostTaskConfigFactory
 from jetee.common.config_factories.project.django import DjangoMigrateAnsiblePostTaskConfigFactory
 from jetee.common.config_factories.project.django import DjangoCollectstaticAnsiblePostTaskConfigFactory
+from jetee.common.config_factories.project.cron import CronPreTaskConfigFactory
 
 
 class DjangoProject(ProjectAbstract):
@@ -20,6 +21,7 @@ class DjangoProject(ProjectAbstract):
         DjangoSyncdbAnsiblePostTaskConfigFactory,
         DjangoMigrateAnsiblePostTaskConfigFactory,
         DjangoCollectstaticAnsiblePostTaskConfigFactory,
+        CronPreTaskConfigFactory,
         SupervisorAnsibleRoleConfigFactory,
         RestartSupervisorctlAnsiblePostTaskConfigFactory,
     )

@@ -6,7 +6,7 @@ import warnings
 
 from ansible import utils
 
-from jetee.common.shell import InteractiveShell
+from jetee.common.shell import SSHClient
 from jetee.service.deployment_managers import DockerServiceDeploymentManager
 from jetee.project.deployment_managers import ProjectDeploymentManager
 
@@ -96,12 +96,12 @@ class AppDispatcher(object):
 
         service = project_configuration.get_primary_service()
         port = service.get_container_port()
-        InteractiveShell(
+        SSHClient(
             project_configuration.hostname,
             port,
             project_configuration.username,
             service.project.get_env_variables()
-        ).run_ssh()
+        ).run()
 
 
     def __init__(self):
