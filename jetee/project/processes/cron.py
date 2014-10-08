@@ -20,7 +20,7 @@ class CronJob(object):
     minute = u''
     command = u''
 
-    def __init__(self, name, month=u'*', day=u'*', hour=u'*', minute=u'*', command=u'*'):
+    def __init__(self, name, month=u'*', day=u'*', hour=u'*', minute=u'*', command=u''):
         self.name = name
         self.month = month
         self.day = day
