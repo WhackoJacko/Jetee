@@ -3,7 +3,10 @@ from jetee.common.config_factories.service.docker import AnsibleDockerContainerT
 
 
 class RedisService(DockerServiceAbstract):
-    config_factories_list = (
+    """
+    Redis service
+    """
+    _config_factories_list = (
         AnsibleDockerContainerTaskConfigFactory,
     )
 

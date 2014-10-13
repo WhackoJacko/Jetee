@@ -1,4 +1,4 @@
-#encoding=utf8
+# encoding=utf8
 import os
 import uuid
 
@@ -46,6 +46,9 @@ class AnsibleTaskConfigFactoryAbstract(object):
             variables=self.variables,
             type=self.task_type
         )
+
+    def __repr__(self):
+        return self.__class__.__name__
 
 
 class AnsibleTaskConfigFactory(AnsibleTaskConfigFactoryAbstract):

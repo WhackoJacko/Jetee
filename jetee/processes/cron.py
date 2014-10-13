@@ -2,6 +2,12 @@ from jetee.base.process import ProcessAbstract
 
 
 class CronProcess(ProcessAbstract):
+    """
+    Cron process
+
+    Takes a list of :class:`.CronJob` instances
+    """
+
     def __init__(self, jobs):
         self.jobs = jobs
 
@@ -13,6 +19,9 @@ class CronProcess(ProcessAbstract):
 
 
 class CronJob(object):
+    """
+    Cron job for :class:`.CronProcess`
+    """
     name = u''
     month = u''
     day = u''

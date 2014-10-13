@@ -3,7 +3,13 @@ from jetee.common.config_factories.service.docker import AnsibleDockerContainerT
 
 
 class PostgreSQLService(DockerServiceAbstract):
-    config_factories_list = (
+    """
+    Postgresql service
+    | Database name: docker
+    | Username: docker
+    | Password: docker
+    """
+    _config_factories_list = (
         AnsibleDockerContainerTaskConfigFactory,
     )
 

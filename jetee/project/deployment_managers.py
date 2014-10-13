@@ -17,7 +17,7 @@ class ProjectDeploymentManager(DeploymentManagerAbstract):
             username=project_configuration.username,
             password=None,
             hostname=project_configuration.hostname,
-            port=project_configuration.get_primary_service().get_container_port()
+            port=project_configuration.get_primary_service()._get_container_port()
         )
 
     def update(self, project_configuration):
@@ -27,5 +27,5 @@ class ProjectDeploymentManager(DeploymentManagerAbstract):
             username=project_configuration.username,
             password=None,
             hostname=project_configuration.hostname,
-            port=project_configuration.get_primary_service().get_container_port()
+            port=project_configuration.get_primary_service()._get_container_port()
         )

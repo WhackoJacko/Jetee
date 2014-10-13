@@ -65,7 +65,6 @@ class AnsibleDockerContainerTaskConfigFactory(AnsiblePreTaskConfigFactory):
         template[u'docker'][u'ports'] = []
         template[u'docker'][u'dns'] = u'172.17.42.1'
         template[u'docker'][u'hostname'] = service.hostname
-        template[u'docker'][u'env'] = render_env_variables(self.get_service_env_variables(service))
         for ports_binding in service.ports_mappings:
             template[u'docker'][u'ports'].append(ports_binding.get_representation())
         template[u'docker'][u'expose'] = [u'{}/tcp'.format(ports_binding.internal_port) for ports_binding in

@@ -13,7 +13,7 @@ from jetee.common.config_factories.project.cron import CronPreTaskConfigFactory
 
 
 class DjangoProject(ProjectAbstract):
-    deployment_config_factories_list = (
+    _deployment_config_factories_list = (
         ProjectDirectoriesAnsiblePreTaskConfigFactory,
         CloneGITRepoAnsiblePreTaskConfigFactory,
         APTPackagesAnsiblePreTaskConfigFactory,
@@ -26,7 +26,7 @@ class DjangoProject(ProjectAbstract):
         RestartSupervisorctlAnsiblePostTaskConfigFactory,
     )
 
-    update_config_factories_list = (
+    _update_config_factories_list = (
         UpdateGITRepoAnsibleTaskConfigFactory,
         APTPackagesAnsiblePreTaskConfigFactory,
         PIPRequirementsAnsiblePreTaskConfigFactory,
@@ -45,7 +45,7 @@ class DjangoProject(ProjectAbstract):
 
 
 class PythonProject(ProjectAbstract):
-    deployment_config_factories_list = (
+    _deployment_config_factories_list = (
         ProjectDirectoriesAnsiblePreTaskConfigFactory,
         CloneGITRepoAnsiblePreTaskConfigFactory,
         APTPackagesAnsiblePreTaskConfigFactory,
@@ -54,7 +54,7 @@ class PythonProject(ProjectAbstract):
         RestartSupervisorctlAnsiblePostTaskConfigFactory,
     )
 
-    update_config_factories_list = (
+    _update_config_factories_list = (
         UpdateGITRepoAnsibleTaskConfigFactory,
         APTPackagesAnsiblePreTaskConfigFactory,
         PIPRequirementsAnsiblePreTaskConfigFactory,

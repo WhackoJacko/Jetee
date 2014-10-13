@@ -8,8 +8,11 @@ from jetee.common.config_factories.service.nginx import NginxAnsibleRoleConfigFa
 
 
 class PrimaryService(DockerServiceAbstract):
+    """
+    Primary service
+    """
     _container_name = u'project'
-    config_factories_list = (
+    _config_factories_list = (
         AnsibleDockerContainerTaskConfigFactory,
         NginxAnsibleRoleConfigFactory,
     )
@@ -23,6 +26,6 @@ class PrimaryService(DockerServiceAbstract):
         PortsMapping(internal_port=22, interface=u'0.0.0.0'),  #for sshd
     ]
 
-    def get_container_port(self):
+    def _get_container_port(self):
         server_name = u'{}.service.consul'.format(self.container_full_name)
         return ConsulDiscoverer().discover(server_name)

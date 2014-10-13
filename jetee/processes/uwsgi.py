@@ -3,6 +3,10 @@ from jetee.base.project import ProjectAbstract
 
 
 class UWSGIProcess(ProcessAbstract):
+    """
+    UWSGI process
+    """
+
     def __init__(self, wsgi_file=None, wsgi_module=None, processes=None, threads=None):
         self.wsgi_file = wsgi_file
         self.processes = processes

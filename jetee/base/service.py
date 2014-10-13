@@ -17,33 +17,37 @@ class PortsMapping(object):
     def get_representation(self):
         return u'{}:{}:{}/{}'.format(self.interface, self.external_port, self.internal_port, self.protocol)
 
+    def __repr__(self):
+        return str(self.get_representation())
+
 
 class DockerServiceAbstract(object):
-    config_factories_list = []
-    config_manager_class = ConfigManager
+    _config_factories_list = []
     _container_name = None
+    _config_manager_class = ConfigManager
 
     image = None
-    hostname = None
     command = None
     ports_mappings = None
     volumes = None
-    env_variables = None
 
     project = None
 
-    def __init__(self, container_name=None, volumes=None, project=None, hostname=None, env_variables=None):
+    def __init__(self, container_name=None, volumes=None, project=None):
+        """
+        :param container_name: Custom name of the container
+        :param volumes: Docker's volumes string representation
+        :param project: Project instance(used only for Service instance returned by get_primary_service method)
+        """
         self._container_name = container_name or self._container_name
         self.volumes = volumes or self.volumes
         self.project = project
-        self.hostname = hostname or self.hostname
         self.ports_mappings = self.ports_mappings or []
-        self.env_variables = env_variables or self.env_variables or {}
 
     @property
     def container_name(self):
         """
-        Returns container name, if self._container_name is not defined container name would be last part of image name
+        Container name, if self._container_name is not defined container name would be last part of image name
         :return:
         """
         if self._container_name:
@@ -54,13 +58,13 @@ class DockerServiceAbstract(object):
     @property
     def container_full_name(self):
         """
-        Returns container full name of the form {project_name.container_name}
+        Container full name of the form {project_name.container_name}
         :return:
         """
         return u'-'.join([project_configuration.get_project_name(), self.container_name])
 
     def factory_deployment_config(self):
-        return self.config_manager_class(self, self.config_factories_list).factory()
+        return self._config_manager_class(self, self._config_factories_list).factory()
 
     def set_project(self, project):
         self.project = project

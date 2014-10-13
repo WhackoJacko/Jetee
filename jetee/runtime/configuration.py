@@ -14,9 +14,12 @@ class LazyConfiguration(object):
         sys.path.insert(0, os.getcwd())
         try:
             configuration_module = __import__(dispatcher.args.configuration_module)
-        except ImportError:
-            print(u'Module "{}" not found, make sure it is in sys.path.'.format(dispatcher.args.configuration_module))
-            exit()
+        except ImportError, e:
+            if e.message == u'No module named {}'.format(dispatcher.args.configuration_module):
+                print(u'Configuration module "{}" not found, make sure it is in sys.path.'.format(
+                    dispatcher.args.configuration_module))
+                exit()
+            raise
         try:
             project_configuration_class = getattr(configuration_module, dispatcher.args.configuration_name)
         except AttributeError:

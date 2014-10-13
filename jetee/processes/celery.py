@@ -2,6 +2,9 @@ from jetee.base.process import ProcessAbstract
 
 
 class CeleryWorkerProcess(ProcessAbstract):
+    """
+    Celery worker process
+    """
     initial_command = u'celery worker'
     env_variables = {u'C_FORCE_ROOT': u'True'}
 

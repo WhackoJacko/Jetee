@@ -1,7 +1,7 @@
 import copy
 
 from jetee.base.config_factory import AnsiblePreTaskConfigFactory
-from jetee.project.processes import CronProcess
+from jetee.processes import CronProcess
 
 
 class CronPreTaskConfigFactory(AnsiblePreTaskConfigFactory):

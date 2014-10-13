@@ -4,11 +4,11 @@ from jetee.project.deployment_managers import ProjectDeploymentManager
 
 class ProjectAbstract(object):
     socket_filename = u'/var/run/jetee/project.socket'
-    deployment_manager_class = ProjectDeploymentManager
-    config_manager_class = ConfigManager
+    _deployment_manager_class = ProjectDeploymentManager
+    _config_manager_class = ConfigManager
 
-    deployment_config_factories_list = []
-    update_config_factories_list = []
+    _deployment_config_factories_list = []
+    _update_config_factories_list = []
 
     processes = None
 
@@ -37,15 +37,15 @@ class ProjectAbstract(object):
         return env_variables
 
     def factory_deployment_config(self):
-        return self.config_manager_class(self, self.deployment_config_factories_list).factory()
+        return self._config_manager_class(self, self._deployment_config_factories_list).factory()
 
     def factory_update_config(self):
-        return self.config_manager_class(self, self.update_config_factories_list).factory()
+        return self._config_manager_class(self, self._update_config_factories_list).factory()
 
     def deploy(self):
-        deployment_manager = self.deployment_manager_class()
+        deployment_manager = self._deployment_manager_class()
         return deployment_manager.deploy(self)
 
     def update(self):
-        deployment_manager = self.deployment_manager_class()
+        deployment_manager = self._deployment_manager_class()
         return deployment_manager.update(self)

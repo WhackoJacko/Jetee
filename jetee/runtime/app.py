@@ -1,4 +1,4 @@
-#coding=utf8
+# coding=utf8
 from __future__ import absolute_import
 import sys
 import argparse
@@ -95,7 +95,7 @@ class AppDispatcher(object):
         from jetee.runtime.configuration import project_configuration
 
         service = project_configuration.get_primary_service()
-        port = service.get_container_port()
+        port = service._get_container_port()
         SSHClient(
             project_configuration.hostname,
             port,
@@ -119,4 +119,5 @@ class AppDispatcher(object):
             self._ssh()
 
 
-dispatcher = AppDispatcher()
+if u'jetee' == sys.argv[0].split(u'/').pop():
+    dispatcher = AppDispatcher()
