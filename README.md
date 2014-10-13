@@ -72,8 +72,6 @@ Just override the following methods in your AppConfiguration subclass:
 Should return an instance of PrimaryService.
 ####get_secondary_services
 Should return a list of service instances.
-cvs_repo_url, cvs_repo_branch=u'master', location=u'/app/', media_location=u'/app/media',
-                 static_location=u'/app/static', processes=None, env_variables=None, apt_packages=None
 ##Defining project
 Project is the filling of Primary Service. Currently this may be DjangoProject or PythonProject(which is suitable for 
 such frameworks as Flask, Tornado, etc.). Project instance (DjangoProject or PythonProject depending on your needs) must 
