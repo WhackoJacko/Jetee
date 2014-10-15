@@ -30,10 +30,11 @@ class DockerServiceAbstract(object):
     command = None
     ports_mappings = None
     volumes = None
+    env_variables = None
 
     project = None
 
-    def __init__(self, container_name=None, volumes=None, project=None):
+    def __init__(self, container_name=None, volumes=None, project=None, env_variables=None):
         """
         :param container_name: Custom name of the container
         :param volumes: Docker's volumes string representation
@@ -43,6 +44,7 @@ class DockerServiceAbstract(object):
         self.volumes = volumes or self.volumes
         self.project = project
         self.ports_mappings = self.ports_mappings or []
+        self.env_variables = env_variables or self.env_variables or {}
 
     @property
     def container_name(self):
