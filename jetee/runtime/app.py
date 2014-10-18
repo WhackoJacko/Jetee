@@ -32,6 +32,7 @@ class AppDispatcher(object):
 
     TARGET_SERVICE = u'service'
     TARGET_PROJECT = u'project'
+    TARGET_ALL = u'all'
 
     service_deployment_manager = DockerServiceDeploymentManager
     project_deployment_manager = ProjectDeploymentManager
@@ -52,7 +53,7 @@ class AppDispatcher(object):
             nargs='?',
             action=u'store',
             default=self.TARGET_PROJECT,
-            choices=[self.TARGET_SERVICE, self.TARGET_PROJECT]
+            choices=[self.TARGET_SERVICE, self.TARGET_PROJECT, self.TARGET_ALL]
         )
         parser.add_argument('-v', nargs='?', action=VAction, dest='verbosity', help=u'Verbosity level')
         parser.add_argument(
@@ -79,11 +80,16 @@ class AppDispatcher(object):
         from jetee.runtime.configuration import project_configuration
 
         self.service_deployment_manager().deploy(project_configuration)
-        self.project_deployment_manager().deploy(project_configuration)
 
     def _build_project(self):
         from jetee.runtime.configuration import project_configuration
 
+        self.project_deployment_manager().deploy(project_configuration)
+
+    def _build_all(self):
+        from jetee.runtime.configuration import project_configuration
+
+        self.service_deployment_manager().deploy(project_configuration)
         self.project_deployment_manager().deploy(project_configuration)
 
     def _update_project(self):
@@ -111,8 +117,10 @@ class AppDispatcher(object):
         if self.args.action == self.ACTION_BUILD:
             if self.args.target == self.TARGET_SERVICE:
                 self._build_service()
-            else:
+            elif self.args.target == self.TARGET_PROJECT:
                 self._build_project()
+            elif self.args.target == self.TARGET_ALL:
+                self._build_all()
         elif self.args.action == self.ACTION_UPDATE:
             self._update_project()
         elif self.args.action == self.ACTION_SSH:

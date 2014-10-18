@@ -18,7 +18,7 @@ else:
 
 setup(
     name='jetee',
-    version=0.5,
+    version=0.6,
     # long_description=open(join(dirname(__file__), 'README.md')).read(),
     author='WhackoJacko',
     entry_points={

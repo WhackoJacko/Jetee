@@ -5,7 +5,7 @@ from .config_factories import ConsulNginxAnsibleRoleConfigFactory
 
 class ConsulService(DockerServiceAbstract):
     image = u'jetee/consul'
-    command = u'-server -bootstrap-expect 1'
+    command = u'-server -bootstrap -advertise 172.17.42.1'
     ports_mappings = [
         PortsMapping(internal_port=8500, external_port=8500),
         PortsMapping(internal_port=53, external_port=53, protocol=u'udp'),

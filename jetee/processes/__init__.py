@@ -1,5 +1,6 @@
 from jetee.base.process import ProcessAbstract
 
+
 class CustomProcess(ProcessAbstract):
     """
     Custom python process
@@ -8,6 +9,10 @@ class CustomProcess(ProcessAbstract):
     """
     command = None
     process_name = None
+
+    def __init__(self, command, name):
+        self.command = command
+        self.name = name
 
     def get_command(self):
         return self.command
