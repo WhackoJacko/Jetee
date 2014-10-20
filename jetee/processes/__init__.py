@@ -8,7 +8,7 @@ class CustomProcess(ProcessAbstract):
     Be sure to override :attr:`command` and :attr:`process_name` attributes
     """
     command = None
-    process_name = None
+    name = None
 
     def __init__(self, command, name):
         self.command = command
@@ -18,7 +18,7 @@ class CustomProcess(ProcessAbstract):
         return self.command
 
     def get_name(self):
-        return self.process_name
+        return self.name
 
 
 from jetee.processes.celery import *
