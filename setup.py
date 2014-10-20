@@ -23,7 +23,7 @@ setup(
     author='Sergey Dubinin',
     author_email='whackojacko.ru@gmail.com',
     url='https://github.com/WhackoJacko/Jetee.git',
-    download_url=u'',
+    download_url='https://github.com/WhackoJacko/Jetee/archive/v0.6.tar.gz',
     entry_points={
         'console_scripts': [
             'jetee = jetee.runtime.app:dispatcher.run',
