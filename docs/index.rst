@@ -109,9 +109,9 @@ API Reference
 .. toctree::
     :maxdepth: 6
 
-    jetee.processes
-    jetee.project
     jetee.service
+    jetee.project
+    jetee.processes
 
 
 Indices and tables
