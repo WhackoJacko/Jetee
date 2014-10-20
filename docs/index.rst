@@ -109,8 +109,8 @@ be passed as keyword argument to the Primary Service. All needed parameters shou
 
 API Reference
 #############
-.. toctree::
-:maxdepth: 6
+    .. toctree::
+        :maxdepth: 6
 
         jetee.service
         jetee.project
