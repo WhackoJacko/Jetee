@@ -53,10 +53,13 @@ Jetee will deploy stable infrastructure containing:
 Installation
 ############
 
-For now the only way to install Jetee is::
+Install from PyPI::
+
+    pip install jetee
+
+Or install the in-development version::
 
     pip install -e git+https://github.com/WhackoJacko/Jetee.git#egg=jetee
-
 
 Writing configuration file
 ##########################
@@ -107,11 +110,11 @@ be passed as keyword argument to the Primary Service. All needed parameters shou
 API Reference
 #############
 .. toctree::
-    :maxdepth: 6
+:maxdepth: 6
 
-    jetee.service
-    jetee.project
-    jetee.processes
+        jetee.service
+        jetee.project
+        jetee.processes
 
 
 Indices and tables
