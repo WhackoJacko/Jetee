@@ -19,8 +19,11 @@ else:
 setup(
     name='jetee',
     version=0.6,
-    # long_description=open(join(dirname(__file__), 'README.md')).read(),
-    author='WhackoJacko',
+    description='Lightweight deployment tool',
+    author='Sergey Dubinin',
+    author_email='whackojacko.ru@gmail.com',
+    url='https://github.com/WhackoJacko/Jetee.git',
+    download_url=u'',
     entry_points={
         'console_scripts': [
             'jetee = jetee.runtime.app:dispatcher.run',
@@ -28,5 +31,5 @@ setup(
     },
     packages=find_packages(),
     install_requires=required_packages,
-    url='https://github.com/WhackoJacko/Jetee.git'
+    classifiers=[],
 )
