@@ -8,8 +8,8 @@ setup(
     description='Lightweight deployment tool',
     author='Sergey Dubinin',
     author_email='whackojacko.ru@gmail.com',
-    # url='https://github.com/WhackoJacko/Jetee.git',
-    # download_url='https://github.com/whackojacko/jetee/tarball/v0.6/',
+    url='https://github.com/WhackoJacko/Jetee.git',
+    download_url='https://github.com/whackojacko/jetee/tarball/v0.6/',
     entry_points={
         'console_scripts': [
             'jetee = jetee.runtime.app:dispatcher.run',
@@ -21,5 +21,6 @@ setup(
         u'pyyaml',
         u'paramiko'
 ],
+
     classifiers=[],
 )
