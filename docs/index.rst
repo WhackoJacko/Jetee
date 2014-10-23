@@ -13,8 +13,10 @@ contents are defined by user. This service is called `Primary Service`. After de
 another through TCP and IP-address can be obtained via the local DNS server. All operations with the service, as well as
 with the project within the primary service performed by a `Ansible`.
 
-Quick overview
-##############
+How it works
+############
+
+You just write the configuration file and launch the deployment process (build or update, depending on your needs).
 
 Using the following configuration file::
 
@@ -36,7 +38,8 @@ Using the following configuration file::
                     cvs_repo_url=u'git@github.com:example/project.git',
                     cvs_repo_branch=u'staging',
                     processes=[
-                        UWSGIProcess(wsgi_file=u'project/wsgi.py')
+                        UWSGIProcess(wsgi_file=u'project/wsgi.py'),
+                        CustomProcess(command=u'python rq_worker.py')
                     ]
                 )
             )
@@ -64,57 +67,84 @@ Or install the in-development version::
 Writing configuration file
 ##########################
 
-Jetee configuration file is a regular Python file. By default it's called `deployment.py`.
+Jetee configuration file is a regular Python file. By default it's called ``deployment.py``.
+Create a new one in the root directory of your project (location does not matter, but it's more convenient).
 
 Creating configuration class
 ****************************
+Configuration class is a class inherited from ``AppConfiguration``. This is the configuration of the remote server.
+All deployment options are defined in it. Thereby each class inherited from ``AppConfiguration`` is a configuration.
+So you may want to have multiple configuration classes(eg for staging and production servers).
+By default Jetee will try to load configuration class named ``Staging``.
 
-Configuration file should contain class inherited from `AppConfiguration` (by default Jetee will try to load configuration class named `Staging`) and override attributes:
+Defining server configuration
+-----------------------------
 
-* **hostname**
+You need to define the following attributes:
+
+.. attribute:: AppConfiguration.hostname
+
     Your server hostname or ip address.
-* **username**
-    Remote server's username (*default is **'root'***).
-* **server_names**
+
+.. attribute:: AppConfiguration.username
+
+    Remote server's username (default is `root`).
+
+.. attribute:: AppConfiguration.server_names
+
     List of server names to reference your project (used for Nginx configuration).
-* **project_name**
-    Name of your project. Used for services naming, if not specified Jetee will parse it from project's repository url.
+
+.. attribute:: AppConfiguration.project_name
+
+    Name of your project. Used for services naming, if not specified Jetee will parse it from project's repository url
+    (eg. having repo url ``git@github.com:example/example-project.git`` project name will be ``example-project``).
 
 Defining services
 -----------------
-Services in Jetee are central entity. They will be deployed as Docker containers. You define primary service(which contains your project) and secondary services(databases, storages, search engines, etc.). All available services are in the namespace `jetee.service.services`.
-Just override the following methods in your AppConfiguration subclass:
+Services in Jetee are central entity. They will be deployed as Docker containers.
+You should define primary service (which contains your project) and secondary services(databases, storages, search engines, etc.). All available services are in the namespace `jetee.service.services`.
+Just override the following methods in your ``AppConfiguration`` subclass:
 
-* **get_primary_service**
+.. py:method:: AppConfiguration.get_primary_service
+
     Should return an instance of PrimaryService.
-* **get_secondary_services**
+
+.. py:method:: AppConfiguration.get_secondary_services
+
     Should return a list of service instances.
 
 Defining project
 ----------------
 Project is the filling of Primary Service. Currently this may be DjangoProject or PythonProject(which is suitable for
-such frameworks as Flask, Tornado, etc.). Project instance (DjangoProject or PythonProject depending on your needs) must
+such frameworks as Flask, Tornado, etc.). Project instance (DjangoProject or PythonProject depending on your project`s type) must
 be passed as keyword argument to the Primary Service. All needed parameters should be passed to project's class init function.
 
-* **cvs_repo_url**
+.. attribute:: Project.cvs_repo_url
+
     Your project's repository URL
-* **cvs_repo_branch**
+
+.. attribute:: Project.cvs_repo_branch
+
     Branch name to checkout, this also can be the full 40-character SHA-1 hash, the literal string HEAD, or a tag name.
-* **processes**
+
+.. attribute:: Project.processes
+
     A list of processes that should be run in the primary service.
-* **env_variables**
-    Dict of environment variables to be set for each process.
-* **apt_packages**
+
+.. attribute:: Project.env_variables
+
+    Dictionary of environment variables to be set for each process.
+
+.. attribute:: Project.apt_packages
+
     List of packages that should be installed using apt.
 
 API Reference
 #############
-    .. toctree::
-        :maxdepth: 6
-
-        jetee.service
-        jetee.project
-        jetee.processes
+.. toctree::
+jetee.service
+    jetee.project
+    jetee.processes
 
 
 Indices and tables
