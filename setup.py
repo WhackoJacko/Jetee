@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='jetee',
-    version=0.6,
+    version=u'0.6.1',
     description='Lightweight deployment tool',
     author='Sergey Dubinin',
     author_email='whackojacko.ru@gmail.com',
@@ -23,4 +23,5 @@ setup(
 ],
 
     classifiers=[],
+    include_package_data=True
 )
