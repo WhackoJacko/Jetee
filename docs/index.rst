@@ -25,7 +25,7 @@ Using the following configuration file::
     from jetee.service.services.postgresql import PostgreSQLService
     from jetee.service.services.redis import RedisService
     from jetee.project.projects import DjangoProject
-    from jetee.project.processes import UWSGIProcess, CustomProcess
+    from jetee.processes import UWSGIProcess, CustomProcess
 
     class Staging(AppConfiguration):
         hostname = 'example.com'
@@ -67,20 +67,21 @@ Or install the in-development version::
 Writing configuration file
 ##########################
 
-Jetee configuration file is a regular Python file. By default it's called ``deployment.py``.
-Create a new one in the root directory of your project (location does not matter, but it's more convenient).
+Jetee configuration file is a regular Python file, containing configuration class(or classes). Once launched Jetee will
+import it as python module(by default called ``deployment``).
+Create a new one named `deployment.py` in the root directory of your project (location does not matter, but it's more convenient).
 
 Creating configuration class
 ****************************
 Configuration class is a class inherited from ``AppConfiguration``. This is the configuration of the remote server.
-All deployment options are defined in it. Thereby each class inherited from ``AppConfiguration`` is a configuration.
+All deployment options are defined in it. Thereby each class inherited from ``AppConfiguration`` is a configuration
+(class name is a configuration name).
 So you may want to have multiple configuration classes(eg for staging and production servers).
 By default Jetee will try to load configuration class named ``Staging``.
 
 Defining server configuration
 -----------------------------
-
-You need to define the following attributes:
+In your configuration module subclass ``AppConfiguration`` and override the following attributes:
 
 .. attribute:: AppConfiguration.hostname
 
@@ -99,11 +100,26 @@ You need to define the following attributes:
     Name of your project. Used for services naming, if not specified Jetee will parse it from project's repository url
     (eg. having repo url ``git@github.com:example/example-project.git`` project name will be ``example-project``).
 
+So you`ll have something like this::
+
+    from jetee.common.user_configuration import AppConfiguration
+
+    class Staging(AppConfiguration):
+        hostname = 'example.com'
+        username = 'root'
+        server_names = ['example.com', 'another-example.com']
+
+As already mentioned, ``project_name`` is the optional attribute, so it would be parsed from the repo url.
+
+
+Now you have to implement two methods. They are ``get_primary_service`` and ``get_secondary_services``. Here we go.
+
 Defining services
 -----------------
-Services in Jetee are central entity. They will be deployed as Docker containers.
-You should define primary service (which contains your project) and secondary services(databases, storages, search engines, etc.). All available services are in the namespace `jetee.service.services`.
-Just override the following methods in your ``AppConfiguration`` subclass:
+Services in Jetee are central entity. They are deployed as Docker containers.
+You should define primary service (Ubuntu container which will contain your project) and secondary services
+(databases, storages, search engines, etc.). All available services are in the namespace ``jetee.service.services``.
+Just implement the following methods in your ``AppConfiguration`` subclass:
 
 .. py:method:: AppConfiguration.get_primary_service
 
@@ -112,6 +128,28 @@ Just override the following methods in your ``AppConfiguration`` subclass:
 .. py:method:: AppConfiguration.get_secondary_services
 
     Should return a list of service instances.
+
+Suppose your project uses PostgreSQL as database server, Redis as key-value storage, and ElasticSearch as search-engine
+backend. This is dead simple::
+
+    from jetee.common.user_configuration import AppConfiguration
+    from jetee.service.services.primary import PrimaryService
+    from jetee.service.services.postgresql import PostgreSQLService
+    from jetee.service.services.redis import RedisService
+    from jetee.service.services.elastic_search import ElasticSearchService
+
+    class Staging(AppConfiguration):
+        hostname = 'example.com'
+        username = 'root'
+        server_names = ['example.com', 'another-example.com']
+
+        def get_primary_service(self):
+            return PrimaryService()
+
+        def get_secondary_services(self):
+            return [PostgreSQLService(), RedisService(),ElasticSearchService()]
+
+At this stage, you configuration class is done. Almost. It remains to fill primary service.
 
 Defining project
 ----------------
