@@ -27,7 +27,7 @@ class CloneGITRepoAnsiblePreTaskConfigFactory(AnsiblePreTaskConfigFactory):
 class UpdateGITRepoAnsibleTaskConfigFactory(AnsiblePreTaskConfigFactory):
     template = {
         u'name': u'Update project repo',
-        u'command': u'git pull origin %s',
+        u'command': u'git checkout {} && git pull origin {}',
         u'args': {
             u'chdir': u''
         }
@@ -36,6 +36,6 @@ class UpdateGITRepoAnsibleTaskConfigFactory(AnsiblePreTaskConfigFactory):
     def get_config(self, parent):
         project = parent
         template = self.template.copy()
-        template[u'command'] = template[u'command'] % project.cvs_repo_branch
+        template[u'command'] = template[u'command'].format(project.cvs_repo_branch, project.cvs_repo_branch)
         template[u'args'][u'chdir'] = os.path.join(project.location, project_configuration.get_project_name())
         return [template]
