@@ -13,7 +13,7 @@ class PostgreSQLService(DockerServiceAbstract):
         AnsibleDockerContainerTaskConfigFactory,
     )
 
-    image = u'zumbrunnen/postgresql'
+    image = u'jetee/postgresql'
     command = u'/usr/bin/supervisord'
     ports_mappings = [
         PortsMapping(
