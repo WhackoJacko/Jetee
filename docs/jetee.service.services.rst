@@ -1,6 +1,8 @@
 jetee.service.services package
 ==============================
 
+.. _elasticsearch-service:
+
 jetee.service.services.elastic_search module
 --------------------------------------------
 
@@ -8,6 +10,8 @@ jetee.service.services.elastic_search module
     :members:
     :undoc-members:
     :show-inheritance:
+
+.. _postgresql-service:
 
 jetee.service.services.postgresql module
 ----------------------------------------
@@ -17,6 +21,8 @@ jetee.service.services.postgresql module
     :undoc-members:
     :show-inheritance:
 
+.. _primary-service:
+
 jetee.service.services.primary module
 -------------------------------------
 
@@ -24,6 +30,8 @@ jetee.service.services.primary module
     :members:
     :undoc-members:
     :show-inheritance:
+
+.. _redis-service:
 
 jetee.service.services.redis module
 -----------------------------------

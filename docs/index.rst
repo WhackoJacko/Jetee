@@ -166,10 +166,6 @@ All needed parameters should be passed to project's class init function.
 
     Branch name to checkout, this also can be the full 40-character SHA-1 hash, the literal string HEAD, or a tag name.
 
-.. attribute:: Project.processes
-
-    A list of processes that should be run in the primary service.
-
 .. attribute:: Project.env_variables
 
     Dictionary of environment variables to be set for each process.
@@ -178,34 +174,199 @@ All needed parameters should be passed to project's class init function.
 
     List of packages that should be installed using apt.
 
+.. attribute:: Project.processes
+
+    A list of processes that should be run in the primary service. Read the next part to know what it is and how is it
+    configured.
+
 Defining processes
 ------------------
+Process is the end point on the way to configure Jetee.  This is for which services have been deployed and the app was
+cloned and packages were installed. Of course, you will have at least one process that provides the web server and will
+be associated with Nginx, but also may require additional (a worker, planners, etc.). All of them will be deployed in Primary
+Service, and their work will support Supervisor. Pass the list of instances of processes to the Project ``__init__`` method.
+
+Suppose that our project is written with Flask. In addition to the web-server Celery worker is required for asynchronous
+tasks::
+
+    /project
+        /project.py
+        /celery.py
+        ....
+
+Then finally our fully working configuration will look like this::
+
+    from jetee.common.user_configuration import AppConfiguration
+    from jetee.service.services.primary import PrimaryService
+    from jetee.service.services.postgresql import PostgreSQLService
+    from jetee.service.services.redis import RedisService
+    from jetee.service.services.elastic_search import ElasticSearchService
+    from jetee.processes import UWSGIProcess, CeleryWorkerProcess
+
+    class Staging(AppConfiguration):
+        hostname = 'example.com'
+        username = 'root'
+        server_names = ['example.com', 'another-example.com']
+
+        def get_primary_service(self):
+            return PrimaryService(
+                cvs_repo_url=u'git@github.com:example/project.git',
+                cvs_repo_branch=u'staging',
+                processes=[
+                    UWSGIProcess(wsgi_module=u'project:app'),
+                    CeleryWorkerProcess(app=u'app', queues=[u'email', u'statistics'])
+                ]
+            )
+
+        def get_secondary_services(self):
+            return [PostgreSQLService(), RedisService(),ElasticSearchService()]
 
 Launching Jetee
 ###############
+Once the configuration file is ready, you are ready to deploy the app.
+
+To deploy the services launch::
+
+    jetee build service
+
+Once services are deployed, you can start deploying the project within the Primary Service::
+
+    jetee build project
+
+Jetee will ask you to add a deployment key of the server and set up the project. That's all!
+
+
+There is a command which deploys from beginning to end(this is equivalent to the consecutive launch of
+``jetee build service`` and ``jetee build project``)::
+
+    jetee build all
+
+Of course, you'll need to update your project from time to time::
+
+    jetee update project
+
+If something goes wrong, you can connect to your Primary Service container via SSH::
+
+    jetee ssh
+
+Specifying launch options
+*************************
+By default Jetee will try to import configuration class named ``Staging`` from module named deployment(therefore file
+should have name `deployment.py`). To specify custom configuration name use `-n` key, to specify module name use `-m`
+key. For example::
+
+    jetee build all -m my_deployment -n Production
+
+Jetee will try to import module named `my_deployment` and its class named `Production`.
+
+Configuring your app to work in Jetee environment
+#################################################
+
+The architecture of the environment requires some changes to your application.
+
+Defining current configuration
+******************************
+To help your application orient in which configuration it is running, Jetee injects environment variable containing the
+name of the current configuration, for each process as well as for the SSH session. For DjangoProject this variable is
+called ``DJANGO_CONFIGURATION``, for PythonProject  - ``CONFIGURATION``. See django-configurations_
+app to learn how to use this type of flag effectively.
+
+.. _django-configurations: http://django-configurations.readthedocs.org/en/latest/
+
+Configuring your app to get connected with services
+***************************************************
+Deployed services are registered in Consul_ via Registrator_ service. Each running service is registered under the name
+of the form `<project_name>-<service_name>`. After that, all the services available to each other via a local DNS service.
+This allows you to define the port and IP-address of any registered service.
+To rid yourself of the difficulties of configuration use JeteeTools_.
+
+.. _Consul: https://www.consul.io/
+.. _Registrator: https://github.com/progrium/registrator
+.. _JeteeTools: https://github.com/progrium/registrator
+
+
+Serving media and static files
+******************************
+Jetee configures nginx for serving static and media files. Static files should be collected in `/app/static/`, and
+media files in `/app/media/`.
+
+Configuration example
+*********************
+In summary, a very simple example that demonstrates the configuration logic might look like this::
+
+    import os
+
+    #get current configuration name
+    configuration_name = os.getenv(u'DJANGO_CONFIGURATION', u'Development')
+
+    #Django database settings
+    if configuration_name == u'Production':
+        from jetee_tools.service_resolvers import DjangoDatabaseJeteeServiceConfigResolver
+        #Production settings go there
+        DATABASES = {
+            'default': DjangoDatabaseJeteeServiceConfigResolver(
+                host=u'my-project-postgresql',
+                protocol=u'postgresql_psycopg2'
+            ).render()
+        }
+    else:
+        #Development settings go there
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.postgresql_psycopg2',
+                'NAME': u'example',
+                'USER': u'example',
+                'PASSWORD': None,
+                'HOST': 'localhost',
+                'PORT': 5432,
+            },
+        }
 
 Toolkit
 #######
+Here is the list of available tools.
 
 Services
 ********
+:ref:`PrimaryService <primary-service>`
+
+
+:ref:`ElasticSearchService <elasticsearch-service>`
+
+:ref:`PostgreSQLService <postgresql-service>`
+
+:ref:`RedisService <redis-service>`
 
 Projects
 ********
+:ref:`DjangoProject <projects>`
+
+:ref:`PythonProject <projects>`
 
 Processes
 *********
+:ref:`CustomProcess <custom-process>`
+
+:ref:`CeleryWorkerProcess <celery-process>`
+
+:ref:`UWSGIProcess <uwsgi-process>`
+
+:ref:`DjangoGunicornProcess <django-process>`
+
+:ref:`DjangoCeleryWorkerProcess <django-process>`
+
+:ref:`CronProcess <cron-process>`
 
 API Reference
 #############
 .. toctree::
-    jetee.service
+jetee.service
     jetee.project
     jetee.processes
 
 
 Indices and tables
-==================
+##################
 
 * :ref:`genindex`
 * :ref:`modindex`

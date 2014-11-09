@@ -4,6 +4,8 @@ Processes
 Submodules
 ----------
 
+.. _celery-process:
+
 jetee.processes.celery module
 -----------------------------
 
@@ -11,6 +13,8 @@ jetee.processes.celery module
     :members:
     :undoc-members:
     :show-inheritance:
+
+.. _cron-process:
 
 jetee.processes.cron module
 ---------------------------
@@ -20,6 +24,8 @@ jetee.processes.cron module
     :undoc-members:
     :show-inheritance:
 
+.. _django-process:
+
 jetee.processes.django module
 -----------------------------
 
@@ -27,6 +33,8 @@ jetee.processes.django module
     :members:
     :undoc-members:
     :show-inheritance:
+
+.. _uwsgi-process:
 
 jetee.processes.uwsgi module
 ----------------------------
@@ -36,6 +44,7 @@ jetee.processes.uwsgi module
     :undoc-members:
     :show-inheritance:
 
+.. _custom-process:
 
 Module contents
 ---------------

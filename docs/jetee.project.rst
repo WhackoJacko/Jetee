@@ -1,6 +1,8 @@
 Projects
 ========
 
+.. _projects:
+
 jetee.project.projects module
 -----------------------------
 
