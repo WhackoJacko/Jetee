@@ -9,7 +9,7 @@ class DjangoGunicornProcess(ProcessAbstract):
     """
 
     def get_command(self):
-        return u'python manage.py run_gunicorn --bind unix:%s' % ProjectAbstract.socket_filename
+        return u'python manage.py run_gunicorn --bind unix:%s' % self.socket_filename
 
     def get_name(self):
         return u'web_server'

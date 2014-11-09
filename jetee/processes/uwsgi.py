@@ -17,7 +17,7 @@ class UWSGIProcess(ProcessAbstract):
         return u'web_server'
 
     def get_command(self):
-        command = u'uwsgi --http-socket %s' % ProjectAbstract.socket_filename
+        command = u'uwsgi --http-socket %s' % self.socket_filename
         if self.wsgi_module:
             command += u' --wsgi %s' % self.wsgi_module
         if self.wsgi_file:

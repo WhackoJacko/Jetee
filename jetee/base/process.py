@@ -3,6 +3,7 @@ import os
 
 class ProcessAbstract(object):
     env_variables = {}
+    socket_filename = u'/var/run/jetee/project.socket'
 
     def get_name(self):
         raise NotImplementedError

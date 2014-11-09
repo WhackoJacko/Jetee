@@ -35,12 +35,15 @@ class AnsibleDockerContainerTaskConfigFactory(AnsiblePreTaskConfigFactory):
                 volumes.append(static_directory)
             external_socket_dir_name = (u'/'.join(
                 NginxAnsibleRoleConfigFactory.get_proxy_pass_for_service(service).split(u'/')[:-1])).rstrip(u'/')
-            internal_socket_dir_name = (u'/'.join(service.project.socket_filename.split(u'/')[:-1])).rstrip(u'/')
-            socket_mapping = u'%s:%s' % (
-                external_socket_dir_name,
-                internal_socket_dir_name
-            )
-            volumes.append(socket_mapping)
+            socket_volumes = {}
+            for process in service.project.processes:
+                internal_socket_dir_name = (u'/'.join(process.socket_filename.split(u'/')[:-1])).rstrip(u'/')
+                socket_mapping = u'%s:%s' % (
+                    external_socket_dir_name,
+                    internal_socket_dir_name
+                )
+                socket_volumes[socket_mapping] = socket_mapping
+            volumes += socket_volumes.values()
 
         return volumes
 
