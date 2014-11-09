@@ -266,7 +266,7 @@ The architecture of the environment requires some changes to your application.
 
 Defining current configuration
 ******************************
-To help your application orient in which configuration it is running, Jetee injects environment variable containing the
+To help your application to define in which configuration it is running, Jetee injects environment variable containing the
 name of the current configuration, for each process as well as for the SSH session. For DjangoProject this variable is
 called ``DJANGO_CONFIGURATION``, for PythonProject  - ``CONFIGURATION``. See django-configurations_
 app to learn how to use this type of flag effectively.
