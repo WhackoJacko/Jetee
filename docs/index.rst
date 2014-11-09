@@ -360,7 +360,7 @@ Processes
 API Reference
 #############
 .. toctree::
-jetee.service
+    jetee.service
     jetee.project
     jetee.processes
 
