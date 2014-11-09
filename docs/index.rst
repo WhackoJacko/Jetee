@@ -266,7 +266,7 @@ The architecture of the environment requires some changes to your application.
 
 Defining current configuration
 ******************************
-To help your application orient in which configuration it is running, Jetee injects environment variable containing the
+To help your application to define in which configuration it is running, Jetee injects environment variable containing the
 name of the current configuration, for each process as well as for the SSH session. For DjangoProject this variable is
 called ``DJANGO_CONFIGURATION``, for PythonProject  - ``CONFIGURATION``. See django-configurations_
 app to learn how to use this type of flag effectively.
@@ -278,11 +278,11 @@ Configuring your app to get connected with services
 Deployed services are registered in Consul_ via Registrator_ service. Each running service is registered under the name
 of the form `<project_name>-<service_name>`. After that, all the services available to each other via a local DNS service.
 This allows you to define the port and IP-address of any registered service.
-To rid yourself of the difficulties of configuration use JeteeTools_.
+To rid yourself of the difficulties of configuration use Jetee-tools_.
 
 .. _Consul: https://www.consul.io/
 .. _Registrator: https://github.com/progrium/registrator
-.. _JeteeTools: https://github.com/progrium/registrator
+.. _Jetee-tools: http://jetee-tools.readthedocs.org/en/latest/
 
 
 Serving media and static files
