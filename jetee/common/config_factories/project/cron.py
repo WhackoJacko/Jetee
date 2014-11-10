@@ -19,7 +19,7 @@ class CronPreTaskConfigFactory(AnsiblePreTaskConfigFactory):
     def get_config(self, parent):
         project = parent
         config = []
-        for process in project.processes:
+        for process in project.helper_processes:
             if isinstance(process, CronProcess):
                 for job in process.jobs:
                     tmp_template = copy.deepcopy(self.template)

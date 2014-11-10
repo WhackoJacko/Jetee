@@ -14,7 +14,8 @@ class SupervisorAnsibleRoleConfigFactory(AnsibleRoleConfigFactory):
             u'user': u'root',
             u'env_vars': u''
         }
-        for process in project.processes:
+        processes = [project.web_process] + project.helper_processes[:]
+        for process in processes:
             tmp_template = template.copy()
             tmp_template[u'name'] = process.get_name()
             tmp_template[u'process_name'] = process.get_name()
@@ -38,7 +39,8 @@ class RestartSupervisorctlAnsiblePostTaskConfigFactory(AnsiblePostTaskConfigFact
                 u'state': u'restarted'
             }
         }
-        for process in project.processes:
+        processes = [project.web_process] + project.helper_processes[:]
+        for process in processes:
             tmp_template = copy.deepcopy(template)
             tmp_template[u'supervisorctl'][u'name'] = process.get_name()
             config.append(tmp_template)

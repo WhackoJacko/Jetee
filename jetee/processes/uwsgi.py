@@ -7,9 +7,9 @@ class UWSGIProcess(ProcessAbstract):
     UWSGI process
     """
 
-    def __init__(self, wsgi_file=None, wsgi_module=None, processes=None, threads=None):
+    def __init__(self, wsgi_file=None, wsgi_module=None, processes_count=None, threads=None):
         self.wsgi_file = wsgi_file
-        self.processes = processes
+        self.processes_count = processes_count
         self.threads = threads
         self.wsgi_module = wsgi_module
 
@@ -22,8 +22,8 @@ class UWSGIProcess(ProcessAbstract):
             command += u' --wsgi %s' % self.wsgi_module
         if self.wsgi_file:
             command += u' --wsgi-file %s' % self.wsgi_file
-        if self.processes:
-            command += u' --processes %i' % self.processes
+        if self.processes_count:
+            command += u' --processes %i' % self.processes_count
         if self.threads:
             command += u' --threads %i' % self.threads
         command += u' --chmod-socket=666'

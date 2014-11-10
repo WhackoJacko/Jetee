@@ -9,24 +9,27 @@ class ProjectAbstract(object):
     _deployment_config_factories_list = []
     _update_config_factories_list = []
 
-    processes = None
+    web_process = None
+    helper_processes = None
 
     cvs_repo_url = None
     cvs_repo_branch = None
     location = None
     static_location = None
 
-    def __init__(self, cvs_repo_url, cvs_repo_branch=u'master', location=u'/app/', media_location=u'/app/media',
-                 static_location=u'/app/static', processes=None, env_variables=None, apt_packages=None):
+    def __init__(self, cvs_repo_url, web_process=None, helper_processes=None, cvs_repo_branch=u'master',
+                 location=u'/app/', media_location=u'/app/media', static_location=u'/app/static', env_variables=None,
+                 apt_packages=None):
         self.cvs_repo_url = cvs_repo_url
         self.cvs_repo_branch = cvs_repo_branch
         self.location = location
         self.media_location = media_location
         self.static_location = static_location
-        self.processes = processes
+        self.helper_processes = helper_processes or []
+        self.web_process = web_process
         self.env_variables = env_variables or {}
         self.apt_packages = apt_packages or []
-        assert self.processes, u'At least one process must be specified for project'
+        assert (self.web_process or self.helper_processes), u'At least one process must be specified for project'
 
     def get_env_variables(self):
         from jetee.runtime.app import dispatcher

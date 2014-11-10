@@ -20,6 +20,17 @@ class AnsibleDockerContainerTaskConfigFactory(AnsiblePreTaskConfigFactory):
         }
     }
 
+    def get_web_process_socket_mapping(self, service):
+        external_socket_dir_name = (u'/'.join(
+            NginxAnsibleRoleConfigFactory.get_proxy_pass_for_service(service).split(u'/')[:-1])).rstrip(u'/')
+        internal_socket_dir_name = (u'/'.join(service.project.web_process.socket_filename.split(u'/')[:-1])).rstrip(
+            u'/')
+        socket_mapping = u'%s:%s' % (
+            external_socket_dir_name,
+            internal_socket_dir_name
+        )
+        return socket_mapping
+
     def get_container_volumes(self, service):
         from jetee.runtime.configuration import project_configuration
 
@@ -33,18 +44,8 @@ class AnsibleDockerContainerTaskConfigFactory(AnsiblePreTaskConfigFactory):
                 static_directory = u'/var/jetee/%s/static/:%s' % (
                     project_configuration.get_project_name(), service.project.static_location.rstrip(u'/'))
                 volumes.append(static_directory)
-            external_socket_dir_name = (u'/'.join(
-                NginxAnsibleRoleConfigFactory.get_proxy_pass_for_service(service).split(u'/')[:-1])).rstrip(u'/')
-            socket_volumes = {}
-            for process in service.project.processes:
-                internal_socket_dir_name = (u'/'.join(process.socket_filename.split(u'/')[:-1])).rstrip(u'/')
-                socket_mapping = u'%s:%s' % (
-                    external_socket_dir_name,
-                    internal_socket_dir_name
-                )
-                socket_volumes[socket_mapping] = socket_mapping
-            volumes += socket_volumes.values()
 
+            volumes += [self.get_web_process_socket_mapping(service)]
         return volumes
 
     def get_service_env_variables(self, service):
