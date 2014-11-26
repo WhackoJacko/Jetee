@@ -2,7 +2,7 @@ from jetee.base.config_factory import AnsibleRoleConfigFactory, AnsiblePostTaskC
 import copy
 
 
-class SupervisorAnsibleRoleConfigFactory(AnsibleRoleConfigFactory):
+class ProcessSupervisorAnsibleRoleConfigFactory(AnsibleRoleConfigFactory):
     def get_config(self, parent):
         project = parent
         config = []

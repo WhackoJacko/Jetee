@@ -1,5 +1,6 @@
 from jetee.base.service import DockerServiceAbstract, PortsMapping
 from jetee.common.config_factories.service.docker import AnsibleDockerContainerTaskConfigFactory
+from jetee.common.config_factories.service.supervisor import MakeSupervisorConfigForServiceAnsibleRoleConfigFactory
 
 
 class MySQLService(DockerServiceAbstract):
@@ -11,8 +12,9 @@ class MySQLService(DockerServiceAbstract):
     """
     _config_factories_list = (
         AnsibleDockerContainerTaskConfigFactory,
+        MakeSupervisorConfigForServiceAnsibleRoleConfigFactory
     )
-
+    startup_priority = 3
     image = u'jetee/mysql'
     # command = u'/usr/bin/supervisord'
     ports_mappings = [
@@ -21,3 +23,9 @@ class MySQLService(DockerServiceAbstract):
             internal_port=3306
         )
     ]
+    env_variables = {
+        u'MYSQL_ROOT_PASSWORD': u'docker',
+        u'MYSQL_USER': u'docker',
+        u'MYSQL_DATABASE': u'docker',
+        u'MYSQL_PASSWORD': u'docker'
+    }

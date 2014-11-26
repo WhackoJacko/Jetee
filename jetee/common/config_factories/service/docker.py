@@ -7,9 +7,8 @@ from jetee.common.config_factories.service.nginx import NginxAnsibleRoleConfigFa
 
 
 class AnsibleDockerContainerTaskConfigFactory(AnsiblePreTaskConfigFactory):
-    template = {
+    run_template = {
         u'name': u'Run {name} container',
-        u'register': u'{name}_result',
         u'docker': {
             u'command': None,
             u'image': None,
@@ -17,6 +16,14 @@ class AnsibleDockerContainerTaskConfigFactory(AnsiblePreTaskConfigFactory):
             u'ports': None,
             u'detach': True,
             u'hostname': None
+        }
+    }
+    stop_template = {
+        u'name': u'Shutdown {name} container',
+        u'docker': {
+            u'name': None,
+            u'image': None,
+            u'state': u'stopped'
         }
     }
 
@@ -57,20 +64,21 @@ class AnsibleDockerContainerTaskConfigFactory(AnsiblePreTaskConfigFactory):
 
     def get_config(self, parent):
         service = parent
-        template = self.template.copy()
-        template[u'name'] = template[u'name'].format(name=service.container_name)
-        template[u'register'] = template[u'register'].format(
-            name=remove_special_characters(service.container_name)
-        )
-        template[u'docker'][u'image'] = service.image
-        template[u'docker'][u'command'] = service.command
-        template[u'docker'][u'name'] = service.container_full_name
-        template[u'docker'][u'volumes'] = self.get_container_volumes(service)
-        template[u'docker'][u'ports'] = []
-        template[u'docker'][u'dns'] = u'172.17.42.1'
-        template[u'docker'][u'env'] = render_env_variables(self.get_service_env_variables(service))
+        run_template = self.run_template.copy()
+        run_template[u'name'] = run_template[u'name'].format(name=service.container_name)
+        run_template[u'docker'][u'image'] = service.image
+        run_template[u'docker'][u'command'] = service.command
+        run_template[u'docker'][u'name'] = service.container_full_name
+        run_template[u'docker'][u'volumes'] = self.get_container_volumes(service)
+        run_template[u'docker'][u'ports'] = []
+        run_template[u'docker'][u'dns'] = u'172.17.42.1'
+        run_template[u'docker'][u'env'] = render_env_variables(self.get_service_env_variables(service))
         for ports_binding in service.ports_mappings:
-            template[u'docker'][u'ports'].append(ports_binding.get_representation())
-        template[u'docker'][u'expose'] = [u'{}/tcp'.format(ports_binding.internal_port) for ports_binding in
-                                          service.ports_mappings]
-        return [template]
+            run_template[u'docker'][u'ports'].append(ports_binding.get_representation())
+        run_template[u'docker'][u'expose'] = [u'{}/tcp'.format(ports_binding.internal_port) for ports_binding in
+                                              service.ports_mappings]
+        stop_template = self.stop_template.copy()
+        stop_template[u'name'] = stop_template[u'name'].format(name=service.container_name)
+        stop_template[u'docker'][u'name'] = service.container_full_name
+        stop_template[u'docker'][u'image'] = service.image
+        return [run_template, stop_template]

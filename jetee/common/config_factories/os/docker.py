@@ -16,7 +16,7 @@ class DockerPackageAnsibleConfigFactory(AnsibleTemplateMixin, AnsiblePreTaskConf
         },
         {
             "apt": {
-                "name": "lxc-docker"
+                "name": "lxc-docker-1.3.0"
             },
             "name": "install docker"
         }

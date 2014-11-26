@@ -26,6 +26,7 @@ class DockerServiceAbstract(object):
     _container_name = None
     _config_manager_class = ConfigManager
 
+    startup_priority = 10
     image = None
     command = None
     ports_mappings = None

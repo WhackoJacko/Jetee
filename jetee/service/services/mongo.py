@@ -1,5 +1,6 @@
 from jetee.base.service import DockerServiceAbstract, PortsMapping
 from jetee.common.config_factories.service.docker import AnsibleDockerContainerTaskConfigFactory
+from jetee.common.config_factories.service.supervisor import MakeSupervisorConfigForServiceAnsibleRoleConfigFactory
 
 
 class MongoDBService(DockerServiceAbstract):
@@ -11,9 +12,10 @@ class MongoDBService(DockerServiceAbstract):
     """
     _config_factories_list = (
         AnsibleDockerContainerTaskConfigFactory,
+        MakeSupervisorConfigForServiceAnsibleRoleConfigFactory
     )
-
-    image = u'dockerfile/mongodb'
+    startup_priority = 3
+    image = u'jetee/mongodb'
     # command = u'/usr/bin/supervisord'
     ports_mappings = [
         PortsMapping(

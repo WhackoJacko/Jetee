@@ -1,9 +1,11 @@
 from jetee.base.service import DockerServiceAbstract, PortsMapping
 from jetee.common.config_factories.service.docker import AnsibleDockerContainerTaskConfigFactory
+from jetee.common.config_factories.service.supervisor import MakeSupervisorConfigForServiceAnsibleRoleConfigFactory
 from .config_factories import ConsulNginxAnsibleRoleConfigFactory
 
 
 class ConsulService(DockerServiceAbstract):
+    startup_priority = 2
     image = u'jetee/consul'
     command = u'-server -bootstrap -advertise 172.17.42.1'
     ports_mappings = [
@@ -12,6 +14,7 @@ class ConsulService(DockerServiceAbstract):
     ]
     _config_factories_list = (
         AnsibleDockerContainerTaskConfigFactory,
+        MakeSupervisorConfigForServiceAnsibleRoleConfigFactory,
         ConsulNginxAnsibleRoleConfigFactory
     )
 

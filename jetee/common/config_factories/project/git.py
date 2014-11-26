@@ -4,7 +4,7 @@ from jetee.base.config_factory import AnsiblePreTaskConfigFactory
 from jetee.runtime.configuration import project_configuration
 
 
-class CloneGITRepoAnsiblePreTaskConfigFactory(AnsiblePreTaskConfigFactory):
+class CloneGitRepoAnsiblePreTaskConfigFactory(AnsiblePreTaskConfigFactory):
     template = {
         u'name': u'Checkout project repo',
         u'git': {
@@ -24,7 +24,7 @@ class CloneGITRepoAnsiblePreTaskConfigFactory(AnsiblePreTaskConfigFactory):
         return [template]
 
 
-class UpdateGITRepoAnsibleTaskConfigFactory(AnsiblePreTaskConfigFactory):
+class UpdateGitRepoAnsibleTaskConfigFactory(AnsiblePreTaskConfigFactory):
     template = {
         u'name': u'Update project repo',
         u'command': u'git pull origin {}',
@@ -41,7 +41,7 @@ class UpdateGITRepoAnsibleTaskConfigFactory(AnsiblePreTaskConfigFactory):
         return [template]
 
 
-class CheckoutGITBranchAnsibleTaskConfigFactory(AnsiblePreTaskConfigFactory):
+class CheckoutGitBranchAnsibleTaskConfigFactory(AnsiblePreTaskConfigFactory):
     template = {
         u'name': u'Checkout branch',
         u'command': u'git checkout {}',

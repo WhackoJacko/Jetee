@@ -1,5 +1,6 @@
 from jetee.base.service import DockerServiceAbstract, PortsMapping
 from jetee.common.config_factories.service.docker import AnsibleDockerContainerTaskConfigFactory
+from jetee.common.config_factories.service.supervisor import MakeSupervisorConfigForServiceAnsibleRoleConfigFactory
 
 
 class MemcachedService(DockerServiceAbstract):
@@ -11,8 +12,9 @@ class MemcachedService(DockerServiceAbstract):
     """
     _config_factories_list = (
         AnsibleDockerContainerTaskConfigFactory,
+        MakeSupervisorConfigForServiceAnsibleRoleConfigFactory
     )
-
+    startup_priority = 3
     image = u'jetee/memcached'
     # command = u'/usr/bin/supervisord'
     ports_mappings = [
