@@ -6,9 +6,6 @@ from jetee.common.utils import deep_merge
 
 
 class DeploymentManagerAbstract(object):
-    default_config_factories = ()
-
-
     def _factory_task(self, config):
         task = {u'include': config.filename}
         if config.variables:
@@ -62,18 +59,6 @@ class DeploymentManagerAbstract(object):
         }
         config = AnsibleTaskConfigFactory().factory(**template)
         return config
-
-    def factory_default_configs(self):
-        factored_configs = []
-        for config_factory in self.default_config_factories:
-            try:
-                factored_config = config_factory().factory()
-            except:
-                import pdb;
-
-                pdb.set_trace()
-            factored_configs.append(factored_config)
-        return factored_configs
 
     def _run_playbook(self, configs, hostname, port, username, password):
 

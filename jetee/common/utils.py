@@ -18,9 +18,7 @@ def deep_merge(a, b, path=None):
 
 
 def remove_special_characters(word):
-    pattern = re.compile(u'[^\w]')
-    word = pattern.sub(u'_', word)
-    return word
+    return re.sub(r"[^\w\s]", '_', word)
 
 
 def render_env_variables(env_variables):
