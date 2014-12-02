@@ -11,7 +11,7 @@ class RedisService(DockerServiceAbstract):
         AnsibleDockerContainerTaskConfigFactory,
         MakeSupervisorConfigForServiceAnsibleRoleConfigFactory
     )
-    startup_priority = 2
+    startup_priority = 3
     image = u'redis'
     command = u'redis-server'
     ports_mappings = [

@@ -1,4 +1,5 @@
 import os
+import re
 
 from jetee.common.utils import remove_special_characters
 from jetee.base.config_factory import AnsiblePreTaskConfigFactory
@@ -9,6 +10,7 @@ from jetee.common.config_factories.service.nginx import NginxAnsibleRoleConfigFa
 class AnsibleDockerContainerTaskConfigFactory(AnsiblePreTaskConfigFactory):
     run_template = {
         u'name': u'Run {name} container',
+        u'register': u'{name}_result',
         u'docker': {
             u'command': None,
             u'image': None,
@@ -20,6 +22,7 @@ class AnsibleDockerContainerTaskConfigFactory(AnsiblePreTaskConfigFactory):
     }
     stop_template = {
         u'name': u'Shutdown {name} container',
+        u'when': u'{name}_result.changed',
         u'docker': {
             u'name': None,
             u'image': None,
@@ -62,10 +65,16 @@ class AnsibleDockerContainerTaskConfigFactory(AnsiblePreTaskConfigFactory):
         env_variables.update(service.env_variables)
         return env_variables
 
+    def underscore_container_name(self, container_name):
+        return re.sub(r"[^\w\s]", '_', container_name)
+
     def get_config(self, parent):
         service = parent
         run_template = self.run_template.copy()
         run_template[u'name'] = run_template[u'name'].format(name=service.container_name)
+        run_template[u'register'] = run_template[u'register'].format(
+            name=self.underscore_container_name(service.container_name)
+        )
         run_template[u'docker'][u'image'] = service.image
         run_template[u'docker'][u'command'] = service.command
         run_template[u'docker'][u'name'] = service.container_full_name
@@ -79,6 +88,9 @@ class AnsibleDockerContainerTaskConfigFactory(AnsiblePreTaskConfigFactory):
                                               service.ports_mappings]
         stop_template = self.stop_template.copy()
         stop_template[u'name'] = stop_template[u'name'].format(name=service.container_name)
+        stop_template[u'when'] = stop_template[u'when'].format(
+            name=self.underscore_container_name(service.container_name)
+        )
         stop_template[u'docker'][u'name'] = service.container_full_name
         stop_template[u'docker'][u'image'] = service.image
         return [run_template, stop_template]
