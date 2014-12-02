@@ -13,8 +13,8 @@ class MakeSupervisorConfigForServiceAnsibleRoleConfigFactory(AnsibleRoleConfigFa
             u'directory': u'/root/'
         }
         template = template.copy()
-        template[u'name'] = service.container_name
-        template[u'process_name'] = service.container_name
+        template[u'name'] = service.container_full_name
+        template[u'process_name'] = service.container_full_name
         template[u'command'] = u'docker start -a {}'.format(service.container_full_name)
         template[u'priority'] = service.startup_priority
         return [template]
