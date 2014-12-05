@@ -1,7 +1,7 @@
-from jetee.base.process import ProcessAbstract
+from jetee.base.process import AbstractProcess
 
 
-class CustomProcess(ProcessAbstract):
+class CustomProcess(AbstractProcess):
     """
     Custom python process
 

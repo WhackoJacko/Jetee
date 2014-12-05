@@ -1,9 +1,9 @@
-from jetee.base.service import DockerServiceAbstract, PortsMapping
+from jetee.base.service import AbstractDockerService, PortsMapping
 from jetee.common.config_factories.service.docker import AnsibleDockerContainerTaskConfigFactory
 from jetee.common.config_factories.service.supervisor import MakeSupervisorConfigForServiceAnsibleRoleConfigFactory
 
 
-class MySQLService(DockerServiceAbstract):
+class MySQLService(AbstractDockerService):
     """
     Mysql service
     | Database name: docker

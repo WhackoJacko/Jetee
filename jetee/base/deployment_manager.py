@@ -6,6 +6,8 @@ from jetee.common.utils import deep_merge
 
 
 class DeploymentManagerAbstract(object):
+    default_config_factories = []
+
     def _factory_task(self, config):
         task = {u'include': config.filename}
         if config.variables:
@@ -42,6 +44,12 @@ class DeploymentManagerAbstract(object):
                 else:
                     normalized_configs[uuid.uuid1().get_hex()] = role_config.config
         return normalized_configs.values()
+
+    def factory_default_configs(self):
+        factored_configs = []
+        for config_factory in self.default_config_factories:
+            factored_configs.append(config_factory().factory())
+        return factored_configs
 
     def _factory_playbook_config(self, configs):
         merged_configs = self.merge_into_one_level_list(configs)

@@ -1,9 +1,9 @@
-from jetee.base.service import DockerServiceAbstract, PortsMapping
+from jetee.base.service import AbstractDockerService, PortsMapping
 from jetee.common.config_factories.service.supervisor import MakeSupervisorConfigForServiceAnsibleRoleConfigFactory
 from jetee.common.config_factories.service.docker import AnsibleDockerContainerTaskConfigFactory
 
 
-class PostgreSQLService(DockerServiceAbstract):
+class PostgreSQLService(AbstractDockerService):
     """
     Postgresql service
     | Database name: docker

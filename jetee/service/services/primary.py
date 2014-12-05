@@ -1,6 +1,6 @@
 import os
 
-from jetee.base.service import DockerServiceAbstract, PortsMapping
+from jetee.base.service import AbstractDockerService, PortsMapping
 from jetee.runtime.configuration import project_configuration
 from jetee.common.discoverer import ConsulDiscoverer
 from jetee.common.config_factories.service.docker import AnsibleDockerContainerTaskConfigFactory
@@ -8,7 +8,7 @@ from jetee.common.config_factories.service.supervisor import MakeSupervisorConfi
 from jetee.common.config_factories.service.nginx import NginxAnsibleRoleConfigFactory
 
 
-class PrimaryService(DockerServiceAbstract):
+class PrimaryService(AbstractDockerService):
     """
     Primary service
     """

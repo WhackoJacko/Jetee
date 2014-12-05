@@ -1,9 +1,9 @@
-from jetee.base.service import DockerServiceAbstract
+from jetee.base.service import AbstractDockerService
 from jetee.common.config_factories.service.docker import AnsibleDockerContainerTaskConfigFactory
 from jetee.common.config_factories.service.supervisor import MakeSupervisorConfigForServiceAnsibleRoleConfigFactory
 
 
-class RegistratorService(DockerServiceAbstract):
+class RegistratorService(AbstractDockerService):
     startup_priority = 1
     image = u'jetee/registrator'
     command = u'consul://172.17.42.1:8500'

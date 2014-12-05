@@ -1,7 +1,7 @@
-from jetee.base.process import ProcessAbstract
+from jetee.base.process import AbstractProcess
 
 
-class CeleryWorkerProcess(ProcessAbstract):
+class CeleryWorkerProcess(AbstractProcess):
     """
     Celery worker process
     """

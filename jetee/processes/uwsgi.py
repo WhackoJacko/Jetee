@@ -1,8 +1,7 @@
-from jetee.base.process import ProcessAbstract
-from jetee.base.project import ProjectAbstract
+from jetee.base.process import AbstractProcess
 
 
-class UWSGIProcess(ProcessAbstract):
+class UWSGIProcess(AbstractProcess):
     """
     UWSGI process
     """
