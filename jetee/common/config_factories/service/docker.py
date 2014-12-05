@@ -1,4 +1,4 @@
-from jetee.common.utils import remove_special_characters
+from jetee.common.utils import replace_special_characters_with_dash
 from jetee.base.config_factory import AnsiblePreTaskConfigFactory
 from jetee.common.utils import render_env_variables
 from jetee.common.config_factories.service.nginx import NginxAnsibleRoleConfigFactory
@@ -67,7 +67,7 @@ class AnsibleDockerContainerTaskConfigFactory(AnsiblePreTaskConfigFactory):
         run_template = self.run_template.copy()
         run_template[u'name'] = run_template[u'name'].format(name=service.container_name)
         run_template[u'register'] = run_template[u'register'].format(
-            name=remove_special_characters(service.container_name)
+            name=service.container_full_name.replace(u'-', u'_')
         )
         run_template[u'docker'][u'image'] = service.image
         run_template[u'docker'][u'command'] = service.command
@@ -83,7 +83,7 @@ class AnsibleDockerContainerTaskConfigFactory(AnsiblePreTaskConfigFactory):
         stop_template = self.stop_template.copy()
         stop_template[u'name'] = stop_template[u'name'].format(name=service.container_name)
         stop_template[u'when'] = stop_template[u'when'].format(
-            name=remove_special_characters(service.container_name)
+            name=service.container_full_name.replace(u'-', u'_')
         )
         stop_template[u'docker'][u'name'] = service.container_full_name
         stop_template[u'docker'][u'image'] = service.image

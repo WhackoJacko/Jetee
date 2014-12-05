@@ -1,29 +1,9 @@
-import sys
-from unittest import TestCase
-
 from jetee.base.deployment_manager import DeploymentManagerAbstract
 from jetee.base.config import AnsibleTaskConfig, AnsibleRoleConfig
-from jetee.runtime.configuration import project_configuration
-from jetee.common.user_configuration import AppConfiguration
+from jetee.base.tests.base import FakeAppTestCase
 
 
-class DeploymentManagerAbstractTestCase(TestCase):
-    def fake_sys_argv(self):
-        sys.argv = ['jetee', 'build']
-
-    def fake_configuration(self):
-        class FakeAppConfiguration(AppConfiguration):
-            hostname = u'test-host.com'
-            username = u'test-user'
-            project_name = u'test-name'
-            server_names = [u'test-host.com']
-
-        project_configuration.set_configuration(FakeAppConfiguration)
-
-    def setUp(self):
-        self.fake_sys_argv()
-        self.fake_configuration()
-
+class DeploymentManagerAbstractTestCase(FakeAppTestCase):
     def test_deployment_manager_assembles_configs_in_result_config(self):
         deployment_manager = DeploymentManagerAbstract()
         configs = [

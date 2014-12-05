@@ -1,5 +1,5 @@
 from jetee.base.exceptions import ImproperlyConfigured
-from jetee.common.utils import remove_special_characters
+from jetee.common.utils import replace_special_characters_with_dash
 
 
 class AppConfiguration(object):
@@ -28,8 +28,8 @@ class AppConfiguration(object):
 
     def get_project_name(self):
         if self.project_name:
-            return remove_special_characters(self.project_name)
+            return replace_special_characters_with_dash(self.project_name)
         elif self.get_primary_service().project:
-            return u'.'.join(self.get_primary_service().project.cvs_repo_url.split(u'/')[-1].split(u'.')[:-1])
+            return u'-'.join(self.get_primary_service().project.cvs_repo_url.split(u'/')[-1].split(u'.')[:-1])
         else:
             raise ImproperlyConfigured(u'You must specify either project or project_name')

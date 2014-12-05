@@ -21,7 +21,7 @@ class PortsMapping(object):
         return str(self.get_representation())
 
 
-class DockerServiceAbstract(object):
+class AbstractDockerService(object):
     _config_factories_list = []
     _container_name = None
     _config_manager_class = ConfigManager
