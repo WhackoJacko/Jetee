@@ -6,9 +6,12 @@ from jetee.common.config_factories.service.supervisor import MakeSupervisorConfi
 class MySQLService(AbstractDockerService):
     """
     Mysql service
-    | Database name: docker
-    | Username: docker
-    | Password: docker
+
+    Database name: docker
+
+    Username: docker
+
+    Password: docker
     """
     _config_factories_list = (
         DockerContainerAnsibleTaskConfigFactory,
