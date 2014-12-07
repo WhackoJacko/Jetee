@@ -26,7 +26,8 @@ class LazyConfiguration(object):
             print(u'Cannot find configuration class "{}" in "{}" module.'.format(dispatcher.args.configuration_name,
                                                                                  dispatcher.args.configuration_module))
             exit()
-        return project_configuration_class
+        else:
+            return project_configuration_class
 
     def set_configuration(self, configuration_class):
         self._configuration = configuration_class()

@@ -1,9 +1,9 @@
-from jetee.base.process import ProcessAbstract
-from jetee.base.project import ProjectAbstract
+from jetee.base.process import AbstractProcess
+from jetee.base.project import AbstractProject
 from jetee.processes.celery import CeleryWorkerProcess
 
 
-class DjangoGunicornProcess(ProcessAbstract):
+class DjangoGunicornProcess(AbstractProcess):
     """
     Django-Gunicorn worker process
     """

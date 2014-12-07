@@ -3,19 +3,29 @@ from jetee.common.config_factories.service.docker import DockerContainerAnsibleT
 from jetee.common.config_factories.service.supervisor import MakeSupervisorConfigForServiceAnsibleRoleConfigFactory
 
 
-class ElasticSearchService(AbstractDockerService):
+class MySQLService(AbstractDockerService):
     """
-    ElasticSearch service
+    Mysql service
+    | Database name: docker
+    | Username: docker
+    | Password: docker
     """
     _config_factories_list = (
         DockerContainerAnsibleTaskConfigFactory,
         MakeSupervisorConfigForServiceAnsibleRoleConfigFactory
     )
     startup_priority = 3
-    image = u'dockerfile/elasticsearch'
+    image = u'jetee/mysql'
+    # command = u'/usr/bin/supervisord'
     ports_mappings = [
         PortsMapping(
             interface=u'172.17.42.1',
-            internal_port=9200
+            internal_port=3306
         )
     ]
+    env_variables = {
+        u'MYSQL_ROOT_PASSWORD': u'docker',
+        u'MYSQL_USER': u'docker',
+        u'MYSQL_DATABASE': u'docker',
+        u'MYSQL_PASSWORD': u'docker'
+    }

@@ -3,19 +3,23 @@ from jetee.common.config_factories.service.docker import DockerContainerAnsibleT
 from jetee.common.config_factories.service.supervisor import MakeSupervisorConfigForServiceAnsibleRoleConfigFactory
 
 
-class ElasticSearchService(AbstractDockerService):
+class MongoDBService(AbstractDockerService):
     """
-    ElasticSearch service
+    MongoDB service
+    | Database name: docker
+    | Username: docker
+    | Password: docker
     """
     _config_factories_list = (
         DockerContainerAnsibleTaskConfigFactory,
         MakeSupervisorConfigForServiceAnsibleRoleConfigFactory
     )
     startup_priority = 3
-    image = u'dockerfile/elasticsearch'
+    image = u'jetee/mongodb'
+    # command = u'/usr/bin/supervisord'
     ports_mappings = [
         PortsMapping(
             interface=u'172.17.42.1',
-            internal_port=9200
+            internal_port=27017
         )
     ]

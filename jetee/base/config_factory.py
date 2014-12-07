@@ -20,7 +20,7 @@ class AnsibleRoleConfigFactory(object):
                 AnsibleRoleConfig(config=config, needs_merge=self.config_needs_merge) for config in configs
             ]
         else:
-            return AnsibleRoleConfig(config=self.get_config(**kwargs), needs_merge=self.config_needs_merge)
+            return AnsibleRoleConfig(config=configs, needs_merge=self.config_needs_merge)
 
 
 class AnsibleTaskConfigFactoryAbstract(object):

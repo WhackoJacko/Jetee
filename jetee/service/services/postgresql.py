@@ -1,8 +1,9 @@
-from jetee.base.service import DockerServiceAbstract, PortsMapping
-from jetee.common.config_factories.service.docker import AnsibleDockerContainerTaskConfigFactory
+from jetee.base.service import AbstractDockerService, PortsMapping
+from jetee.common.config_factories.service.supervisor import MakeSupervisorConfigForServiceAnsibleRoleConfigFactory
+from jetee.common.config_factories.service.docker import DockerContainerAnsibleTaskConfigFactory
 
 
-class PostgreSQLService(DockerServiceAbstract):
+class PostgreSQLService(AbstractDockerService):
     """
     Postgresql service
     | Database name: docker
@@ -10,9 +11,10 @@ class PostgreSQLService(DockerServiceAbstract):
     | Password: docker
     """
     _config_factories_list = (
-        AnsibleDockerContainerTaskConfigFactory,
+        DockerContainerAnsibleTaskConfigFactory,
+        MakeSupervisorConfigForServiceAnsibleRoleConfigFactory
     )
-
+    startup_priority = 3
     image = u'jetee/postgresql'
     command = u'/usr/bin/supervisord'
     ports_mappings = [

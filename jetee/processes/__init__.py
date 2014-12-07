@@ -1,7 +1,7 @@
-from jetee.base.process import ProcessAbstract
+from jetee.base.process import AbstractProcess
 
 
-class CustomProcess(ProcessAbstract):
+class CustomProcess(AbstractProcess):
     """
     Custom python process
 
@@ -13,7 +13,7 @@ class CustomProcess(ProcessAbstract):
     def __init__(self, command, name, env_variables=None):
         self.command = command
         self.name = name
-        self.env_variables = env_variables or None
+        self.env_variables = env_variables or {}
 
     def get_command(self):
         return self.command

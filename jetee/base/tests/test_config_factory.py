@@ -1,27 +1,26 @@
+import os
 from unittest import TestCase
 
-from jetee.base import config_factory
+from jetee.base.config_factory import AnsibleRoleConfigFactory, AnsibleTaskConfigFactory
 from jetee.base.config import AnsibleRoleConfig, AnsibleTaskConfig
 
 
-class TestAnsibleTaskConfigFactory(TestCase):
-    def test_task_config_factory_factories_task_confg(self):
-        config = config_factory.AnsibleTaskConfigFactory().factory()
-        self.assertIsInstance(config, AnsibleTaskConfig)
-        self.assertEqual(config.type, AnsibleTaskConfig.TYPE_TASK)
-
-    def test_pretask_config_factory_factories_pretask_confg(self):
-        config = config_factory.AnsiblePreTaskConfigFactory().factory()
-        self.assertIsInstance(config, AnsibleTaskConfig)
-        self.assertEqual(config.type, AnsibleTaskConfig.TYPE_PRE_TASK)
-
-    def test_posttask_config_factory_factories_posttask_confg(self):
-        config = config_factory.AnsiblePostTaskConfigFactory().factory()
-        self.assertIsInstance(config, AnsibleTaskConfig)
-        self.assertEqual(config.type, AnsibleTaskConfig.TYPE_POST_TASK)
+class AnsibleRoleConfigFactoryTestCase(TestCase):
+    def test_role_config_factory_factories_role_config(self):
+        role_config = AnsibleRoleConfigFactory().factory(**{u'role': u'jetee', u'some': u'value'})
+        self.assertIsInstance(role_config, list)
+        self.assertEqual(len(role_config), 1)
+        self.assertIsInstance(role_config[0], AnsibleRoleConfig)
 
 
-class TestAnsibleRoleConfig(TestCase):
-    def test_role_config_factory_factories_role_confg(self):
-        config = config_factory.AnsibleRoleConfigFactory().factory()
-        self.assertIsInstance(config, AnsibleRoleConfig)
+class AnsibleTaskConfigFactoryTestCase(TestCase):
+    def test_task_config_factory_factories_task_config(self):
+        task_config = AnsibleTaskConfigFactory().factory(**{u'role': u'jetee', u'some': u'value'})
+        self.assertIsInstance(task_config, AnsibleTaskConfig)
+
+    def test_factored_task_config_file_exists(self):
+        task_config = AnsibleTaskConfigFactory().factory(**{u'role': u'jetee', u'some': u'value'})
+        self.assertTrue(os.path.exists(task_config.filename))
+
+    def test_repr_works_well(self):
+        str(AnsibleTaskConfigFactory())

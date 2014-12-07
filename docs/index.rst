@@ -331,11 +331,17 @@ Services
 :ref:`PrimaryService <primary-service>`
 
 
-:ref:`ElasticSearchService <elasticsearch-service>`
-
 :ref:`PostgreSQLService <postgresql-service>`
 
 :ref:`RedisService <redis-service>`
+
+:ref:`ElasticSearchService <elasticsearch-service>`
+
+:ref:`MySQLService <mysql-service>`
+
+:ref:`MemcachedService <memcached-service>`
+
+:ref:`MongoDBService <mongo-service>`
 
 Projects
 ********

@@ -3,19 +3,20 @@ from jetee.common.config_factories.service.docker import DockerContainerAnsibleT
 from jetee.common.config_factories.service.supervisor import MakeSupervisorConfigForServiceAnsibleRoleConfigFactory
 
 
-class ElasticSearchService(AbstractDockerService):
+class MemcachedService(AbstractDockerService):
     """
-    ElasticSearch service
+    Memcached service
     """
     _config_factories_list = (
         DockerContainerAnsibleTaskConfigFactory,
         MakeSupervisorConfigForServiceAnsibleRoleConfigFactory
     )
     startup_priority = 3
-    image = u'dockerfile/elasticsearch'
+    image = u'jetee/memcached'
+    # command = u'/usr/bin/supervisord'
     ports_mappings = [
         PortsMapping(
             interface=u'172.17.42.1',
-            internal_port=9200
+            internal_port=11211
         )
     ]

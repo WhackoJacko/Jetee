@@ -1,7 +1,7 @@
 import os
 
 
-class ProcessAbstract(object):
+class AbstractProcess(object):
     env_variables = {}
     socket_filename = u'/var/run/jetee/project.socket'
 
