@@ -3,6 +3,28 @@ from unittest import TestCase
 
 from jetee.runtime.configuration import project_configuration
 from jetee.common.user_configuration import AppConfiguration
+from jetee.base.service import AbstractDockerService
+from jetee.base.process import AbstractProcess
+from jetee.base.service import PortsMapping
+
+
+class FakeProcess(AbstractProcess):
+    def get_name(self):
+        return u'fake-process'
+
+    def get_command(self):
+        return u'fake-command'
+
+
+class FakeDockerService(AbstractDockerService):
+    image = u'jetee/fake'
+    ports_mappings = [
+        PortsMapping(
+            internal_port=1234,
+            external_port=4321,
+            protocol=u'tcp'
+        )
+    ]
 
 
 class FakeAppTestCase(TestCase):

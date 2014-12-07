@@ -1,5 +1,5 @@
 from jetee.base.service import AbstractDockerService, PortsMapping
-from jetee.common.config_factories.service.docker import AnsibleDockerContainerTaskConfigFactory
+from jetee.common.config_factories.service.docker import DockerContainerAnsibleTaskConfigFactory
 from jetee.common.config_factories.service.supervisor import MakeSupervisorConfigForServiceAnsibleRoleConfigFactory
 
 
@@ -8,7 +8,7 @@ class ElasticSearchService(AbstractDockerService):
     ElasticSearch service
     """
     _config_factories_list = (
-        AnsibleDockerContainerTaskConfigFactory,
+        DockerContainerAnsibleTaskConfigFactory,
         MakeSupervisorConfigForServiceAnsibleRoleConfigFactory
     )
     startup_priority = 3

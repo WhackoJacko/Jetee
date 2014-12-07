@@ -1,5 +1,5 @@
 from jetee.base.process import AbstractProcess
-from jetee.base.project import ProjectAbstract
+from jetee.base.project import AbstractProject
 from jetee.processes.celery import CeleryWorkerProcess
 
 

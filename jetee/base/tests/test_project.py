@@ -1,11 +1,11 @@
 from unittest import TestCase
 
-from jetee.base.project import ProjectAbstract
 from jetee.base.process import AbstractProcess
+from jetee.base.project import AbstractProject
 from jetee.base.config_factory import AnsibleTaskConfigFactory, AnsibleRoleConfigFactory
 
 
-class ProjectAbstractTestCase(TestCase):
+class AbstractProjectTestCase(TestCase):
     class FakeAnsibleTaskConfigFactory(AnsibleTaskConfigFactory):
         def get_config(self, **kwargs):
             return {u'fake': u'config'}
@@ -14,21 +14,20 @@ class ProjectAbstractTestCase(TestCase):
         def get_config(self, **kwargs):
             return {u'fake': u'config'}
 
-
-    class FakeProject(ProjectAbstract):
+    class FakeProject(AbstractProject):
         @property
         def _deployment_config_factories_list(self):
             return [
-                ProjectAbstractTestCase.FakeAnsibleTaskConfigFactory,
-                ProjectAbstractTestCase.FakeAnsibleTaskConfigFactory,
-                ProjectAbstractTestCase.FakeAnsibleRoleConfigFactory,
+                AbstractProjectTestCase.FakeAnsibleTaskConfigFactory,
+                AbstractProjectTestCase.FakeAnsibleTaskConfigFactory,
+                AbstractProjectTestCase.FakeAnsibleRoleConfigFactory,
             ]
 
         @property
         def _update_config_factories_list(self):
             return [
-                ProjectAbstractTestCase.FakeAnsibleTaskConfigFactory,
-                ProjectAbstractTestCase.FakeAnsibleRoleConfigFactory,
+                AbstractProjectTestCase.FakeAnsibleTaskConfigFactory,
+                AbstractProjectTestCase.FakeAnsibleRoleConfigFactory,
             ]
 
     def test_factory_deployment_confg_factories_list_of_configs(self):

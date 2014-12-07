@@ -1,10 +1,9 @@
-from jetee.common.utils import replace_special_characters_with_dash
 from jetee.base.config_factory import AnsiblePreTaskConfigFactory
 from jetee.common.utils import render_env_variables
 from jetee.common.config_factories.service.nginx import NginxAnsibleRoleConfigFactory
 
 
-class AnsibleDockerContainerTaskConfigFactory(AnsiblePreTaskConfigFactory):
+class DockerContainerAnsibleTaskConfigFactory(AnsiblePreTaskConfigFactory):
     run_template = {
         u'name': u'Run {name} container',
         u'register': u'{name}_result',
@@ -76,10 +75,10 @@ class AnsibleDockerContainerTaskConfigFactory(AnsiblePreTaskConfigFactory):
         run_template[u'docker'][u'ports'] = []
         run_template[u'docker'][u'dns'] = u'172.17.42.1'
         run_template[u'docker'][u'env'] = render_env_variables(self.get_service_env_variables(service))
-        for ports_binding in service.ports_mappings:
-            run_template[u'docker'][u'ports'].append(ports_binding.get_representation())
-        run_template[u'docker'][u'expose'] = [u'{}/tcp'.format(ports_binding.internal_port) for ports_binding in
-                                              service.ports_mappings]
+        for ports_mapping in service.ports_mappings:
+            run_template[u'docker'][u'ports'].append(ports_mapping.get_representation())
+        run_template[u'docker'][u'expose'] = [u'{}/{}'.format(ports_mapping.internal_port, ports_mapping.protocol) for
+                                              ports_mapping in service.ports_mappings]
         stop_template = self.stop_template.copy()
         stop_template[u'name'] = stop_template[u'name'].format(name=service.container_name)
         stop_template[u'when'] = stop_template[u'when'].format(

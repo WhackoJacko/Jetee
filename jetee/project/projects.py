@@ -1,4 +1,4 @@
-from jetee.base.project import ProjectAbstract
+from jetee.base.project import AbstractProject
 from jetee.common.config_factories.project.directories import ProjectDirectoriesAnsiblePreTaskConfigFactory
 from jetee.common.config_factories.project.git import CloneGitRepoAnsiblePreTaskConfigFactory, \
     UpdateGitRepoAnsibleTaskConfigFactory, CheckoutGitBranchAnsibleTaskConfigFactory
@@ -12,7 +12,7 @@ from jetee.common.config_factories.project.django import DjangoCollectstaticAnsi
 from jetee.common.config_factories.project.cron import CronPreTaskConfigFactory
 
 
-class DjangoProject(ProjectAbstract):
+class DjangoProject(AbstractProject):
     _deployment_config_factories_list = (
         ProjectDirectoriesAnsiblePreTaskConfigFactory,
         CloneGitRepoAnsiblePreTaskConfigFactory,
@@ -45,7 +45,7 @@ class DjangoProject(ProjectAbstract):
         return env_variables
 
 
-class PythonProject(ProjectAbstract):
+class PythonProject(AbstractProject):
     _deployment_config_factories_list = (
         ProjectDirectoriesAnsiblePreTaskConfigFactory,
         CloneGitRepoAnsiblePreTaskConfigFactory,

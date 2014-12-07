@@ -2,7 +2,7 @@ from jetee.base.config_factories_manager import ConfigManager
 from jetee.project.deployment_managers import ProjectDeploymentManager
 
 
-class ProjectAbstract(object):
+class AbstractProject(object):
     _deployment_manager_class = ProjectDeploymentManager
     _config_manager_class = ConfigManager
 

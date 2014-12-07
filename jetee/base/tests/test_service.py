@@ -1,23 +1,20 @@
 from unittest import TestCase
 
-from jetee.base.service import AbstractDockerService, PortsMapping
-from jetee.base.tests.base import FakeAppTestCase
+from jetee.base.service import PortsMapping
+from jetee.base.tests.base import FakeAppTestCase, FakeDockerService
 
 
 class AbstractDockerServiceTestCase(FakeAppTestCase):
-    class FakeDockerService(AbstractDockerService):
-        image = u'jetee/fake'
-
     def test_service_extracts_container_name_from_image_properly(self):
-        service = self.FakeDockerService()
+        service = FakeDockerService()
         self.assertEqual(service.container_name, u'fake')
 
     def test_service_uses_manually_set_container_name(self):
-        service = self.FakeDockerService(container_name=u'custom-fake-name')
+        service = FakeDockerService(container_name=u'custom-fake-name')
         self.assertEqual(service.container_name, u'custom-fake-name')
 
     def test_service_container_full_name_assembled_properly(self):
-        service = self.FakeDockerService(container_name=u'custom-fake-name')
+        service = FakeDockerService(container_name=u'custom-fake-name')
         self.assertEqual(service.container_full_name, u'test-name-custom-fake-name')
 
 
