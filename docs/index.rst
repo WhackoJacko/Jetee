@@ -330,7 +330,6 @@ Services
 ********
 :ref:`PrimaryService <primary-service>`
 
-
 :ref:`PostgreSQLService <postgresql-service>`
 
 :ref:`RedisService <redis-service>`
