@@ -17,5 +17,5 @@ class PipRequirementsAnsiblePreTaskConfigFactory(AnsiblePreTaskConfigFactory):
         project = parent
         template = self.template.copy()
         template[u'pip'][u'chdir'] = os.path.join(project.location, project_configuration.get_project_name())
-        template[u'pip'][u'requirements'] = u'requirements.txt'
+        template[u'pip'][u'requirements'] = project.requirements_location
         return [template]
