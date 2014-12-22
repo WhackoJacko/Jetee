@@ -18,7 +18,7 @@ else:
 
 setup(
     name='jetee',
-    version=u'0.6.9',
+    version=u'0.6.10',
     description='Lightweight deployment tool',
     author='Sergey Dubinin',
     author_email='whackojacko.ru@gmail.com',

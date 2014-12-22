@@ -11,7 +11,7 @@ class SSHClient(object):
         self.env_variables = env_variables or {}
 
     def run(self):
-        env_variables = u'export %s; bash' % render_env_variables(self.env_variables)
+        env_variables = u'export %s; bash' % render_env_variables(self.env_variables, delimiter=u' ')
         subprocess.call([
             u'ssh',
             u'-t',

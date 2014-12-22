@@ -21,6 +21,6 @@ def replace_special_characters_with_dash(word):
     return re.sub(r"[^\w\s]", '-', word)
 
 
-def render_env_variables(env_variables):
-    rendered_env_variables = u','.join([u'{}={}'.format(key, value) for key, value in env_variables.items()])
+def render_env_variables(env_variables, delimiter=u','):
+    rendered_env_variables = delimiter.join([u'{}={}'.format(key, value) for key, value in env_variables.items()])
     return rendered_env_variables
