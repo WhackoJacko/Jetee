@@ -13,7 +13,8 @@ class DockerContainerAnsibleTaskConfigFactory(AnsiblePreTaskConfigFactory):
             u'name': None,
             u'ports': None,
             u'detach': True,
-            u'hostname': None
+            u'hostname': None,
+            u'docker_api_version': u'1.15'
         }
     }
     stop_template = {
@@ -22,7 +23,8 @@ class DockerContainerAnsibleTaskConfigFactory(AnsiblePreTaskConfigFactory):
         u'docker': {
             u'name': None,
             u'image': None,
-            u'state': u'stopped'
+            u'state': u'stopped',
+            u'docker_api_version': u'1.15'
         }
     }
 
@@ -71,6 +73,7 @@ class DockerContainerAnsibleTaskConfigFactory(AnsiblePreTaskConfigFactory):
         run_template[u'docker'][u'image'] = service.image
         run_template[u'docker'][u'command'] = service.command
         run_template[u'docker'][u'name'] = service.container_full_name
+        run_template[u'docker'][u'hostname'] = service.container_full_name
         run_template[u'docker'][u'volumes'] = self.get_container_volumes(service)
         run_template[u'docker'][u'ports'] = []
         run_template[u'docker'][u'dns'] = u'172.17.42.1'

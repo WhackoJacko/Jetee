@@ -4,8 +4,7 @@ from jetee.common.config_factories.os.docker import DockerPackageAnsibleConfigFa
 from jetee.common.config_factories.os.apt import UpdateAptCachePackageAnsibleConfigFactory
 from jetee.common.config_factories.os.dns import DNSUtilsPackageAnsibleConfigFactory
 from jetee.common.config_factories.os.python import PythonDependenciesAnsibleConfigFactory
-from jetee.service.services.registrator import RegistratorService
-from jetee.service.services.consul import ConsulService
+from jetee.service.services.docker_hosts import DockerHostsService
 from jetee.common.config_factories.os.nginx import NginxPackageBootstrapAnsibleRoleConfigFactory
 
 
@@ -20,7 +19,7 @@ class DockerServiceDeploymentManager(DeploymentManagerAbstract):
     )
 
     def get_required_services(self):
-        required_services = [RegistratorService(), ConsulService()]
+        required_services = [DockerHostsService()]
         return required_services
 
     def get_services(self, project_configuration):

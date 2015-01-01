@@ -2,7 +2,7 @@ import os
 
 from jetee.base.service import AbstractDockerService, PortsMapping
 from jetee.runtime.configuration import project_configuration
-from jetee.common.discoverer import ConsulDiscoverer
+# from jetee.common.discoverer import ConsulDiscoverer
 from jetee.common.config_factories.service.docker import DockerContainerAnsibleTaskConfigFactory
 from jetee.common.config_factories.service.supervisor import MakeSupervisorConfigForServiceAnsibleRoleConfigFactory
 from jetee.common.config_factories.service.nginx import NginxAnsibleRoleConfigFactory
@@ -23,6 +23,7 @@ class PrimaryService(AbstractDockerService):
     command = u'supervisord --nodaemon'
     volumes = [
         u'/root/.ssh/:/root/.ssh',
+        u'/var/lib/docker/hosts:/etc/hosts',
     ]
     ports_mappings = [
         PortsMapping(internal_port=22, interface=u'0.0.0.0'),  # for sshd
