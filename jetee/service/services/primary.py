@@ -1,8 +1,7 @@
 import os
 
 from jetee.base.service import AbstractDockerService, PortsMapping
-from jetee.runtime.configuration import project_configuration
-# from jetee.common.discoverer import ConsulDiscoverer
+from jetee.common.discoverer import ServiceDiscoverer
 from jetee.common.config_factories.service.docker import DockerContainerAnsibleTaskConfigFactory
 from jetee.common.config_factories.service.supervisor import MakeSupervisorConfigForServiceAnsibleRoleConfigFactory
 from jetee.common.config_factories.service.nginx import NginxAnsibleRoleConfigFactory
@@ -30,5 +29,4 @@ class PrimaryService(AbstractDockerService):
     ]
 
     def _get_container_port(self):
-        server_name = u'{}.service.consul'.format(self.container_full_name)
-        return ConsulDiscoverer().discover(server_name)
+        return ServiceDiscoverer(self.container_full_name).discover_port()

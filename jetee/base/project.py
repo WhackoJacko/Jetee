@@ -6,8 +6,8 @@ class AbstractProject(object):
     _deployment_manager_class = ProjectDeploymentManager
     _config_manager_class = ConfigManager
 
-    _deployment_config_factories_list = []
-    _update_config_factories_list = []
+    deployment_config_factories = []
+    update_config_factories = []
 
     web_process = None
     helper_processes = None
@@ -16,7 +16,7 @@ class AbstractProject(object):
     cvs_repo_branch = None
     location = None
     static_location = None
-    requirements_location = None
+    requirements = None
 
     def __init__(self, cvs_repo_url, web_process=None, helper_processes=None, cvs_repo_branch=u'master',
                  requirements=u'requirements.txt', location=u'/app/', media_location=u'/app/media',
@@ -41,10 +41,10 @@ class AbstractProject(object):
         return env_variables
 
     def factory_deployment_config(self):
-        return self._config_manager_class(self, self._deployment_config_factories_list).factory()
+        return self._config_manager_class(self, self.deployment_config_factories).factory()
 
     def factory_update_config(self):
-        return self._config_manager_class(self, self._update_config_factories_list).factory()
+        return self._config_manager_class(self, self.update_config_factories).factory()
 
     def deploy(self):
         deployment_manager = self._deployment_manager_class()

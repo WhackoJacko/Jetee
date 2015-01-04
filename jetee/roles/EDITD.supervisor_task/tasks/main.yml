@@ -1,5 +1,5 @@
-- name: install supervisor
-  apt: pkg=supervisor state=present update_cache=true
+- name: Ensure supervisor installed
+  apt: pkg=supervisor state=present
   sudo: yes
 
 - name: installing task {{ name }}
