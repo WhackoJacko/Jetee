@@ -23,7 +23,6 @@ class DockerContainerAnsibleTaskConfigFactoryTestCase(TestCase):
         service = self.get_fake_service()
         config = DockerContainerAnsibleTaskConfigFactory().get_config(parent=service)
         run_template, _ = config
-        self.assertEqual(run_template[u'docker'][u'dns'], u'172.17.42.1')
         self.assertEqual(run_template[u'docker'][u'name'], u'test-name-fake-container')
         self.assertEqual(
             run_template[u'docker'][u'env'],

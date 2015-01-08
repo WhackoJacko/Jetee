@@ -11,9 +11,10 @@ class DockerHostsService(AbstractDockerService):
         DockerContainerAnsibleTaskConfigFactory,
         MakeSupervisorConfigForServiceAnsibleRoleConfigFactory
     )
+    _hosts_filename = u'/var/lib/docker/hosts'
     volumes = [
         u'/var/run/docker.sock:/var/run/docker.sock',
-        u'/var/lib/docker/hosts:/srv/hosts'
+        u'{}:/srv/hosts'.format(_hosts_filename)
     ]
 
     @property

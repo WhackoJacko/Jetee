@@ -2,20 +2,20 @@ from jetee.base.deployment_manager import DeploymentManagerAbstract
 from jetee.common.config_factories.os.docker import DockerPackageAnsibleConfigFactory, \
     DockerPyPackageAnsibleConfigFactory
 from jetee.common.config_factories.os.apt import UpdateAptCachePackageAnsibleConfigFactory
-from jetee.common.config_factories.os.dns import DNSUtilsPackageAnsibleConfigFactory
 from jetee.common.config_factories.os.python import PythonDependenciesAnsibleConfigFactory
 from jetee.service.services.docker_hosts import DockerHostsService
 from jetee.common.config_factories.os.nginx import NginxPackageBootstrapAnsibleRoleConfigFactory
+from jetee.common.config_factories.service.hosts import HostsFileExistsAnsiblePreTaskConfigFactory
 
 
 class DockerServiceDeploymentManager(DeploymentManagerAbstract):
     default_config_factories = (
         UpdateAptCachePackageAnsibleConfigFactory,
-        DNSUtilsPackageAnsibleConfigFactory,
         DockerPackageAnsibleConfigFactory,
         PythonDependenciesAnsibleConfigFactory,
         DockerPyPackageAnsibleConfigFactory,
-        NginxPackageBootstrapAnsibleRoleConfigFactory
+        NginxPackageBootstrapAnsibleRoleConfigFactory,
+        HostsFileExistsAnsiblePreTaskConfigFactory
     )
 
     def get_required_services(self):

@@ -76,7 +76,6 @@ class DockerContainerAnsibleTaskConfigFactory(AnsiblePreTaskConfigFactory):
         run_template[u'docker'][u'hostname'] = service.container_full_name
         run_template[u'docker'][u'volumes'] = self.get_container_volumes(service)
         run_template[u'docker'][u'ports'] = []
-        run_template[u'docker'][u'dns'] = u'172.17.42.1'
         run_template[u'docker'][u'env'] = render_env_variables(self.get_service_env_variables(service))
         for ports_mapping in service.ports_mappings:
             run_template[u'docker'][u'ports'].append(ports_mapping.get_representation())
