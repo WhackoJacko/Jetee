@@ -1,4 +1,4 @@
-from jetee.base.deployment_manager import DeploymentManagerAbstract
+from jetee.base.deployment_manager import AbstractDeploymentManager
 from jetee.common.config_factories.os.docker import DockerPackageAnsibleConfigFactory, \
     DockerPyPackageAnsibleConfigFactory
 from jetee.common.config_factories.os.apt import UpdateAptCachePackageAnsibleConfigFactory
@@ -8,7 +8,7 @@ from jetee.common.config_factories.os.nginx import NginxPackageBootstrapAnsibleR
 from jetee.common.config_factories.service.hosts import HostsFileExistsAnsiblePreTaskConfigFactory
 
 
-class DockerServiceDeploymentManager(DeploymentManagerAbstract):
+class DockerServiceDeploymentManager(AbstractDeploymentManager):
     default_config_factories = (
         UpdateAptCachePackageAnsibleConfigFactory,
         DockerPackageAnsibleConfigFactory,

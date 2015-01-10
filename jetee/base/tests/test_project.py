@@ -1,11 +1,9 @@
-from unittest import TestCase
-
 from jetee.base.process import AbstractProcess
 from jetee.base.project import AbstractProject
 from jetee.base.config_factory import AnsibleTaskConfigFactory, AnsibleRoleConfigFactory
 
 
-class AbstractProjectTestCase(TestCase):
+class TestAbstractProject(object):
     class FakeAnsibleTaskConfigFactory(AnsibleTaskConfigFactory):
         def get_config(self, **kwargs):
             return {u'fake': u'config'}
@@ -16,18 +14,18 @@ class AbstractProjectTestCase(TestCase):
 
     class FakeProject(AbstractProject):
         @property
-        def _deployment_config_factories_list(self):
+        def deployment_config_factories(self):
             return [
-                AbstractProjectTestCase.FakeAnsibleTaskConfigFactory,
-                AbstractProjectTestCase.FakeAnsibleTaskConfigFactory,
-                AbstractProjectTestCase.FakeAnsibleRoleConfigFactory,
+                TestAbstractProject.FakeAnsibleTaskConfigFactory,
+                TestAbstractProject.FakeAnsibleTaskConfigFactory,
+                TestAbstractProject.FakeAnsibleRoleConfigFactory,
             ]
 
         @property
-        def _update_config_factories_list(self):
+        def update_config_factories(self):
             return [
-                AbstractProjectTestCase.FakeAnsibleTaskConfigFactory,
-                AbstractProjectTestCase.FakeAnsibleRoleConfigFactory,
+                TestAbstractProject.FakeAnsibleTaskConfigFactory,
+                TestAbstractProject.FakeAnsibleRoleConfigFactory,
             ]
 
     def test_factory_deployment_confg_factories_list_of_configs(self):
@@ -36,8 +34,8 @@ class AbstractProjectTestCase(TestCase):
             web_process=AbstractProcess()
         )
         config = project.factory_deployment_config()
-        self.assertIsInstance(config, list)
-        self.assertEqual(len(config), 3)
+        assert isinstance(config, list)
+        assert len(config) == 3
 
     def test_factory_update_confg_factories_list_of_configs(self):
         project = self.FakeProject(
@@ -45,5 +43,5 @@ class AbstractProjectTestCase(TestCase):
             web_process=AbstractProcess()
         )
         config = project.factory_update_config()
-        self.assertIsInstance(config, list)
-        self.assertEqual(len(config), 2)
+        assert isinstance(config, list)
+        assert len(config) == 2

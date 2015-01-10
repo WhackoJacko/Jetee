@@ -8,8 +8,6 @@ from ansible.callbacks import PlaybookRunnerCallbacks, PlaybookCallbacks, Aggreg
 from ansible.playbook import PlayBook
 from ansible.color import ANSIBLE_COLOR, stringc
 
-from jetee.runtime.app import dispatcher
-
 
 class PlaybookRunner(object):
     @staticmethod
@@ -44,6 +42,8 @@ class PlaybookRunner(object):
         :param playbook_config:
         :return: :raise errors.AnsibleError:
         """
+        from jetee.runtime.app import dispatcher
+
         cls.set_defaults()
         inventory = Inventory([u'%s:%s' % (hostname, port)])
         # let inventory know which playbooks are using so it can know the basedirs

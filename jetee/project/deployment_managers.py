@@ -1,9 +1,9 @@
-from jetee.base.deployment_manager import DeploymentManagerAbstract
+from jetee.base.deployment_manager import AbstractDeploymentManager
 from jetee.common.config_factories.os.python import PythonDependenciesAnsibleConfigFactory
 from jetee.common.config_factories.project.ssh import GenerateSSHKeyAndPromptUserAnsibleTaskConfigFactory
 
 
-class ProjectDeploymentManager(DeploymentManagerAbstract):
+class ProjectDeploymentManager(AbstractDeploymentManager):
     default_config_factories = (
         PythonDependenciesAnsibleConfigFactory,
         GenerateSSHKeyAndPromptUserAnsibleTaskConfigFactory,

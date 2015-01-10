@@ -126,6 +126,5 @@ class AppDispatcher(object):
         elif self.args.action == self.ACTION_SSH:
             self._ssh()
 
-
-if u'jetee' == sys.argv[0].split(u'/').pop():
+if u'py.test' == sys.argv[0].split(u'/').pop():
     dispatcher = AppDispatcher()

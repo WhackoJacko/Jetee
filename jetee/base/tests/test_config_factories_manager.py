@@ -1,11 +1,8 @@
-import os
-from unittest import TestCase
-
 from jetee.base.config_factories_manager import ConfigManager
 from jetee.base.config_factory import AnsibleTaskConfigFactory, AnsibleRoleConfigFactory
 
 
-class ConfigManagerTestCase(TestCase):
+class TestConfigManager(object):
     def test_config_manager_manages_config_factories(self):
         config_manager = ConfigManager(
             parent=u'',  # this would be kwarg for regular task config
@@ -16,4 +13,4 @@ class ConfigManagerTestCase(TestCase):
             ]
         )
         configs = config_manager.factory()
-        self.assertIsInstance(configs, list)
+        assert isinstance(configs, list)

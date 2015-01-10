@@ -5,7 +5,7 @@ from jetee.runtime.configuration import project_configuration
 from jetee.common.utils import deep_merge
 
 
-class DeploymentManagerAbstract(object):
+class AbstractDeploymentManager(object):
     default_config_factories = []
 
     def _factory_task(self, config):
@@ -80,3 +80,4 @@ class DeploymentManagerAbstract(object):
             username=username,
             password=password
         )
+        return res

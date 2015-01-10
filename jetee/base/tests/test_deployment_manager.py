@@ -1,34 +1,41 @@
-from jetee.base.deployment_manager import DeploymentManagerAbstract
-from jetee.base.config import AnsibleTaskConfig, AnsibleRoleConfig
-from jetee.base.tests.base import FakeAppTestCase
+from jetee.base.deployment_manager import AbstractDeploymentManager
+from jetee.base.config import AnsibleTaskConfig
 
 
-class DeploymentManagerAbstractTestCase(FakeAppTestCase):
-    def test_deployment_manager_assembles_configs_in_result_config(self):
-        deployment_manager = DeploymentManagerAbstract()
+class TestDeploymentManagerAbstract(object):
+    def test_assembles_configs_in_result_config(
+            self,
+            fake_ansible_task_config,
+            fake_ansible_role_config_that_needs_merge,
+            fake_ansible_role_config_that_doesnt_need_merge
+    ):
+        deployment_manager = AbstractDeploymentManager()
         configs = [
-            AnsibleRoleConfig(config={u'role': u'test-with-merge'}, needs_merge=True),
-            AnsibleRoleConfig(config={u'role': u'test-without-merge'}, needs_merge=False),
-            AnsibleTaskConfig(filename=u'some-file.yml', variables={u'var': u'value'}),
-            [AnsibleTaskConfig(filename=u'some-another-file.yml')],
+            fake_ansible_role_config_that_needs_merge,
+            fake_ansible_role_config_that_doesnt_need_merge,
+            fake_ansible_task_config,
         ]
         result_config = deployment_manager._factory_playbook_config(configs=configs)
-        self.assertIsInstance(result_config, AnsibleTaskConfig)
+        assert isinstance(result_config, AnsibleTaskConfig)
 
-    def test_deployment_manager_merges_configs_properly(self):
-        deployment_manager = DeploymentManagerAbstract()
-        task_config_1 = AnsibleTaskConfig(filename=u'some-file.yml', variables={u'var': u'value'})
-        task_config_2 = AnsibleTaskConfig(filename=u'some-another-file.yml')
-        configs = [task_config_1, [task_config_2], ]
+    def test_merges_configs_properly(self, fake_ansible_task_config):
+        deployment_manager = AbstractDeploymentManager()
+        configs = [fake_ansible_task_config, [], ]
         merged_configs = deployment_manager.merge_into_one_level_list(configs)
-        self.assertIsInstance(merged_configs, list)
-        self.assertIn(task_config_1, merged_configs)
-        self.assertIn(task_config_2, merged_configs)
+        assert isinstance(merged_configs, list)
+        assert fake_ansible_task_config in merged_configs
 
-    def test_deployment_manager_factories_task_with_env_variables(self):
-        deployment_manager = DeploymentManagerAbstract()
-        task_config = AnsibleTaskConfig(filename=u'some-file.yml', variables={u'var': u'value'})
-        task = deployment_manager._factory_task(task_config)
-        self.assertIsInstance(task, dict)
-        self.assertIn(u'include', task.keys())
-        self.assertIn(u'var', task.keys())
+    def test_factories_task_with_env_variables(self, fake_ansible_task_config):
+        deployment_manager = AbstractDeploymentManager()
+        task = deployment_manager._factory_task(fake_ansible_task_config)
+        assert isinstance(task, dict)
+        assert u'include' in task.keys()
+        assert u'var' in task.keys()
+
+
+class TestFakeDeploymentManager(object):
+    def test_factories_default_configs(self, FakeDeploymentManagerClass):
+        deployment_manager = FakeDeploymentManagerClass()
+        default_configs = deployment_manager.factory_default_configs()
+        assert isinstance(default_configs, list)
+        assert len(default_configs) == len(FakeDeploymentManagerClass.default_config_factories)
