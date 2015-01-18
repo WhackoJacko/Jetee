@@ -31,7 +31,7 @@ class GenerateSSHKeyAndPromptUserAnsibleTaskConfigFactory(AnsibleTemplateMixin, 
         {
             u'name': u'Wait for user to copy SSH public key',
             u'pause': {
-                u'prompt': u"Plase add the SSH public key above to your repo`s deployment keys"
+                u'prompt': u"Please add the SSH public key above to your repo`s deployment keys"
             }
         }
     ]
