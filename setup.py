@@ -18,12 +18,12 @@ else:
 
 setup(
     name='jetee',
-    version=u'0.7.1',
+    version=u'0.7.2',
     description='Lightweight deployment tool',
     author='Sergey Dubinin',
     author_email='whackojacko.ru@gmail.com',
     url='https://github.com/WhackoJacko/Jetee.git',
-    download_url='https://github.com/whackojacko/jetee/tarball/v0.7.1/',
+    download_url='https://github.com/whackojacko/jetee/tarball/v0.7.2/',
     entry_points={
         'console_scripts': [
             'jetee = jetee.runtime.app:dispatcher.run',
