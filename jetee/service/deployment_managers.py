@@ -40,5 +40,5 @@ class DockerServiceDeploymentManager(AbstractDeploymentManager):
             hostname=project_configuration.hostname,
             password=None,
             username=project_configuration.username,
-            port=22
+            port=project_configuration.port
         )

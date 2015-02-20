@@ -16,7 +16,8 @@ class ServiceDiscoverer(object):
     def discover_port(self):
         ssh = paramiko.SSHClient()
         ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        ssh.connect(project_configuration.hostname, username=project_configuration.username)
+        ssh.connect(project_configuration.hostname, username=project_configuration.username,
+                    port=project_configuration.port)
         command = u'docker ps | grep \' {} \''.format(self.container_name)
         stdin, stdout, stderr = ssh.exec_command(command)
         output = stdout.readline().strip()
