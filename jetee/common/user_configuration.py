@@ -5,7 +5,7 @@ from jetee.common.utils import replace_special_characters_with_dash
 class AppConfiguration(object):
     hostname = u''
     username = u''
-    port = u''
+    port = 22
     server_names = []
     #
     project_name = None
