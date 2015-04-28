@@ -64,18 +64,12 @@ class PlaybookRunner(object):
             stats=stats,
             timeout=10,
             transport=u'smart',
-            sudo=False,
-            sudo_user=u'root',
-            sudo_pass=None,
             extra_vars={},
             private_key_file=None,
             only_tags=[u'all'],
             skip_tags=None,
             check=False,
             diff=False,
-            su=False,
-            su_pass=None,
-            su_user=u'root',
             vault_password=None,
             force_handlers=None
         )
